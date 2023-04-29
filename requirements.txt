@@ -1,4 +1,4 @@
 Django==4.2
-Pillow==9.51.0
-Jinja2==3.1.211
+Pillow==9.5.0
+Jinja2==3.1.2
 django-jinja==2.10.2
