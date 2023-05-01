@@ -1,5 +1,3 @@
-{% load i18n %}
-{% load static %}
 
 
 {% block body %}
@@ -38,8 +36,8 @@
                     </div>
                     <nav class="row-block">
                         <div class="row ControlPanel-rowSplit">
-                            <div class="row-block"><a class="ControlPanel-title" href="{{ url ('main:login') }}">{% trans 'Вход' %}</a>
-                                <a class="ControlPanel-title" href="{{ url ('main:registr') }}">{% trans 'Регистрация' %}</a>
+                            <div class="row-block"><a class="ControlPanel-title" href="{{ url ('main:login') }}">Вход</a>
+                                <a class="ControlPanel-title" href="{{ url ('main:registr') }}">Регистрация</a>
                             </div>
                         </div>
                     </nav>
@@ -65,12 +63,12 @@
                 <nav class="row-block row-block_right Header-menu">
                     <div class="menuModal" id="navigate" style="height: 0px;">
                         <ul class="menu menu_main" style="position: static;">
-                            <li class="menu-item"><a class="menu-link" href="{{ url ('main:index') }}">{% trans 'Главная' %}</a>
+                            <li class="menu-item"><a class="menu-link" href="{{ url ('main:index') }}">Главная</a>
                             </li>
-                            <li class="menu-item"><span class="menu-label menu-label_success">{% trans 'Скидки' %}</span><a
-                                    class="menu-link" href="{{ url ('main:catalog') }}">{% trans 'Каталог' %}</a>
+                            <li class="menu-item"><span class="menu-label menu-label_success">Скидки</span><a
+                                    class="menu-link" href="{{ url ('main:catalog') }}">Каталог</a>
                             </li>
-                            <li class="menu-item"><a class="menu-link" href="{{ url ('main:comparison') }}">{% trans 'Сравнение' %}</a>
+                            <li class="menu-item"><a class="menu-link" href="{{ url ('main:comparison') }}">Сравнение</a>
                             </li>
                         </ul>
                     </div>
@@ -84,11 +82,11 @@
                                 <button class="dropbtn"><img class="CartBlock-img" src="{{ static ("assets/img/icons/loon-icon.svg") }}"
                                                              alt="loon-icon.svg"></button>
                                 <div class="dropdown-content">
-                                    <a class="dropdown-content-a" href="{{ url ('main:account') }}">{% trans 'Личный кабинет' %}</a>
+                                    <a class="dropdown-content-a" href="{{ url ('main:account') }}">Личный кабинет</a>
                                     {% if user.superuser %}
-                                        <a class="dropdown-content-a" href="{{ url ('main:account') }}">{% trans 'Административный раздел' %}</a>
+                                        <a class="dropdown-content-a" href="{{ url ('main:account') }}">Административный раздел</a>
                                     {% endif %}
-                                    <a class="dropdown-content-a" href="{{ url ('main:account') }}">{% trans 'Выход' %}</a>
+                                    <a class="dropdown-content-a" href="{{ url ('main:account') }}">Выход</a>
                                 </div>
 
                         {% endif %}
@@ -103,7 +101,7 @@
                     </div>
                 </div>
                 <div class="row-block Header-trigger"><a class="menuTrigger" href="{{ url ('main:navigate') }}">
-                    <div class="menuTrigger-content">{% trans 'Показать навигацию' %}
+                    <div class="menuTrigger-content">Показать навигацию
                     </div>
                     <span></span><span></span><span></span>
                 </a>
@@ -119,7 +117,7 @@
                             <div class="CategoriesButton-icon"><img src="{{ static ("assets/img/icons/allDep.svg") }}"
                                                                     alt="allDep.svg">
                             </div>
-                            <span class="CategoriesButton-text">{% trans 'Все категории' %}</span>
+                            <span class="CategoriesButton-text">Все категории</span>
                             <div class="CategoriesButton-arrow">
                             </div>
                         </div>
@@ -129,7 +127,7 @@
                                         src="{{ static ("assets/img/icons/departments/1.svg") }}"
                                         alt="1.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Телевизоры' %}</span>
+                                <span class="CategoriesButton-text">Телевизоры</span>
                             </a>
                             </div>
                             <div class="CategoriesButton-link"><a href="#">
@@ -137,7 +135,7 @@
                                         src="{{ static ("assets/img/icons/departments/2.svg") }}"
                                         alt="2.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Наушники' %}</span>
+                                <span class="CategoriesButton-text">Наушники</span>
                             </a>
                             </div>
                             <div class="CategoriesButton-link"><a href="#">
@@ -145,20 +143,20 @@
                                         src="{{ static ("assets/img/icons/departments/3.svg") }}"
                                         alt="3.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Стиральные машины' %}</span>
+                                <span class="CategoriesButton-text">Стиральные машины</span>
                             </a><a class="CategoriesButton-arrow" href="#"></a>
                                 <div class="CategoriesButton-submenu"><a class="CategoriesButton-link" href="#">
                                     <div class="CategoriesButton-icon"><img
                                             src="{{ static ("assets/img/icons/departments/1.svg") }}"
                                             alt="1.svg">
                                     </div>
-                                    <span class="CategoriesButton-text">{% trans 'Аксессуары' %}</span>
+                                    <span class="CategoriesButton-text">Аксессуары</span>
                                 </a><a class="CategoriesButton-link" href="#">
                                     <div class="CategoriesButton-icon"><img
                                             src="{{ static ("assets/img/icons/departments/2.svg") }}"
                                             alt="2.svg">
                                     </div>
-                                    <span class="CategoriesButton-text">{% trans 'Чехлы' %}</span>
+                                    <span class="CategoriesButton-text">Чехлы</span>
                                 </a>
                                 </div>
                             </div>
@@ -167,7 +165,7 @@
                                         src="{{ static ("assets/img/icons/departments/4.svg") }}"
                                         alt="4.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Скидки!' %}</span>
+                                <span class="CategoriesButton-text">Скидки!</span>
                             </a>
                             </div>
                             <div class="CategoriesButton-link"><a href="#">
@@ -175,7 +173,7 @@
                                         src="{{ static ("assets/img/icons/departments/5.svg") }}"
                                         alt="5.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Электроника' %}</span>
+                                <span class="CategoriesButton-text">Электроника</span>
                             </a>
                             </div>
                             <div class="CategoriesButton-link"><a href="#">
@@ -183,7 +181,7 @@
                                         src="{{ static ("assets/img/icons/departments/6.svg") }}"
                                         alt="6.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Фотоаппараты' %}</span>
+                                <span class="CategoriesButton-text">Фотоаппараты</span>
                             </a>
                             </div>
                             <div class="CategoriesButton-link"><a href="#">
@@ -191,20 +189,20 @@
                                         src="{{ static ("assets/img/icons/departments/7.svg") }}"
                                         alt="7.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Фурнитура' %}</span>
+                                <span class="CategoriesButton-text">Фурнитура</span>
                             </a><a class="CategoriesButton-arrow" href="#"></a>
                                 <div class="CategoriesButton-submenu"><a class="CategoriesButton-link" href="#">
                                     <div class="CategoriesButton-icon"><img
                                             src="{{ static ("assets/img/icons/departments/1.svg") }}"
                                             alt="1.svg">
                                     </div>
-                                    <span class="CategoriesButton-text">{% trans 'Мобильные телефоны' %}</span>
+                                    <span class="CategoriesButton-text">Мобильные телефоны</span>
                                 </a><a class="CategoriesButton-link" href="#">
                                     <div class="CategoriesButton-icon"><img
                                             src="{{ static ("assets/img/icons/departments/2.svg") }}"
                                             alt="2.svg">
                                     </div>
-                                    <span class="CategoriesButton-text">{% trans 'Сумки' %}</span>
+                                    <span class="CategoriesButton-text">Сумки</span>
                                 </a>
                                 </div>
                             </div>
@@ -213,7 +211,7 @@
                                         src="{{ static ("assets/img/icons/departments/8.svg") }}"
                                         alt="8.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Мобильные телефоны' %}</span>
+                                <span class="CategoriesButton-text">Мобильные телефоны</span>
                             </a>
                             </div>
                             <div class="CategoriesButton-link"><a href="#">
@@ -221,7 +219,7 @@
                                         src="{{ static ("assets/img/icons/departments/9.svg") }}"
                                         alt="9.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Микроволновые печи' %}</span>
+                                <span class="CategoriesButton-text">Микроволновые печи</span>
                             </a>
                             </div>
                             <div class="CategoriesButton-link"><a href="#">
@@ -229,7 +227,7 @@
                                         src="{{ static ("assets/img/icons/departments/10.svg") }}"
                                         alt="10.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Кухонная техника' %}</span>
+                                <span class="CategoriesButton-text">Кухонная техника</span>
                             </a>
                             </div>
                             <div class="CategoriesButton-link"><a href="#">
@@ -237,20 +235,20 @@
                                         src="{{ static ("assets/img/icons/departments/11.svg") }}"
                                         alt="11.svg">
                                 </div>
-                                <span class="CategoriesButton-text">{% trans 'Торшеры' %}</span>
+                                <span class="CategoriesButton-text">Торшеры</span>
                             </a><a class="CategoriesButton-arrow" href="#"></a>
                                 <div class="CategoriesButton-submenu"><a class="CategoriesButton-link" href="#">
                                     <div class="CategoriesButton-icon"><img
                                             src="{{ static ("assets/img/icons/departments/1.svg") }}"
                                             alt="1.svg">
                                     </div>
-                                    <span class="CategoriesButton-text">{% trans 'Аксессуары' %}</span>
+                                    <span class="CategoriesButton-text">Аксессуары</span>
                                 </a><a class="CategoriesButton-link" href="#">
                                     <div class="CategoriesButton-icon"><img
                                             src="{{ static ("assets/img/icons/departments/2.svg") }}"
                                             alt="2.svg">
                                     </div>
-                                    <span class="CategoriesButton-text">{% trans 'Сумки' %}</span>
+                                    <span class="CategoriesButton-text">Сумки</span>
                                 </a>
                                 </div>
                             </div>
@@ -266,7 +264,7 @@
                                    placeholder="NVIDIA GeForce RTX 3060">
                             <button class="search-button" type="submit" name="search" id="search"><img
                                     src="{{ static ("assets/img/icons/search.svg") }}"
-                                    alt="search.svg">{% trans 'Поиск' %}
+                                    alt="search.svg">Поиск
                             </button>
                         </form>
                     </div>
