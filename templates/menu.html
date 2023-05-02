@@ -36,8 +36,8 @@
                     </div>
                     <nav class="row-block">
                         <div class="row ControlPanel-rowSplit">
-                            <div class="row-block"><a class="ControlPanel-title" href="{{ url ('main:login') }}">Вход</a>
-                                <a class="ControlPanel-title" href="{{ url ('main:registr') }}">Регистрация</a>
+                            <div class="row-block"><a class="ControlPanel-title" href="{{ url ('#') }}">Вход</a>
+                                <a class="ControlPanel-title" href="{{ url ('#') }}">Регистрация</a>
                             </div>
                         </div>
                     </nav>
@@ -56,19 +56,19 @@
         </div>
         <div class="wrap">
             <div class="row Header-rowMain">
-                <div class="row-block Header-logo"><a class="logo" href="{{ url ('main:index') }}"><img class="logo-image"
+                <div class="row-block Header-logo"><a class="logo" href="{{ url ('#') }}"><img class="logo-image"
                                                                                           src="{{ static ("assets/img/logo.png") }}"
                                                                                           alt="logo.png"></a>
                 </div>
                 <nav class="row-block row-block_right Header-menu">
                     <div class="menuModal" id="navigate" style="height: 0px;">
                         <ul class="menu menu_main" style="position: static;">
-                            <li class="menu-item"><a class="menu-link" href="{{ url ('main:index') }}">Главная</a>
+                            <li class="menu-item"><a class="menu-link" href="{{ url ('#') }}">Главная</a>
                             </li>
                             <li class="menu-item"><span class="menu-label menu-label_success">Скидки</span><a
-                                    class="menu-link" href="{{ url ('main:catalog') }}">Каталог</a>
+                                    class="menu-link" href="{{ url ('#') }}">Каталог</a>
                             </li>
-                            <li class="menu-item"><a class="menu-link" href="{{ url ('main:comparison') }}">Сравнение</a>
+                            <li class="menu-item"><a class="menu-link" href="{{ url ('#') }}">Сравнение</a>
                             </li>
                         </ul>
                     </div>
@@ -82,16 +82,16 @@
                                 <button class="dropbtn"><img class="CartBlock-img" src="{{ static ("assets/img/icons/loon-icon.svg") }}"
                                                              alt="loon-icon.svg"></button>
                                 <div class="dropdown-content">
-                                    <a class="dropdown-content-a" href="{{ url ('main:account') }}">Личный кабинет</a>
+                                    <a class="dropdown-content-a" href="{{ url ('#') }}">Личный кабинет</a>
                                     {% if user.superuser %}
-                                        <a class="dropdown-content-a" href="{{ url ('main:account') }}">Административный раздел</a>
+                                        <a class="dropdown-content-a" href="{{ url ('#') }}">Административный раздел</a>
                                     {% endif %}
-                                    <a class="dropdown-content-a" href="{{ url ('main:account') }}">Выход</a>
+                                    <a class="dropdown-content-a" href="{{ url ('#') }}">Выход</a>
                                 </div>
 
                         {% endif %}
                         </div>
-                        <a class="CartBlock-block" href="{{ url ('main:cart') }}"><img class="CartBlock-img"
+                        <a class="CartBlock-block" href="{{ url ('#') }}"><img class="CartBlock-img"
                                                                          src="{{ static ("assets/img/icons/cart.svg") }}" alt="cart.svg"><span
                                 class="CartBlock-amount">0</span></a>
                         <div class="CartBlock-block"><span class="CartBlock-price">0.00$</span>
@@ -100,7 +100,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row-block Header-trigger"><a class="menuTrigger" href="{{ url ('main:navigate') }}">
+                <div class="row-block Header-trigger"><a class="menuTrigger" href="{{ url ('#') }}">
                     <div class="menuTrigger-content">Показать навигацию
                     </div>
                     <span></span><span></span><span></span>
