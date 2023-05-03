@@ -38,6 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_jinja',
+    'app_administrator.apps.AppAdministratorConfig',
+    'app_banners.apps.AppBannersConfig',
+    'app_cart.apps.AppCartConfig',
+    'app_catalog.apps.AppCatalogConfig',
+    'app_discounts.apps.AppDiscountsConfig',
+    'app_orders.apps.AppOrdersConfig',
+    'app_payment.apps.AppPaymentConfig',
+    'app_users.apps.AppUsersConfig',
+
 ]
 
 MIDDLEWARE = [

@@ -3,13 +3,13 @@
 """
 
 
-class SalesServicesMixin:
+class DiscountsServicesMixin:
     """
     Класс - примесь для использования сервисов для работы со скидками
     """
 
 
-    def get_sales(self):
+    def get_discounts(self):
         """
         функция получения скидок на товары
         """
