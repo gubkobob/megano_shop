@@ -15,7 +15,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone_number = PhoneField(blank=True, help_text='Contact phone number')
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     is_active = models.BooleanField(_('active'), default=True)
-    is_staff = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
 
     objects = UserManager()
