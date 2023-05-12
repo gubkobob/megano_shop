@@ -39,6 +39,7 @@ class ComparisonServicesMixin:
         """
         Сохрание сравнения
         """
+
         # Обновление сессии comparison
         self.session[settings.COMPARISON_SESSION_ID] = self.comparison
         # Отметить сеанс как "измененный", чтобы убедиться, что он сохранен
