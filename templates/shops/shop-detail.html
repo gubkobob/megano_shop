@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>О продавце</title>
+</head>
+{% load cashe %}
+<body>
+{% cashe 86400 shop %}
+<h3>shop.name</h3>
+<p><img src="{{ shop.image.url }}" alt="" width="200px" /></p>
+<ul>
+    <li>Описание: {{ shop.descriptions }}</li>
+    <li>Адрес: {{ shop.address }}</li>
+    <li>Телефон: {{ shop.phone }}</li>
+    <li>Эл.почта: {{ shop.email }}</li>
+</ul>
+{% endcache %}
+
+<p>Топ товаров:</p>
+<ol>
+    <form method="post" action="">
+        {% csrf_token %}
+        {% cashe 3600 shop.product %}
+        {% for shopsprodusts in  shop.product %}
+            <lo>Товар: {{ shopsprodusts.product.name }}, цена {{ shopsprodusts.product.price }}
+                - {{ shopsprodusts.many }} шт.
+                <label>Выберите кол-во товара: </label>
+                <input type="number" name="many" value="0" min="0" max="{{ shopsprodusts.many }}">
+                <button type="submit" name="add" value="{{ shopsprodusts.id }}">Добавить в корзину</button>
+            </lo>
+        {% endfor%}
+        {% endcache %}
+    </form>
+</ol>
+
+
+</body>
