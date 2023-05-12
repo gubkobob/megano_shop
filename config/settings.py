@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'app_orders.apps.AppOrdersConfig',
     'app_payment.apps.AppPaymentConfig',
     'app_users.apps.AppUsersConfig',
+    'phone_field',
 
 ]
 
@@ -142,7 +143,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_ROOT = BASE_DIR / "uploads"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'app_users.User'
