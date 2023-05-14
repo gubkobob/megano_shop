@@ -14,7 +14,6 @@ urlpatterns = [
     path(
         "login/",
         MyLoginView.as_view(redirect_authenticated_user=True), name="login"),
-    # path("login/", login_view, name="login"),
 
     path("logout/", MyLogoutView.as_view(), name="logout"),
 ]

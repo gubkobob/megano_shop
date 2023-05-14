@@ -10,24 +10,6 @@ from django_jinja.views.generic import CreateView
 from app_users.models import User
 
 
-# def login_view(request: HttpRequest) -> HttpResponse:
-#     if request.method == "GET":
-#         if request.user.is_authenticated:
-#             return redirect('/admin/')
-#
-#         return render(request, 'users/login.html')
-#
-#     email = request.POST["name"]
-#     password = request.POST["pass"]
-#
-#     user = authenticate(request, email=email, password=password)
-#     if user:
-#         login(request, user)
-#         return redirect("/admin/")
-#
-#     return render(request, "users/login.html", {"error": "Invalid login data"})
-
-
 class MyLoginView(LoginView):
 
     template_name = "users/login.html"
