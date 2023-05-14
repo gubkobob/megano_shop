@@ -159,3 +159,5 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'category_cache'),
     }
 }
+
+LOGIN_REDIRECT_URL = 'app_users:profile'

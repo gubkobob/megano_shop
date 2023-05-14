@@ -106,7 +106,8 @@
                     <h3 class="sign-in">Вход</h3>
                 </div>
                 <div class="clear"></div>
-                <form action="#">
+                <form method="POST">
+                    {% csrf_token %}
                     <div>
                         <input class="user-input" type="text" name="name" id="name" placeholder="E-mail" />
                     </div>
