@@ -9,10 +9,10 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 
-# class ShopAdmin(admin.ModelAdmin):
-#     """
-#     Админ панель модели Shop
-#     """
-#     list_display = ['name', 'descriptions', 'address', 'phone', 'email', 'image', 'product']
-#
-# admin.site.register(Shop, ShopAdmin)
+class ShopAdmin(admin.ModelAdmin):
+    """
+    Админ панель модели Shop
+    """
+    list_display = ['name', 'descriptions', 'address', 'phone', 'email', 'image', 'product']
+
+admin.site.register(Shop, ShopAdmin)
