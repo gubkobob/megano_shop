@@ -17,7 +17,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('appcatalog:categories_list', args=[self.slug])
+        return reverse('appcatalog:categories_list_with_products', args=[self.slug])
 
 
 class SubCategory(models.Model):
@@ -35,8 +35,8 @@ class SubCategory(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('appcatalog:subcategories_list',
-                       kwargs={'category_slug': self.category.slug, 'subcategory_slug': self.slug}
+        return reverse('appcatalog:subcategories_list_with_products',
+                       kwargs={'category_slug':self.category.slug,'subcategory_slug':self.slug}
                        )
 
 
