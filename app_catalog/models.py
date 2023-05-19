@@ -1,5 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -59,7 +63,20 @@ class Shop(models.Model):
     phone = models.CharField(max_length=20)
     email = models.EmailField()
     image = models.ImageField()
-    product = models.ManyToManyField(to="Products", through='ShopsProducts')
+    product = models.ManyToManyField(to="Product", through='ProductInShop')
 
     def __str__(self) -> str:
         return f"{self.name}"
+
+
+class ProductInShop(models.Model):
+    product = models.ForeignKey(Product, related_name='products_shop', verbose_name=_('Название'))
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='products_shop')
+    price = models.FloatField(default=0, verbose_name=_('Цена'))
+    quantity = models.DecimalField(default=0, max_length=255, verbose_name=_('Количество товара'))
+
+
+class Comments(models.Model):
+    goods = models.ForegnKey(Product, on_delete=models.CASCADE, related_name='comments', verbose_name=_('Товары'))
+    comment = models.TextField(max_length=1000, verbose_name=_('Комментарии'))
+    user = models.CharField(User, verbose_name=_('Пользователь'))

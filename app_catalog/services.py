@@ -23,6 +23,26 @@ class ProductServicesMixin:
         функция добавления товара к списку просмотренных
         """
 
+    def get_viewed_products_history(self):
+        """
+        функция получения списка просмотренных товаров
+        """
+
+    def get_list_comments_on_products(self) -> list[str]:
+        """
+        функция получения списка комментариев к продукту
+        """
+
+    def get_discount_on_products(self):
+        """
+        функция получения скидки к продукту
+        """
+
+    def get_quantity_comments_on_products(self) -> int:
+        """
+        функция получения количество комментариев к продукту
+        """
+
 
 class ShopServicesMixin:
     """
