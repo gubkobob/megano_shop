@@ -1,4 +1,4 @@
-{% extends 'base1.jinja2' %}
+{% extends 'base_develop_will_delete.jinja2' %}
 
 {% block title %}
    Login
@@ -14,7 +14,7 @@
                 <form method="POST">
                     {% csrf_token %}
                     <div>
-                        <input class="user-input" type="text" name="email" id="name" placeholder="E-mail" />
+                        <input class="user-input" type="text" name="username" id="name" placeholder="E-mail" />
                     </div>
                     <div>
 
@@ -23,10 +23,6 @@
                     <div>
                         <button type="submit">Войти</button>
                     </div>
-{#                    <a class="forgot-label" href="e-mail.html">Забыли пароль?</a>#}
-{#                    <a class="registr" href="registr.html">#}
-{#                        Регистрация#}
-{#                    </a>#}
                 </form>
             </div>
 

@@ -23,7 +23,6 @@ class RegisterView(CreateView):
 
     form_class = MyUserCreationForm
     template_name = "users/registr.jinja2"
-
     success_url = reverse_lazy("app_users:profile")
 
     def form_valid(self, form):
