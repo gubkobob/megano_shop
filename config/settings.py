@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_jinja',
     'preferences',
+    'smart_selects',
     'app_administrator.apps.AppAdministratorConfig',
     'app_banners.apps.AppBannersConfig',
     'app_cart.apps.AppCartConfig',
@@ -161,3 +162,5 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'category_cache'),
     }
 }
+
+USE_DJANGO_JQUERY = True
