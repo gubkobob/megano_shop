@@ -1,0 +1,33 @@
+{% extends 'base1.jinja2' %}
+
+{% block title %}
+   Login
+{% endblock %}
+
+{% block body %}
+
+            <div class="wrapper">
+                <div class="header">
+                    <h3 class="sign-in">Вход</h3>
+                </div>
+                <div class="clear"></div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div>
+                        <input class="user-input" type="text" name="email" id="name" placeholder="E-mail" />
+                    </div>
+                    <div>
+
+                        <input type="password" name="password" id="name" placeholder="*********" />
+                    </div>
+                    <div>
+                        <button type="submit">Войти</button>
+                    </div>
+{#                    <a class="forgot-label" href="e-mail.html">Забыли пароль?</a>#}
+{#                    <a class="registr" href="registr.html">#}
+{#                        Регистрация#}
+{#                    </a>#}
+                </form>
+            </div>
+
+{% endblock %}

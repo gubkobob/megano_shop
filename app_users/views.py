@@ -15,24 +15,13 @@ User = get_user_model()
 
 class MyLoginView(LoginView):
 
-    template_name = "users/login.html"
+    template_name = "users/login.jinja2"
     success_url = reverse_lazy("app_users:profile")
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-
-        password = form.cleaned_data.get("password")
-        email = form.cleaned_data.get("email")
-
-        user = authenticate(self.request, email=email, password=password)
-        if user:
-            login(request=self.request, user=user)
-        return response
 
 class RegisterView(CreateView):
-    # model = User
+
     form_class = MyUserCreationForm
-    # fields = "username", "email", "password"
     template_name = "users/registr.jinja2"
 
     success_url = reverse_lazy("app_users:profile")
@@ -40,13 +29,9 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
 
-        username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password1")
         email = form.cleaned_data.get("email")
 
-
-        User.objects.create(username=username, password=password, email=email)
-        User.save()
         user = authenticate(self.request, email=email, password=password)
         login(request=self.request, user=user)
         return response

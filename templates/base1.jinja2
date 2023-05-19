@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% block head %}
+    <title>{% block title %}{% endblock %} - Megano </title>
+    {% endblock %}
+</head>
+<body>
+    <div id="body">{% block body %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+            <h2>&copy;Copyright reserved.</h2>
+        {% endblock %}
+    </div>
+</body>
+</html>
