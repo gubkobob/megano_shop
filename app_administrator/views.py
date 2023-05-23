@@ -1,37 +1,34 @@
 from django.shortcuts import render
 from django.core.cache import cache
 from django.http import HttpResponse
+from app_administrator.signals import my_signal
+from app_catalog.models import Category, SubCategory, Product
 
 
 def settings(request):
-    return render(request, 'app_administrator/settings.html')
+    if request.user.is_superuser:
+        return render(request, 'app_administrator/settings.html')
+    else:
+        return HttpResponse('Ошибка 404 или Not Found')
 
 
 def clear_all(request):
-    cache.clear()
-    return HttpResponse('the Site cache has been reset')
+    if request.user.is_superuser:
+        cache.clear()
+        return HttpResponse('the Site cache has been reset')
+    else:
+        return HttpResponse('Ошибка 404 или Not Found')
 
 
 def clear_categories(request):
-    cache.delete('categories')
-    return HttpResponse('cache Сategories clearing')
-
-
-def clear_subcategories(request):
-    cache.delete('subcategories')
-    return HttpResponse('cache Subcategories clearing')
-
-
-def clear_banners(request):
-    cache.delete('banners')
-    return HttpResponse('cache Banners clearing')
-
-
-def clear_shops(request):
-    cache.delete('shops')
-    return HttpResponse('cache Shops clearing')
-
-
-def clear_products(request):
-    cache.delete('products')
-    return HttpResponse('cache Products clearing')
+    if request.user.is_superuser:
+        model = ''
+        if model == Category:
+            my_signal.send(sender=Category)
+        elif model == SubCategory:
+            my_signal.send(sender=SubCategory)
+        elif model == Product:
+            my_signal.send(sender=Product)
+        return HttpResponse('cache Model', model)
+    else:
+        return HttpResponse('Ошибка 404 или Not Found')

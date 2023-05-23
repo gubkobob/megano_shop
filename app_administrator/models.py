@@ -1,42 +1,21 @@
-from preferences.models import Preferences
-from app_catalog.models import *
-from app_banners.models import *
+from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class LimitedEditionPreferences(Preferences):
-    """ Ограниченный тираж. """
-    limited_products = models.ForeignKey(Product, on_delete=models.CASCADE)
-    pass
-
-
-class PopularProductsPreferences(Preferences):
-    """ Популярные товары. """
-    popular_products = models.ForeignKey(Product, on_delete=models.CASCADE)
-    pass
-
-
-class LimitedOffersPreferences(Preferences):
-    """ Ограниченные предложения. """
-    limited_offers = models.ForeignKey(Product, on_delete=models.CASCADE)
-    pass
-
-
-class LimitedBannersPreferences(Preferences):
-    """ Количество отображения баннеров. """
-    pass
-
-
-class LimitedSlidersPreferences(Preferences):
-    """ Изменение количества отображения рекламы. """
-    pass
-
-
-class PopularTagsPreferences(Preferences):
-    """ Популярные теги. """
-    pass
-
-
-class ViewedProductsPreferences(Preferences):
-    """  Изменение вывода просмотренных товаров. """
-    viewed_products = models.ForeignKey(Product, on_delete=models.CASCADE)
-    pass
+class ContextProcessorsModel(models.Model):
+    limited_edition_products = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(16)],
+                                                   null=True, blank=True, verbose_name='Ограниченный тираж')
+    hot_offers = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(9)],
+                                     null=True, blank=True, verbose_name='Горячие предложения')
+    popular_products = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(8)],
+                                           null=True, blank=True, verbose_name=' Популярные товары')
+    products_day = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)],
+                                       null=True, blank=True, verbose_name='Товары дня')
+    banners = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)],
+                                  null=True, blank=True, verbose_name=' Блок с баннерами')
+    viewed_products = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)],
+                                          null=True, blank=True, verbose_name='Кол-во просмотренных товаров')
+    selected_categories = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)],
+                                              null=True, blank=True, verbose_name='Избранные категории')
+    cache_time = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(86400)],
+                                     null=True, blank=True, verbose_name='Время обновления кэша')
