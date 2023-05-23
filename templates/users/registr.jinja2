@@ -1,0 +1,46 @@
+{% extends 'base_develop_will_delete.jinja2' %}
+
+{% block title %}
+   Register
+{% endblock %}
+
+{% block body %}
+
+            <div class="wrapper">
+                <div class="header">
+                    <h3 class="sign-in">Регистрация</h3>
+
+                </div>
+                <div class="clear"></div>
+                <form method="post">
+                {% csrf_token %}
+                    <div>
+                        <input class="user-input" type="text" name="username" id="name" placeholder="Имя" />
+                    </div>
+                    <div>
+                        <input class="user-input" type="email" name="email" id="name" placeholder="E-mail" />
+                    </div>
+                    <div>
+                        <input type="password" name="password1" id="name" placeholder="Пароль" />
+                    </div>
+                    <div>
+                        <input type="password" name="password2" id="name" placeholder="Повторите пароль" />
+                    </div>
+                        <button type="submit">Зарегистрироваться</button>
+
+
+                    <div class="clear"></div>
+                </form>
+            </div>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
