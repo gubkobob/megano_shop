@@ -49,7 +49,7 @@ class SubCategory(models.Model):
 class Product(models.Model):
     """ Модель товаров """
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name='products')
-    subcategory = ChainedForeignKey(SubCategory, chained_field="category", chained_model_field="category", show_all=False,
+    subcategory = ChainedForeignKey(SubCategory, null=True, blank=True, chained_field="category", chained_model_field="category", show_all=False,
                                  auto_choose=True, verbose_name='Название подкатегории',
                                     related_name='products') # type: ignore
     name = models.CharField(max_length=200, db_index=True, verbose_name='Название товара')
