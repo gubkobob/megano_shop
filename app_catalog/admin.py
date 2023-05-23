@@ -49,7 +49,7 @@ class ShopAdmin(admin.ModelAdmin):
     """
     Админ панель модели Shop
     """
-    list_display = ['name', 'descriptions', 'address', 'phone', 'email', 'image', 'product']
+    list_display = ['name', 'descriptions', 'address', 'phone', 'email', 'image']
 
 
 admin.site.register(Shop, ShopAdmin)

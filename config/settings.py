@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-09hwrkl1o9m&a1xyf0%ei7e331buv9)^3js7^^*k8tkuwc48y%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -40,9 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
     'django_jinja',
-    'preferences',
     'smart_selects',
     'app_administrator.apps.AppAdministratorConfig',
     'app_banners.apps.AppBannersConfig',
@@ -148,7 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "/static/"
-# STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / "static"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "uploads"
 
