@@ -3,13 +3,15 @@ from django.urls import path
 
 from .views import (
     MyLogoutView,
-    RegisterView, AboutMeView, MyLoginView,
+    RegisterView, ProfileView, MyLoginView, AccountView
 )
 
 app_name = "app_users"
 
 urlpatterns = [
-    path("profile/", AboutMeView.as_view(), name="profile"),
+    path("profile/", ProfileView.as_view(), name="profile"),
+    path("account/", AccountView.as_view(), name="account"),
+
     path("register/", RegisterView.as_view(), name="register"),
     path(
         "login/",

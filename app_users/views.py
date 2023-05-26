@@ -40,5 +40,9 @@ class MyLogoutView(LogoutView):
     next_page = reverse_lazy("app_users:login")
 
 
-class AboutMeView(TemplateView):
-    template_name = "users/profile.html"
+class ProfileView(TemplateView):
+    template_name = "users/profile.jinja2"
+
+
+class AccountView(TemplateView):
+    template_name = "users/account.jinja2"
