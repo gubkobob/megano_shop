@@ -50,6 +50,17 @@ class ComparisonServicesMixin:
         """
         Добавить продукт в сравнение.
         """
+        product_id = str(product.id)
+        if product_id not in self.comparison:
+            self.comparison[product_id] = {
+                'product_id': product.id,
+                'product_name': product.name,
+                'product_price': product.price,
+            }
+        else:
+            pass
+            #Вопрос про нужность else . . .
+        self.save_to_in_comparison()
 
     def save_to_in_comparison(self):
         """
@@ -65,14 +76,20 @@ class ComparisonServicesMixin:
         """
         Удаление товара из сравнения.
         """
+        product_id = str(product.id)
+        if product_id in self.comparison:
+            del self.comparison[product_id]
+            self.save_to_in_comparison()
 
-    def get_goods_to_in_comparison(self):
+    def get_goods_to_in_comparison(self, quantity=3):
         """
         Получения товаров в сравнении.
         """
+        return (item[1]['product_id'] for item in enumerate(self.comparison.values()) if item[0] < quantity)
 
     def get_len_goods_to_in_comparison(self):
 
         """
         Получение количества товаров в сравнении.
         """
+        return len(item['product_id'] for item in self.comparison.values())
