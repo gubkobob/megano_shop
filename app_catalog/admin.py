@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from .models import Category, SubCategory, Product, Shop, ProductInShop, ProductImage
 
 
 @admin.register(Category)
@@ -100,9 +100,7 @@ class ProductAdmin(admin.ModelAdmin):
             return False
 
 
+@admin.register(Shop)
 class ShopAdmin(admin.ModelAdmin):
     """Админ панель модели Shop"""
-    list_display = ['name', 'descriptions', 'address', 'phone', 'email', 'image', 'product']
-
-
-admin.site.register(Shop, ShopAdmin)
+    list_display = ['name', 'descriptions', 'address', 'phone', 'email', 'image']
