@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django_jinja',
     'smart_selects',
     'app_administrator.apps.AppAdministratorConfig',
@@ -51,7 +52,6 @@ INSTALLED_APPS = [
     'app_payment.apps.AppPaymentConfig',
     'app_users.apps.AppUsersConfig',
     'phone_field',
-
 ]
 
 MIDDLEWARE = [
@@ -92,14 +92,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'app_administrator.context_processors.set_limited_edition_products',
-                'app_administrator.context_processors.set_hot_offers',
-                'app_administrator.context_processors.set_popular_products',
-                'app_administrator.context_processors.set_products_day',
-                'app_administrator.context_processors.set_banners',
-                'app_administrator.context_processors.set_viewed_products',
-                'app_administrator.context_processors.set_selected_categories',
-                'app_administrator.context_processors.set_cache_time',
             ],
         },
     },

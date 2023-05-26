@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static%}
-{% block title %} 
+{% block title %}
     {% if category %}{{ category.slug }}{% if subcategory %} / {{ subcategory.slug }}{% endif %}{% else %}Category{% endif %}
 {% endblock %}
 {% block category %}
