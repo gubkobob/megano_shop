@@ -47,8 +47,8 @@ class SubCategory(models.Model):
 
 class Product(models.Model):
     """ Модель товаров """
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name='products')
-    sybcategory = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, verbose_name='Название категории', related_name='products')
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, verbose_name='Название подкатегории', related_name='products')
     name = models.CharField(max_length=200, db_index=True, verbose_name='Название товара')
     slug = models.SlugField(max_length=200, db_index=True, verbose_name='URL товара')
     description = models.TextField(blank=True, verbose_name='Описание товара')

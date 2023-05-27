@@ -159,5 +159,3 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'category_cache'),
     }
 }
-
-USE_DJANGO_JQUERY = True
