@@ -48,10 +48,8 @@ class SubCategory(models.Model):
 
 class Product(models.Model):
     """ Модель товаров """
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name='products')
-    subcategory = ChainedForeignKey(SubCategory, null=True, blank=True, chained_field="category", chained_model_field="category", show_all=False,
-                                 auto_choose=True, verbose_name='Название подкатегории',
-                                    related_name='products') # type: ignore
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, verbose_name='Название категории', related_name='products')
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, verbose_name='Название подкатегории', related_name='products')
     name = models.CharField(max_length=200, db_index=True, verbose_name='Название товара')
     slug = models.SlugField(max_length=200, db_index=True, verbose_name='URL товара')
     description = models.TextField(blank=True, verbose_name='Описание товара')
@@ -92,7 +90,6 @@ class Shop(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name}"
-
 
 class ProductInShop(models.Model):
     product = models.ForeignKey(Product, related_name='products_shop', verbose_name=_('Название'))

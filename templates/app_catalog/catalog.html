@@ -1,4 +1,3 @@
-{% extends 'base.html' %}
 {% load static%}
 {% block title %}
     {% if category %}{{ category.slug }}{% if subcategory %} / {{ subcategory.slug }}{% endif %}{% else %}Category{% endif %}
@@ -19,17 +18,13 @@
                 {% endfor %}
             </li>
         {% endfor %}
-
-
     </ul>
-
     <h1>{% if category %}
             {{ category.name }}
         {% else %}
             Products
         {% endif %}
     </h1>
-
 {% for product in products %}
     <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
     <p>{{ product.price }}</p>
