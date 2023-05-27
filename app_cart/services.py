@@ -38,7 +38,7 @@ class ComparisonServicesMixin:
     """
     def __init__(self, request):
         """
-        Инициализируем список сравнений
+        Инициализируем список сравнений.
         """
         self.session = request.session
         comparison = self.session.get(settings.COMPARISON_SESSION_ID)
