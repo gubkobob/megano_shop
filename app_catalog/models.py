@@ -95,10 +95,10 @@ class Shop(models.Model):
 
 
 class ProductInShop(models.Model):
-    product = models.ForeignKey(Product, related_name='products_shop', on_delete=models.CASCADE, verbose_name=_('Название'))
+    product = models.ForeignKey(Product, related_name='products_shop', verbose_name=_('Название'))
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='products_shop')
-    price = models.DecimalField(default=0, max_digits=8, decimal_places=2, verbose_name=_('Цена'))
-    quantity = models.PositiveIntegerField(default=0, verbose_name=_('Количество товара'))
+    price = models.FloatField(default=0, verbose_name=_('Цена'))
+    quantity = models.DecimalField(default=0, max_length=255, verbose_name=_('Количество товара'))
 
 
 class Comments(models.Model):

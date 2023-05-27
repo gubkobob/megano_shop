@@ -12,7 +12,7 @@ def pre_save_cache_categories(sender, **kwargs):
 
 @receiver(signal=post_save, sender=Category)
 def post_save_cache_categories(sender, **kwargs):
-    if kwargs.get('created', True):
+    if kwargs.get('created'):
         cache.set('categories', 'categories_cache', 86400)
         print('categories post save')
 
@@ -37,7 +37,7 @@ def pre_save_cache_subcategories(sender, **kwargs):
 
 @receiver(signal=post_save, sender=SubCategory)
 def post_save_cache_subcategories(sender, **kwargs):
-    if kwargs.get('created', True):
+    if kwargs.get('created'):
         cache.set('subcategories', 'subcategories_cache', 86400)
         print('subcategories post save')
 
@@ -62,7 +62,7 @@ def pre_save_cache_products(sender, **kwargs):
 
 @receiver(post_save, sender=Product)
 def post_save_cache_products(sender, **kwargs):
-    if kwargs.get('created', True):
+    if kwargs.get('created'):
         cache.set('products', 'products_cache', 86400)
         print('products post save')
 
