@@ -2,3 +2,6 @@ Django==4.2
 Pillow==9.5.0
 Jinja2==3.1.2
 django-jinja==2.10.2
+django-phone-field==1.8.1
+django-smart-selects==1.6.0
+django-preferences==1.0.0
