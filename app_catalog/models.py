@@ -105,3 +105,4 @@ class Comments(models.Model):
     goods = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments', verbose_name=_('Товары'))
     comment = models.TextField(max_length=1000, verbose_name=_('Комментарии'))
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name=_('Пользователь'))
+
