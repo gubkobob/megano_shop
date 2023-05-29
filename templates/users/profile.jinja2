@@ -33,46 +33,52 @@
                 </div>
                 <div class="Section-content">
                     <div class="Profile">
-                        <form class="form Profile-form" action="#" method="post">
+                        <form class="form Profile-form" action="#" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
                             <div class="row">
+
                                 <div class="row-block">
                                     <div class="form-group">
                                         <label class="form-label" for="avatar">Аватар
                                         </label>
                                         <div class="Profile-avatar Profile-avatar_noimg">
-
-                                            <label class="Profile-fileLabel" for="avatar"><img src="assets/img/icons/upload.png" alt="#.png" />Загрузить фото
-                                            </label>
-
-                                            <input class="Profile-file form-input" id="avatar" name="avatar" type="file" data-validate="onlyImgAvatar" />
+                                            {% if user.avatar %}
+                                                <label class="Profile-fileLabel" for="avatar"><img src="{{ user.avatar.url }}" alt="{{ user.avatar }}" />Обновить фото
+                                                </label>
+                                            {% else %}
+                                                <label class="Profile-fileLabel" for="avatar"><img src={{ static("assets/img/icons/upload.png") }} alt="#.png" />Загрузить фото
+                                                </label>
+                                            {% endif %}
+                                                <input class="Profile-file form-input" id="avatar" name="avatar" type="file" data-validate="onlyImgAvatar" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="name">ФИО
+                                        <label class="form-label" for="name">Никнейм
                                         </label>
-                                        <input class="form-input" id="name" name="name" type="text" value="" data-validate="require" />
+                                        <input class="form-input" id="name" name="username" type="text" value="{{ user['username'] }}" data-validate="require" />
                                     </div>
                                 </div>
                                 <div class="row-block">
                                     <div class="form-group">
                                         <label class="form-label" for="phone">Телефон
                                         </label>
-                                        <input class="form-input" id="phone" name="phone" type="text" value="+70000000000" />
+                                        <input class="form-input" id="phone" name="phone_number" type="text" value= "{{ user['phone_number'] }}" />
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="mail">E-mail
                                         </label>
-                                        <input class="form-input" id="mail" name="mail" type="text" value="send@test.test" data-validate="require" />
+                                        <input class="form-input" id="mail" name="email" type="text" value="{{ user['email'] }}" data-validate="require" />
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="password">Пароль
                                         </label>
-                                        <input class="form-input" id="password" name="password" type="password" placeholder="Тут можно изменить пароль" />
+                                        <input class="form-input" id="password" name="password1" type="password" placeholder="Тут можно изменить пароль" />
+                                        {{ form.errors}}
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="passwordReply">Подтверждение пароля
                                         </label>
-                                        <input class="form-input" id="passwordReply" name="passwordReply" type="password" placeholder="Введите пароль повторно" />
+                                        <input class="form-input" id="passwordReply" name="password2" type="password" placeholder="Введите пароль повторно" />
                                     </div>
                                     <div class="form-group">
                                         <div class="Profile-btn">

@@ -33,12 +33,21 @@
                     <div class="Account">
                         <div class="Account-group">
                             <div class="Account-column">
-                                <div class="Account-avatar"><img src="assets/img/content/home/card.jpg" alt="card.jpg" />
+                                <div class="Account-avatar">
+                                    {% if user.avatar %}
+                                        <img  src={{ user.avatar.url }} alt="user_avatar.jpg" />
+                                    {% else %}
+                                        <img  src={{ static("assets/img/content/home/card.jpg") }} alt="card.jpg" />
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="Account-column">
-                                <div class="Account-name">Иванов Иван Иванович
-                                </div><a class="Account-editLink" href="profile.html">Редактировать профиль</a>
+                                    {% if user.first_name and user.last_name %}
+                                        <div class="Account-name">{{ user.first_name}} {{ user.last_name }}
+                                    {% else %}
+                                        <div class="Account-name">{{ user.username}}
+                                    {% endif %}
+                                </div><a class="Account-editLink" href={{ url("app_users:profile") }}>Редактировать профиль</a>
                             </div>
                         </div>
                         <div class="Account-group">
@@ -46,8 +55,8 @@
                                 <div class="Order Order_anons">
                                     <div class="Order-personal">
                                         <div class="row">
-                                            <div class="row-block"><a class="Order-title" href="oneorder.html">Заказ&#32;<span class="Order-numberOrder">№200</span>&#32;от&#32;<span class="Order-dateOrder">21.07.2020</span></a>
-                                                <div class="Account-editLink"><a href="historyorder.html">История заказов</a>
+                                            <div class="row-block"><a class="Order-title" href="#">Заказ&#32;<span class="Order-numberOrder">№200</span>&#32;от&#32;<span class="Order-dateOrder">21.07.2020</span></a>
+                                                <div class="Account-editLink"><a href="#">История заказов</a>
                                                 </div>
                                             </div>
                                             <div class="row-block">

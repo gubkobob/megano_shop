@@ -72,7 +72,7 @@
                                                          alt="loon-icon.svg"></button>
                             <div class="dropdown-content">
                                 <a class="dropdown-content-a" href="#">Личный кабинет</a>
-                                {% if user.superuser %}
+                                {% if request.user.superuser %}
                                     <a class="dropdown-content-a" href="#">Административный раздел</a>
                                 {% endif %}
                                 <a class="dropdown-content-a" href="#">Выход</a>
