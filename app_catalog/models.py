@@ -93,13 +93,13 @@ class Shop(models.Model):
 
 
 class ProductInShop(models.Model):
-    product = models.ForeignKey(Product, related_name='products_shop', verbose_name=_('Название'))
+    product = models.ForeignKey(Product, related_name='products_shop', on_delete=models.CASCADE, verbose_name=_('Название'))
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='products_shop')
-    price = models.FloatField(default=0, verbose_name=_('Цена'))
-    quantity = models.DecimalField(default=0, max_length=255, verbose_name=_('Количество товара'))
+    price = models.DecimalField(default=0, max_digits=8, decimal_places=2, verbose_name=_('Цена'))
+    quantity = models.PositiveIntegerField(default=0, verbose_name=_('Количество товара'))
 
 
 class Comments(models.Model):
     goods = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments', verbose_name=_('Товары'))
     comment = models.TextField(max_length=1000, verbose_name=_('Комментарии'))
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name=_('Пользователь'))
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
