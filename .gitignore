@@ -143,3 +143,4 @@ dmypy.json
 data/
 *.db
 *.sqlite3
+/category_cache/
