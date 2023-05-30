@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
     'django_jinja',
     'app_administrator.apps.AppAdministratorConfig',
     'app_banners.apps.AppBannersConfig',
