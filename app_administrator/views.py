@@ -4,34 +4,15 @@ from django.http import HttpResponse
 
 
 def settings(request):
-    return render(request, 'app_administrator/settings.html')
+    if request.user.is_superuser:
+        return render(request, 'app_administrator/settings.html')
+    else:
+        return HttpResponse('Ошибка 404 или Not Found')
 
 
 def clear_all(request):
-    cache.clear()
-    return HttpResponse('the Site cache has been reset')
-
-
-def clear_categories(request):
-    cache.delete('categories')
-    return HttpResponse('cache Сategories clearing')
-
-
-def clear_subcategories(request):
-    cache.delete('subcategories')
-    return HttpResponse('cache Subcategories clearing')
-
-
-def clear_banners(request):
-    cache.delete('banners')
-    return HttpResponse('cache Banners clearing')
-
-
-def clear_shops(request):
-    cache.delete('shops')
-    return HttpResponse('cache Shops clearing')
-
-
-def clear_products(request):
-    cache.delete('products')
-    return HttpResponse('cache Products clearing')
+    if request.user.is_superuser:
+        cache.clear()
+        return HttpResponse('the Site cache has been reset')
+    else:
+        return HttpResponse('Ошибка 404 или Not Found')

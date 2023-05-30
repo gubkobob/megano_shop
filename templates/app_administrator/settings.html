@@ -6,16 +6,10 @@
 
 <h3>Сброс кеша</h3>
 
-<p>Кнопка сброса всего кеша на сайте <button><a href="{% url 'appadministrator:clear_all' %}">Сбросить</a></button></p>
-
-<p>Кнопка сброса кеша раздела категории <button><a href="{% url 'appadministrator:clear_categories' %}">Сбросить</a></button>
-
-<p>Кнопка сброса кеша раздела подкатегории <button><a href="{% url 'appadministrator:clear_subcategories' %}">Сбросить</a></button>
-
-<p>Кнопка сброса кеша раздела баннеров <button><a href="{% url 'appadministrator:clear_banners' %}">Сбросить</a></button>
-
-<p>Кнопка сброса кеша раздела магазинов <button><a href="{% url 'appadministrator:clear_shops' %}">Сбросить</a></button>
-
-<p>Кнопка сброса кеша раздела товаров <button><a href="{% url 'appadministrator:clear_products' %}">Сбросить</a></button>
+<p>Кнопка сброса всего кеша на сайте
+    <button>
+        <a href="{% url 'appadministrator:clear_all' %}">Сбросить</a>
+    </button>
+</p>
 
 {% endblock %}
