@@ -28,12 +28,10 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория',
                                  related_name='subcategory')
     name = models.CharField(max_length=100, null=False, blank=True, db_index=True, verbose_name='Название подкатегории')
-    slug = models.SlugField(max_length=100, null=False, blank=True, unique=True, verbose_name='URL подкатегории')
 
     class Meta:
         verbose_name = 'Подкатегория'
         verbose_name_plural = 'Подкатегории'
-        ordering = ['name', 'slug']
 
     def __str__(self):
         return self.name
