@@ -76,6 +76,7 @@ TEMPLATES = [
             "match_extension": ".jinja2",
             "match_regex": None,
             "app_dirname": "templates",
+            "environment": "config.jinja.get_categories",
             "constants": {
             },
             'globals': {
@@ -92,6 +93,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -169,3 +171,5 @@ USE_DJANGO_JQUERY = True
 
 LOGIN_REDIRECT_URL = reverse_lazy('app_users:profile')
 
+
+TEMPLATE_CONTEXT_PROCESSORS = ('app_catalog.context_processors.foos')
