@@ -14,10 +14,9 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(SubCategory)
 class SubCategoryAdmin(admin.ModelAdmin):
     """Админ панель модели Подкатегории товаров"""
-    list_display = "id", "category", "name", "slug"
-    list_display_links = "id", "category", "name", "slug"
+    list_display = "id", "category", "name"
+    list_display_links = "id", "category", "name"
     search_fields = "name",
-    prepopulated_fields = {"slug": ("name",)}
 
 
 class ProductImageInline(admin.TabularInline):
