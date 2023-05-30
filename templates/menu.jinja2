@@ -8,7 +8,7 @@
                         <div class="row-block hide_700">
                             <ul class="menu menu_img menu_smallImg ControlPanel-menu">
                                 <li class="menu-item"><a class="menu-link" href="#"><img
-                                        src="{{ static ('assets/img/icons/socialHeader/tw.svg') }}" alt="tw.svg"></a>
+                                        src="{{ static ('/assets/img/icons/socialHeader/tw.svg') }}" alt="tw.svg"></a>
                                 </li>
                                 <li class="menu-item"><a class="menu-link" href="#"><img
                                         src="{{ static ('assets/img/icons/socialHeader/in.svg') }}" alt="in.svg"></a>
@@ -72,7 +72,7 @@
                                                          alt="loon-icon.svg"></button>
                             <div class="dropdown-content">
                                 <a class="dropdown-content-a" href="#">Личный кабинет</a>
-                                {% if user.superuser %}
+                                {% if request.user.is_superuser %}
                                     <a class="dropdown-content-a" href="#">Административный раздел</a>
                                 {% endif %}
                                 <a class="dropdown-content-a" href="#">Выход</a>

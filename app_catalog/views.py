@@ -28,7 +28,7 @@ def categories_list(request, category_slug=None, subcategory_slug=None):
         products = products.filter(subcategory=subcategory)
 
     return render(request,
-                  'app_catalog/catalog.html',
+                  'app_catalog/catalog.jinja2',
                   {'category': category,
                    'categories': categories.order_by('id'), #фильтр отображения по id
                    'products': products,

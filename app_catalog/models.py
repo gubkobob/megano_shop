@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
-from smart_selects.db_fields import ChainedForeignKey
+from django.utils.translation import gettext_lazy as _
 
 
 User = get_user_model()
@@ -89,11 +89,12 @@ class Shop(models.Model):
     def __str__(self) -> str:
         return f"{self.name}"
 
+
 class ProductInShop(models.Model):
-    product = models.ForeignKey(Product, related_name='products_shop', verbose_name=_('Название'))
+    product = models.ForeignKey(Product, related_name='products_shop', on_delete=models.CASCADE, verbose_name=_('Название'))
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='products_shop')
-    price = models.FloatField(default=0, verbose_name=_('Цена'))
-    quantity = models.DecimalField(default=0, max_length=255, verbose_name=_('Количество товара'))
+    price = models.DecimalField(default=0, max_digits=8, decimal_places=2, verbose_name=_('Цена'))
+    quantity = models.PositiveIntegerField(default=0, verbose_name=_('Количество товара'))
 
 
 class Comments(models.Model):
