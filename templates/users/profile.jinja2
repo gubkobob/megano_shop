@@ -56,37 +56,53 @@
                                         <label class="form-label" for="name">Никнейм
                                         </label>
                                         <input class="form-input" id="name" name="username" type="text" value="{{ user['username'] }}" data-validate="require" />
+                                        <a style="color:red;">{{ form.username.errors}}</a>
                                     </div>
                                 </div>
                                 <div class="row-block">
                                     <div class="form-group">
                                         <label class="form-label" for="phone">Телефон
                                         </label>
-                                        <input class="form-input" id="phone" name="phone_number" type="text" value= "{{ user['phone_number'] }}" />
+                                        <input class="form-input" id="phone" name="phone_number" type="text" value= "{{ user['phone_number'] }}"
+                                               placeholder="Телефон (10 цифр БЕЗ +7!!!)"/>
+                                        <a style="color:red;">{{ form.phone_number.errors}}</a>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="mail">E-mail
                                         </label>
                                         <input class="form-input" id="mail" name="email" type="text" value="{{ user['email'] }}" data-validate="require" />
+                                        <a style="color:red;">{{ form.email.errors}}</a>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="password">Пароль
                                         </label>
                                         <input class="form-input" id="password" name="password1" type="password" placeholder="Тут можно изменить пароль" />
-                                        {{ form.errors}}
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="passwordReply">Подтверждение пароля
                                         </label>
                                         <input class="form-input" id="passwordReply" name="password2" type="password" placeholder="Введите пароль повторно" />
+                                        {% for error in form.non_field_errors() %}
+                                            <a style="color:red;">{{ error }}</a>
+                                        {% endfor %}
+
                                     </div>
                                     <div class="form-group">
                                         <div class="Profile-btn">
                                             <button class="btn btn_success" type="submit">Сохранить
                                             </button>
-                                        </div>
-                                        <div class="Profile-success">Профиль успешно сохранен
-                                        </div>
+
+                                        {% if messages %}
+                                          {% for message in messages %}
+                                            <div class="Profile-success">
+                                              <strong>{{message}}</strong>
+                                            </div>
+                                         {% endfor %}
+                                        {% endif %}
+
+{#                                        </div>#}
+{#                                        <div class="Profile-success">{{ message }}#}
+{#                                        </div>#}
                                     </div>
                                 </div>
                             </div>

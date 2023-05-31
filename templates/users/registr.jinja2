@@ -14,18 +14,29 @@
                 <div class="clear"></div>
                 <form method="post">
                 {% csrf_token %}
-                    <div>
-                        <input class="user-input" type="text" name="username" id="name" placeholder="Имя" />
-                    </div>
-                    <div>
-                        <input class="user-input" type="email" name="email" id="name" placeholder="E-mail" />
-                    </div>
-                    <div>
-                        <input type="password" name="password1" id="name" placeholder="Пароль" />
-                    </div>
-                    <div>
-                        <input type="password" name="password2" id="name" placeholder="Повторите пароль" />
-                    </div>
+                    {{ form.as_p() }}
+{#                    <div>#}
+{#                        <input class="user-input" type="text" name="username" id="name" placeholder="Имя" />#}
+{#                        <b style="color:red;">{{ form }}</b>#}
+{#                    </div>#}
+{#                    <div>#}
+{#                        <input class="user-input" type="email" name="email" id="name" placeholder="E-mail" />#}
+{#                        <b style="color:red;">{{ form.email.errors}}</b>#}
+{##}
+{#                    </div>#}
+{#                    <div>#}
+{#                        <input type="password" name="password1" id="name" placeholder="Пароль" />#}
+{#                        <b style="color:red;">{{ form.password1.errors}}</b>#}
+{##}
+{#                    </div>#}
+{#                    <div>#}
+{#                        <input type="password" name="password2" id="name" placeholder="Повторите пароль" />#}
+{#                        <b style="color:red;">{{ form.password1.errors}}</b>#}
+{##}
+{#                        {% for error in form.non_field_errors() %}#}
+{#                            <b style="color:red;">{{ error }}</b>#}
+{#                        {% endfor %}#}
+{#                    </div>#}
                         <button type="submit">Зарегистрироваться</button>
 
                     <a class="registr" href={{ url("app_users:login") }}>

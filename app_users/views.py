@@ -1,11 +1,11 @@
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 from django.contrib.auth.views import LogoutView, LoginView
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from django_jinja.views.generic import CreateView, UpdateView
 from django.contrib.auth import get_user_model
 
@@ -26,10 +26,6 @@ class RegisterView(CreateView):
     template_name = "users/registr.jinja2"
     success_url = reverse_lazy("app_users:profile")
 
-    # def get(self, request: HttpRequest) -> HttpResponse:
-    #     if self.request.user.is_authenticated:
-    #         return render(request, 'users/profile.jinja2')
-
     def form_valid(self, form):
         response = super().form_valid(form)
 
@@ -45,14 +41,6 @@ class MyLogoutView(LogoutView):
     next_page = reverse_lazy("app_users:login")
 
 
-# class ProfileView(UpdateView):
-#     model = User
-#     fields = ('username', 'email', 'avatar', 'phone_number', 'password')
-#     queryset = User.objects.filter(pk=1)
-#     # form_class = MyUserChangeForm
-#     template_name = "users/profile.jinja2"
-#     success_url = reverse_lazy("app_users:profile")
-
 class ProfileView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         context = {
@@ -63,9 +51,9 @@ class ProfileView(View):
 
     def post(self, request: HttpRequest):
         form = MyUserChangeForm(request.POST, request.FILES)
+        user = User.objects.filter(pk=request.user.pk).all()[0]
 
         if form.is_valid():
-            user = User.objects.filter(pk=request.user.pk).all()[0]
             if form.cleaned_data["username"]:
                 user.username = form.cleaned_data["username"]
             if form.cleaned_data["phone_number"]:
@@ -81,8 +69,14 @@ class ProfileView(View):
                 login(request=self.request, user=user)
 
             user.save()
-        print(form.errors)
-        return redirect(request.path)
+            messages.success(self.request, 'Профиль успешно сохранен')
+            form = MyUserChangeForm()
+
+        context = {"form": form,
+                   "user": user,
+                   }
+
+        return render(request, 'users/profile.jinja2', context=context)
 
 
 class AccountView(View):
