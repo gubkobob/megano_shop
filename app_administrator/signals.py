@@ -10,7 +10,6 @@ def post_save_cache_categories(sender, **kwargs):
         cache.set('categories', 'categories_cache', 86400)
 
 
-
 @receiver(signal=post_delete, sender=Category)
 def post_delete_cache_categories(sender, **kwargs):
     cache.delete('categories')
