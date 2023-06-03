@@ -63,7 +63,7 @@
                                     <div class="form-group">
                                         <label class="form-label" for="phone">Телефон
                                         </label>
-                                        <input class="form-input" id="phone" name="phone_number" type="text" value= "{{ user['phone_number'] }}"
+                                        <input class="form-input" id="phone" name="phone_number" type="tel" value= "{{ user['phone_number'] }}"
                                                placeholder="Телефон (10 цифр БЕЗ +7!!!)"/>
                                         <a style="color:red;">{{ form.phone_number.errors}}</a>
                                     </div>
@@ -92,8 +92,8 @@
                                             <button class="btn btn_success" type="submit">Сохранить
                                             </button>
 
-                                        {% if messages %}
-                                          {% for message in messages %}
+                                        {% if get_messages(request) %}
+                                          {% for message in get_messages(request) %}
                                             <div class="Profile-success">
                                               <strong>{{message}}</strong>
                                             </div>
