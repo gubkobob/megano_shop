@@ -1,4 +1,4 @@
-from mysite import settings
+from config import settings
 
 
 class CartServicesMixin:
