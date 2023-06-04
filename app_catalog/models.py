@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
 
 
 User = get_user_model()
@@ -29,18 +29,14 @@ class SubCategory(models.Model):
                                  related_name='subcategory')
     name = models.CharField(max_length=100, null=False, blank=True, db_index=True, verbose_name='Название подкатегории')
 
+
     class Meta:
         verbose_name = 'Подкатегория'
         verbose_name_plural = 'Подкатегории'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
-
-    def get_absolute_url(self):
-        return reverse('appcatalog:subcategories_list_with_products',
-                       kwargs={'category_slug':self.category.slug,'subcategory_slug':self.slug}
-                       )
-
 
 
 class Product(models.Model):
@@ -90,8 +86,8 @@ class Shop(models.Model):
 
 
 class ProductInShop(models.Model):
-    product = models.ForeignKey(Product, related_name='products_shop', on_delete=models.CASCADE, verbose_name=_('Название'))
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='products_shop')
+    product = models.ForeignKey(Product, related_name='products_in_shop', on_delete=models.CASCADE, verbose_name=_('Название'))
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='products_in_shop')
     price = models.DecimalField(default=0, max_digits=8, decimal_places=2, verbose_name=_('Цена'))
     quantity = models.PositiveIntegerField(default=0, verbose_name=_('Количество товара'))
 
@@ -100,3 +96,31 @@ class Comments(models.Model):
     goods = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments', verbose_name=_('Товары'))
     comment = models.TextField(max_length=1000, verbose_name=_('Комментарии'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
+
+
+class Specifications(models.Model):
+    """Модель характеристик"""
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True, related_name='producted', verbose_name=_('Товар'))
+    name_specification = models.TextField(max_length=40, verbose_name=_('Название характеристики'))
+
+    class Meta:
+        verbose_name = 'Характеристика товара'
+        verbose_name_plural = 'Характеристики товара'
+
+    def __str__(self):
+        return self.name_specification
+
+
+class Subspecifications(models.Model):
+    """Модель значений характеристик"""
+    specification = models.ForeignKey(Specifications, on_delete=models.CASCADE, null=True, blank=True,
+                                      related_name='specification', max_length=1000, verbose_name=_('Характеристика'))
+    name_subspecification = models.TextField(max_length=40, verbose_name=_('Название характеристики'))
+    text_subspecification = models.TextField(max_length=40, verbose_name=_('Текст Характеристики'))
+
+    class Meta:
+        verbose_name = 'Значение характеристики'
+        verbose_name_plural = 'Значения характеристик'
+
+    def __str__(self):
+        return self.name_subspecification

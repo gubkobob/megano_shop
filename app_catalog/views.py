@@ -30,8 +30,7 @@ def categories_list(request, category_slug=None, subcategory_slug=None):
     return render(request,
                   'app_catalog/catalog.jinja2',
                   {'category': category,
-                   'categories': categories.order_by('id'), #фильтр отображения по id
                    'products': products,
                    'subcategory': subcategory,
-                   'subcategories': subcategories.order_by('id') #фильтр отображения по id
+                   'subcategories': subcategories, #фильтр отображения по id
                    })

@@ -1,4 +1,4 @@
-from config import settings
+from mysite import settings
 
 
 class CartServicesMixin:
@@ -55,11 +55,8 @@ class ComparisonServicesMixin:
             self.comparison[product_id] = {
                 'product_id': product.id,
                 'product_name': product.name,
-                'product_price': product.price,
+                'product_price': int(product.price),
             }
-        else:
-            pass
-            #Вопрос про нужность else . . .
         self.save_to_in_comparison()
 
     def save_to_in_comparison(self):
@@ -85,11 +82,12 @@ class ComparisonServicesMixin:
         """
         Получения товаров в сравнении.
         """
-        return (item[1]['product_id'] for item in enumerate(self.comparison.values()) if item[0] < quantity)
+
+        return list(self.comparison[item[1]] for item in enumerate(self.comparison) if item[0] < quantity)
 
     def get_len_goods_to_in_comparison(self):
 
         """
         Получение количества товаров в сравнении.
         """
-        return len(item['product_id'] for item in self.comparison.values())
+        return len(self.comparison[item] for item in self.comparison)
