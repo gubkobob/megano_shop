@@ -18,3 +18,9 @@ def same_phone_validate(phone_number):
         if phone_number_10_digits == user.phone_number:
             msg = "This phone number already used"
             raise ValidationError(msg)
+
+
+def file_size(value):
+    limit = 2 * 1024 * 1024
+    if value.size > limit:
+        raise ValidationError('File too large. Size should not exceed 2 MiB.')
