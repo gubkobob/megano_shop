@@ -16,6 +16,7 @@
                         </header>
                         <div class="Section-columnContent">
                             <form class="form" action="#" method="post">
+                                {% csrf_token %}
                                 <div class="form-group">
                                     <div class="range Section-columnRange">
                                         <input class="range-line" id="price" name="price" type="text" data-type="double" data-min="7" data-max="50" data-from="7" data-to="27" />
@@ -42,7 +43,8 @@
                                     </label>
                                 </div>
                                 <div class="form-group">
-                                    <div class="buttons"><a class="btn btn_square btn_dark btn_narrow" href="#">Фильтр</a>
+                                    <div class="buttons">
+                                        <button class="btn btn_square btn_dark btn_narrow" type="submit" name="save" value="#">Фильтр</button>
                                     </div>
                                 </div>
                             </form>
@@ -63,19 +65,24 @@
                     <div class="Sort">
                         <div class="Sort-title">Сортировать по:
                         </div>
-                        <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="/catalog/?popular=True">Популярности</a><a class="Sort-sortBy" href="#">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a class="Sort-sortBy Sort-sortBy_inc" href="#">Новизне</a>
-                        </div>
+                        {% if sort == 'price_high'  %}
+                            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="/catalog/?popular=True">Популярности</a><a class="Sort-sortBy" href="/catalog/?price=True">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a class="Sort-sortBy Sort-sortBy_inc" href="/catalog/?date=Up">Новизне</a>
+                            </div>
+                        {% else  %}
+                            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="/catalog/?popular=True">Популярности</a><a class="Sort-sortBy" href="/catalog/?price=True">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a class="Sort-sortBy Sort-sortBy_dec" href="?date=Down">Новизне</a>
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="Cards">
                         {% for product in products %}
-                            <div class="Card"><a class="Card-picture" href="#"><img src="{{ product.image.url }}" alt="{{product.image}}" /></a>
+                            <div class="Card"><a class="Card-picture" href="#"><img src="/static/assets/img/content/home/{{product.image}}" alt="{{product.image}}" /></a>
                                 <div class="Card-content">
                                     <strong class="Card-title"><a href="product.html">{{product.name}}</a>
                                     </strong>
                                     <div class="Card-description">
                                         <div class="Card-cost"><span class="Card-price">${{product.price}}</span>
                                         </div>
-                                        <div class="Card-category">{{product.category}} / {{product.subcategory}}{{product.image.url}}
+                                        <div class="Card-category">{{product.category}} / {{product.subcategory}}
                                         </div>
                                         <div class="Card-hover"><a class="Card-btn" href="#"><img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" /></a>
                                         </div>
@@ -190,5 +197,6 @@
             </div>
         </div>
     </div>
+</div>
 
 {% endblock %}

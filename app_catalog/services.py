@@ -2,6 +2,8 @@
 Сервисы для работы с каталогом, товарами, магазинами
 """
 
+from .models import Product
+
 
 class ProductServicesMixin:
     """
@@ -48,3 +50,17 @@ class ShopServicesMixin:
     """
     Класс - примесь для использования сервисов для работы с магазинами
     """
+
+
+def sort_catalog(obj) -> dict:
+    if obj.get("price") == "True":
+        return {'products': Product.objects.order_by('price'),
+                'sort': 'base'}
+    if obj.get("date") == "Up":
+        return {'products': Product.objects.order_by('updated'),
+                'sort': 'base'}
+    if obj.get("date") == "Down":
+        return {'products': Product.objects.order_by('-updated'),
+                'sort': 'price_high'}
+    return {'products': Product.objects.all(),
+            'sort': 'base'}

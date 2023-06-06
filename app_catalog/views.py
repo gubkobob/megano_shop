@@ -1,8 +1,12 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from .models import Category, Product, ProductImage, SubCategory
+from django.template.response import TemplateResponse
+
+from .services import sort_catalog
 
 
 def categories_list(request, category_slug=None, subcategory_slug=None):
@@ -28,7 +32,7 @@ def categories_list(request, category_slug=None, subcategory_slug=None):
         products = products.filter(subcategory=subcategory)
 
     return render(request,
-                  'app_catalog/catalog.html',
+                  'app_catalog/catalog.jinja2',
                   {'category': category,
                    'categories': categories.order_by('id'), #фильтр отображения по id
                    'products': products,
@@ -81,3 +85,30 @@ class SubCategoryDeleteView(DeleteView):
     cache.clear()
     model = SubCategory
     success_url = reverse_lazy('appcatalog:categories_list')
+
+class CategoryView(ListView):
+    """Представление категорий"""
+    model = Product
+    template_name = 'app_catalog/catalog.jinja2'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = Product.objects.all()
+        context['products'] = products
+        return context
+
+    def get(self, request):
+        context = sort_catalog(request.GET)
+        return render(request, 'app_catalog/catalog.jinja2',
+                      context=context)
+
+    def post(self, request):
+        if request.method == "POST":
+            price_filter = request.POST.get('price').split(';')
+            min_price_filter = int(price_filter[0])
+            max_price_filter = int(price_filter[1])
+            products = Product.objects.filter(price__gte=min_price_filter, price__lte=max_price_filter)
+            # return HttpResponseRedirect('/catalog')
+            return render(request, 'app_catalog/catalog.jinja2',
+                          context={'products': products})
+
