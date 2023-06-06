@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPa
 from django.contrib.auth import get_user_model
 from django import forms
 
-from app_users.validators import phone_validator, same_phone_validate, file_size
+from app_users.validators import phone_validator, same_phone_validate, file_size, email_exist_validator
 
 User = get_user_model()
 
@@ -73,12 +73,13 @@ class UserForgotPasswordForm(PasswordResetForm):
         """
         Обновление стилей формы
         """
-        super().__init__(*args, **kwargs)
+        super(UserForgotPasswordForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({
                 'class': 'form-control',
                 'autocomplete': 'off'
             })
+        self.fields["email"].validators = [email_exist_validator, ]
 
 
 class UserSetNewPasswordForm(SetPasswordForm):

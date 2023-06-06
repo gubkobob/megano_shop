@@ -10,7 +10,7 @@ phone_validator = RegexValidator(
 )
 
 
-def same_phone_validate(phone_number):
+def same_phone_validate(phone_number: str):
     User = get_user_model()
     phone_number_10_digits = get_10_digits_from_phone_number(phone_number)
     users = User.objects.all()
@@ -19,6 +19,17 @@ def same_phone_validate(phone_number):
             msg = "This phone number already used"
             raise ValidationError(msg)
 
+
+def email_exist_validator(email: str):
+    User = get_user_model()
+    users = User.objects.all()
+    flag = False
+    for user in users:
+        if user.email == email:
+            flag = True
+    if not flag:
+        msg = "No user with this email on site"
+        raise ValidationError(msg)
 
 def file_size(value):
     limit = 2 * 1024 * 1024

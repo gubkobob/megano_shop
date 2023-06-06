@@ -12,10 +12,20 @@
                     <h5>Для восстановления пароля введите адрес электронной почты, на которую зарегистрирована учетная запись</h5>
                 </div>
 
+    {% if get_messages(request) %}
+        {% for message in get_messages(request) %}
+            <div class="Profile-success">
+                <strong>{{message}}</strong>
+            </div>
+        {% endfor %}
+    {% else %}
+
                 <form action="#" method="POST">
                     {% csrf_token %}
+
                     <div>
                         <input class="user-input" type="email" name="email" id="name" placeholder="E-mail" />
+                        <a style="color:red;">{{ form.email.errors}}</a>
                     </div>
                     <div>
                         <input type="submit" value="Получить проверочный код" />
@@ -25,5 +35,5 @@
                     </a>
                 </form>
             </div>
-
+    {% endif %}
 {% endblock %}

@@ -16,11 +16,13 @@
                 {% csrf_token %}
 
                     <div>
-                        <input class="user-input" type="text" name="username" id="name" placeholder="Имя" />
+                        <input class="user-input" type="text" name="username" id="name" placeholder="Имя"
+                        {% if form.is_bound %} value="{{ form.username.value() }}"{% endif %}/>
                         <b style="color:red;">{{ form.username.errors }}</b>
                     </div>
                     <div>
-                        <input class="user-input" type="email" name="email" id="name" placeholder="E-mail" />
+                        <input class="user-input" type="email" name="email" id="name" placeholder="E-mail"
+                        {% if form.is_bound %} value="{{ form.email.value() }}"{% endif %}/>
                         <b style="color:red;">{{ form.email.errors }}</b>
 
                     </div>
