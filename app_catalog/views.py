@@ -5,8 +5,9 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from .models import Category, Product, ProductImage, SubCategory
 from django.template.response import TemplateResponse
+from django.core.cache import cache
 
-from .services import sort_catalog
+from .services import sort_catalog, paginator
 
 
 def categories_list(request, category_slug=None, subcategory_slug=None):
@@ -93,22 +94,35 @@ class CategoryView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        products = Product.objects.all()
-        context['products'] = products
+        request = self.request.GET
+        result = sort_catalog(request)
+        catalog_obj = result.get('products')
+        context['sort'] = result.get('sort')
+
+        # Paginator
+        catalog_page_obj = paginator(obj=catalog_obj, request=request)
+        # paginator_catalog = Paginator(catalog_obj, 1)
+        # page_number_promo = self.request.GET.get('page_promo')
+        # if page_number_promo is None:
+        #     page_number_promo = 0
+        # promo_page_obj = paginator_catalog.get_page(page_number_promo)
+        context['catalog_page_obj'] = catalog_page_obj
+        context['products'] = catalog_page_obj.object_list
         return context
 
-    def get(self, request):
-        context = sort_catalog(request.GET)
-        return render(request, 'app_catalog/catalog.jinja2',
-                      context=context)
 
     def post(self, request):
         if request.method == "POST":
             price_filter = request.POST.get('price').split(';')
             min_price_filter = int(price_filter[0])
             max_price_filter = int(price_filter[1])
-            products = Product.objects.filter(price__gte=min_price_filter, price__lte=max_price_filter)
-            # return HttpResponseRedirect('/catalog')
+            catalog_obj = Product.objects.filter(price__gte=min_price_filter, price__lte=max_price_filter)
+            req = self.request.GET
+            catalog_page_obj = paginator(obj=catalog_obj, request=req)
             return render(request, 'app_catalog/catalog.jinja2',
-                          context={'products': products})
+                          context={
+                              'products': catalog_page_obj.object_list,
+                              'catalog_page_obj': catalog_page_obj
+                          }
+                          )
 

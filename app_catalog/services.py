@@ -1,8 +1,9 @@
 """
 Сервисы для работы с каталогом, товарами, магазинами
 """
-
+from django.core.paginator import Paginator
 from .models import Product
+
 
 
 class ProductServicesMixin:
@@ -64,3 +65,11 @@ def sort_catalog(obj) -> dict:
                 'sort': 'price_high'}
     return {'products': Product.objects.all(),
             'sort': 'base'}
+
+def paginator(obj, request):
+    paginator_catalog = Paginator(obj, 2)
+    page_number = request.get('page_catalog')
+    if page_number is None:
+        page_number = 0
+    catalog_page_obj = paginator_catalog.get_page(page_number)
+    return catalog_page_obj
