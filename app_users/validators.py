@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
-from app_users.services import get_10_digits_from_phone_number
 
 phone_validator = RegexValidator(
     r"^\+\d\(\d{3}\)\d{3}\-\d{2}\-\d{2}$",
@@ -10,17 +9,10 @@ phone_validator = RegexValidator(
 )
 
 
-def same_phone_validate(phone_number: str):
-    User = get_user_model()
-    phone_number_10_digits = get_10_digits_from_phone_number(phone_number)
-    users = User.objects.all()
-    for user in users:
-        if phone_number_10_digits == user.phone_number:
-            msg = "This phone number already used"
-            raise ValidationError(msg)
-
-
 def email_exist_validator(email: str):
+    """
+    Функция валидации - проверка почты на существование в БД сайта
+    """
     User = get_user_model()
     users = User.objects.all()
     flag = False
@@ -31,7 +23,11 @@ def email_exist_validator(email: str):
         msg = "No user with this email on site"
         raise ValidationError(msg)
 
+
 def file_size(value):
+    """
+    Функция валидации - проверка картинки на обьем менее 2МБ
+    """
     limit = 2 * 1024 * 1024
     if value.size > limit:
-        raise ValidationError('File too large. Size should not exceed 2 MiB.')
+        raise ValidationError("File too large. Size should not exceed 2 MiB.")

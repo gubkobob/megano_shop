@@ -43,7 +43,7 @@
                                         </label>
                                         <div class="Profile-avatar Profile-avatar_noimg">
                                             {% if user.avatar %}
-                                                <label class="Profile-fileLabel" for="avatar"><img src="{{ user.avatar.url }}" alt="{{ user.avatar }}" />Обновить фото
+                                                <label class="Profile-fileLabel" for="avatar"><img src="{{ user.avatar.url }}" alt="{{ user.avatar }}" />
                                                 </label>
                                             {% else %}
                                                 <label class="Profile-fileLabel" for="avatar"><img src={{ static("assets/img/icons/upload.png") }} alt="#.png" />Загрузить фото

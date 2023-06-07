@@ -1,13 +1,26 @@
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+)
 from django.contrib.auth import get_user_model
 from django import forms
 
-from app_users.validators import phone_validator, same_phone_validate, file_size, email_exist_validator
+from app_users.services import get_10_digits_from_phone_number
+from app_users.validators import (
+    phone_validator,
+    file_size,
+    email_exist_validator,
+)
 
 User = get_user_model()
 
 
 class MyUserCreationForm(UserCreationForm):
+    """
+    Форма для создания пользователя
+    """
+
     class Meta:
         model = User
         fields = ("username", "email", "password1", "password2")
@@ -27,6 +40,9 @@ class MyUserCreationForm(UserCreationForm):
 
 
 class MyUserChangeForm(forms.ModelForm):
+    """
+    Форма изменения данных пользователя
+    """
 
     password1 = forms.CharField(widget=forms.PasswordInput(), required=False)
     password2 = forms.CharField(widget=forms.PasswordInput(), required=False)
@@ -39,8 +55,11 @@ class MyUserChangeForm(forms.ModelForm):
         super(MyUserChangeForm, self).__init__(*args, **kwargs)
         self.fields["phone_number"].validators = [
             phone_validator,
-        ]  # same_phone_validate, ]
-        self.fields["avatar"].validators = [file_size, ]
+        ]
+        self.fields["avatar"].validators = [
+            file_size,
+        ]
+
     def clean(self):
         cleaned_data = super(MyUserChangeForm, self).clean()
         password1 = cleaned_data.get("password1")
@@ -54,14 +73,17 @@ class MyUserChangeForm(forms.ModelForm):
             )
         return cleaned_data
 
-
-# class UserForgotPasswordForm(forms.Form):
-#     email = forms.EmailField(max_length=50, required=True)
-#
-#
-# class UserSetNewPasswordForm(forms.Form):
-#     password1 = forms.CharField(widget=forms.PasswordInput(), required=True)
-#     password2 = forms.CharField(widget=forms.PasswordInput(), required=True)
+    def clean_phone_number(self):
+        cleaned_data = super(MyUserChangeForm, self).clean()
+        phone_number_10_digits = get_10_digits_from_phone_number(
+            cleaned_data.get("phone_number")
+        )
+        users = User.objects.exclude(pk=self.instance.pk)
+        for user in users:
+            if phone_number_10_digits == user.phone_number:
+                msg = "This phone number already used by another user"
+                raise forms.ValidationError(msg)
+        return cleaned_data.get("phone_number")
 
 
 class UserForgotPasswordForm(PasswordResetForm):
@@ -75,11 +97,12 @@ class UserForgotPasswordForm(PasswordResetForm):
         """
         super(UserForgotPasswordForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
-        self.fields["email"].validators = [email_exist_validator, ]
+            self.fields[field].widget.attrs.update(
+                {"class": "form-control", "autocomplete": "off"}
+            )
+        self.fields["email"].validators = [
+            email_exist_validator,
+        ]
 
 
 class UserSetNewPasswordForm(SetPasswordForm):
@@ -93,7 +116,6 @@ class UserSetNewPasswordForm(SetPasswordForm):
         """
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
+            self.fields[field].widget.attrs.update(
+                {"class": "form-control", "autocomplete": "off"}
+            )

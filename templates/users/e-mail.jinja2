@@ -1,7 +1,7 @@
 {% extends 'base.jinja2' %}
 
 {% block title %}
-   Password reset (1/2)
+    {{ title }}
 {% endblock %}
 
 {% block body %}
@@ -25,7 +25,7 @@
 
                     <div>
                         <input class="user-input" type="email" name="email" id="name" placeholder="E-mail" />
-                        <a style="color:red;">{{ form.email.errors}}</a>
+                        <a style="color:red;">{{ form.email.errors }}</a>
                     </div>
                     <div>
                         <input type="submit" value="Получить проверочный код" />
