@@ -26,6 +26,8 @@ def categories_list(request, category_slug=None, subcategory_slug=None):
     if subcategory_slug:  # отбираем товары выбранной подкатегории по url категории (slug)
         subcategory = get_object_or_404(SubCategory, slug=subcategory_slug)
         products = products.filter(subcategory=subcategory)
+    # print(products[0].specification.get().subspecification.values()[0])
+    # print(products[0])
 
     return render(request,
                   'app_catalog/catalog.jinja2',

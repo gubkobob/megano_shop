@@ -1075,12 +1075,24 @@
 .Card-btn {
     display: flex;
     width: 41px;
-    height: 41px;
+    left: 0;
+    right: 0;
+    height: 35px;
     background-color: #ebebeb;
     justify-content: center;
     align-items: center;
 }
 
+.Card-comparison {
+    display: flex;
+    width: 41px;
+    left: 0;
+    right: 0;
+    height: 35px;
+    background-color: #ebebeb;
+    justify-content: center;
+    align-items: center;
+}
 .Card-btn + .Card-btn {
     margin-left: 12px;
 }

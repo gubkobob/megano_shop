@@ -100,7 +100,7 @@ class Comments(models.Model):
 
 class Specifications(models.Model):
     """Модель характеристик"""
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True, related_name='producted', verbose_name=_('Товар'))
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True, related_name='specification', verbose_name=_('Товар'))
     name_specification = models.TextField(max_length=40, verbose_name=_('Название характеристики'))
 
     class Meta:
@@ -114,7 +114,7 @@ class Specifications(models.Model):
 class Subspecifications(models.Model):
     """Модель значений характеристик"""
     specification = models.ForeignKey(Specifications, on_delete=models.CASCADE, null=True, blank=True,
-                                      related_name='specification', max_length=1000, verbose_name=_('Характеристика'))
+                                      related_name='subspecification', max_length=1000, verbose_name=_('Характеристика'))
     name_subspecification = models.TextField(max_length=40, verbose_name=_('Название характеристики'))
     text_subspecification = models.TextField(max_length=40, verbose_name=_('Текст Характеристики'))
 

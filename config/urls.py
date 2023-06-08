@@ -23,6 +23,7 @@ urlpatterns = [
     path('catalog/', include('app_catalog.urls')),
     path('settings/', include('app_administrator.urls')),
     path('app_users/', include('app_users.urls')),
+    path('cart/', include('app_cart.urls')),
 ]
 
 
