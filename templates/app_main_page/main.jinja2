@@ -10,42 +10,25 @@
         <div class="Header-slider">
             <div class="Slider Slider_main">
               <div class="Slider-box">
+              {% for banner in products_banners %}
                 <div class="Slider-item">
                   <div class="Slider-content">
                     <div class="row">
                       <div class="row-block">
-                        <strong class="Slider-title">Mavic Pro<span class="text_primary"> 5</span> mini Drone
-                        </strong>
-                        <div class="Slider-text">Get the best phoneyou ever seen with modern Windows OS plus 70% Off this summer.
-                        </div>
+                        <strong class="Slider-title">{{ banner.name }}</strong>
+                        <div class="Slider-text">{{ banner.description }}</div>
                         <div class="Slider-footer"><a class="btn btn_primary" href="#">Get Started</a>
                         </div>
                       </div>
                       <div class="row-block">
-                        <div class="Slider-img"><img src="assets/img/content/home/slider.png" alt="slider.png"/>
+                        <div class="Slider-img">
+                            <img src={{ banner.image.url }} alt={{ banner.image }}/>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="Slider-item">
-                  <div class="Slider-content">
-                    <div class="row">
-                      <div class="row-block">
-                        <strong class="Slider-title">Mavic Pro<span class="text_primary"> 5</span> mini Drone
-                        </strong>
-                        <div class="Slider-text">Get the best phoneyou ever seen with modern Windows OS plus 70% Off this summer.
-                        </div>
-                        <div class="Slider-footer"><a class="btn btn_primary" href="#">Get Started</a>
-                        </div>
-                      </div>
-                      <div class="row-block">
-                        <div class="Slider-img"><img src="assets/img/content/home/slider.png" alt="slider.png"/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {% endfor %}
               </div>
               <div class="Slider-navigateWrap">
                 <div class="Slider-navigate">
@@ -167,7 +150,6 @@
                             <div class="Card-content">
                                 <strong class="Card-title"><a href="#">{{top_product.name}}</a>
                                 </strong>
-    Продано: <span>{{ top_product.quantity_sum }}</span>
                                 <div class="Card-description">
                                     <div class="Card-cost"><span class="Card-price">{{top_product.price}}</span>
                                     </div>
@@ -209,7 +191,6 @@
                                         <div class="Card-content">
                                             <strong class="Card-title"><a href="#">{{product_limit.name}}</a>
                                             </strong>
-    Осталось на складе: <span>{{ product_limit.stock }}</span>
                                             <div class="Card-description">
                                                 <div class="Card-cost"><span class="Card-price">{{product_limit.price}}</span>
                                                 </div>

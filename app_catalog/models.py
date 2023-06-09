@@ -56,6 +56,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания товара')
     updated = models.DateTimeField(auto_now=True, verbose_name='Дата обновления товара')
     image = models.ImageField(null=True, blank=True, verbose_name='Картинка')
+    limited_product = models.BooleanField(default=False, verbose_name='Ограниченный тираж')
 
     class Meta:
         verbose_name = 'Товар'
