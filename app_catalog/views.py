@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView
-from .models import Category, Product, ProductImage, SubCategory
-
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
+from .models import Category, Product, ProductImage, SubCategory, Comments
+from app_cart.services import CartServicesMixin
 
 def categories_list(request, category_slug=None, subcategory_slug=None):
     """ отображение на странице категорий, подкатегорий, продуктов - доступных для заказа"""
@@ -35,3 +35,12 @@ def categories_list(request, category_slug=None, subcategory_slug=None):
                    'subcategory': subcategory,
                    'subcategories': subcategories.order_by('id') #фильтр отображения по id
                    })
+
+
+
+
+class ProductCartDetailView(CartServicesMixin,DetailView):
+    model = Product
+    template_name = 'product_details.jinja2'
+
+

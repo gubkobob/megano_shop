@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, SubCategory, Product, Shop, ProductInShop, ProductImage
+from .models import Category, SubCategory, Product, Shop, ProductInShop, ProductImage, Comments
 
 
 @admin.register(Category)
@@ -40,3 +40,5 @@ class ProductAdmin(admin.ModelAdmin):
 class ShopAdmin(admin.ModelAdmin):
     """Админ панель модели Shop"""
     list_display = ['name', 'descriptions', 'address', 'phone', 'email', 'image']
+
+admin.site.register(Comments)
