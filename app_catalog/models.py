@@ -105,3 +105,11 @@ class Comments(models.Model):
         return self.comment
     def get_absolute_url(self):
         return reverse('product_details', kwargs={'pk': self.pk})
+
+
+
+
+
+
+
+
