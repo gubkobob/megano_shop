@@ -1,28 +1,24 @@
 from django.db.models import Sum
-from django.views import View
 from datetime import datetime
-from app_catalog.models import Product
 from app_administrator.models import SettingsModel
+from app_catalog.models import Product
 
 
-class MainPage(View):
-    """ Класс ограниченного предложения товара (1шт) """
-    products_limited_offers_all = Product.objects.filter(limited_product=True)
-    products_limited_offers = products_limited_offers_all
-    start_time = datetime.now()
-    print('время старта программы', start_time)
+class Limit:
+    """ Класс смены товара дня через определенный промежуток времени """
+    start_time = datetime.now().replace(hour=00, minute=00, second=10, microsecond=0)
 
-    def get_product_day(self):
-        """функция отображения ограниченного предложения товара с фиксацией на сутки"""
+    def get_product_day(self, my_product):
+        """функция смены товара дня через определенный промежуток времени"""
         now_time = datetime.now()
         time_difference = int((now_time - self.start_time).total_seconds())
-        print('Прошло', time_difference, "sec")
-        if time_difference < 5:
-            return self.products_limited_offers
+
+        if 0 < time_difference < 86400:
+            return my_product
         else:
-            MainPage.products_limited_offers = Product.objects.filter(limited_product=True).order_by('?')[:1]
-            MainPage.start_time = datetime.now()
-            return MainPage.products_limited_offers
+            products_limited_offers = Product.objects.filter(limited_product=True).order_by('?')[:1]
+            Limit.start_time = datetime.now().replace(hour=00, minute=00, second=10, microsecond=0)
+            return products_limited_offers
 
 
 def get_product_banner():
@@ -32,10 +28,11 @@ def get_product_banner():
     return products_banners
 
 
-def get_products_limited():
+def get_products_limited(product_day):
     """функция отображения товаров ограниченного тиража на главной"""
     value_limited_edition_products = getattr(SettingsModel.objects.first(), 'limited_edition_products')
-    products_limited = Product.objects.filter(limited_product=True)[:value_limited_edition_products]
+    products_limited = Product.objects.filter(limited_product=True).exclude(name=product_day[0])[
+                       :value_limited_edition_products]
     return products_limited
 
 

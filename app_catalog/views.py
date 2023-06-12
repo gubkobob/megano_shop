@@ -1,8 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView
-from .models import Category, Product, ProductImage, SubCategory
+from .models import Category, Product, SubCategory
 from app_administrator.models import SettingsModel
 
 

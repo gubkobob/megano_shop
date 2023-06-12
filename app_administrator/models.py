@@ -18,6 +18,6 @@ class SettingsModel(models.Model):
     cache_time = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(86400)],
                                      null=True, blank=True, verbose_name='Время обновления кэша')
 
-    def get_absolute_url(self):
-        return '/settings'
-
+    class Meta:
+        verbose_name = 'Настройки и сброс всего кэша'
+        verbose_name_plural = 'Административные настройки'

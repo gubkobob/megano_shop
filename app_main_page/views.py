@@ -1,14 +1,27 @@
 from django.shortcuts import render
-from django.db.models import Sum
-from .services import MainPage, get_product_banner, get_products_limited, get_top_products
+from django.views import View
+from django.http import HttpRequest
+from app_catalog.models import Product
+from .services import Limit, get_product_banner, get_products_limited, get_top_products
 
 
-def main_page(request):
+class MainPage(View):
+    """ Класс ограниченного предложения товара (1шт) """
+    products_limited_offers_all = Product.objects.filter(limited_product=True).order_by('?')[:1]
+
+    def product_day(self):
+        """функция отображения ограниченного предложения товара с фиксацией на сутки"""
+        products_limited_offers = Limit().get_product_day(my_product=self.products_limited_offers_all)
+        MainPage.products_limited_offers_all = products_limited_offers
+        return products_limited_offers
+
+
+def main_page(request: HttpRequest):
     """функция главной страницы"""
     top_products = get_top_products()
     products_banners = get_product_banner()
-    products_limited = get_products_limited()
-    product_day = MainPage().get_product_day()
+    product_day = MainPage().product_day()
+    products_limited = get_products_limited(product_day)
 
     return render(request, 'app_main_page/main.jinja2', {
         'top_products': top_products,
@@ -16,8 +29,3 @@ def main_page(request):
         'products_banners': products_banners,
         'limited_offers': product_day
     })
-
-
-
-
-
