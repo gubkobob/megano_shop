@@ -63,7 +63,6 @@ class ComparisonServicesMixin:
 
             }
         self.save_to_in_comparison()
-        # print(self.comparison)
 
     def save_to_in_comparison(self):
         """
@@ -75,20 +74,17 @@ class ComparisonServicesMixin:
         # Отметить сеанс как "измененный", чтобы убедиться, что он сохранен
         self.session.modified = True
 
-    def remove_from_comparison(self, product):
+    def remove_from_comparison(self, product_id):
         """
         Удаление товара из сравнения.
         """
-        product_id = str(product.id)
-        if product_id in self.comparison:
-            del self.comparison[product_id]
-            self.save_to_in_comparison()
+        self.comparison.pop(product_id)
+        self.save_to_in_comparison()
 
     def get_goods_to_in_comparison(self, quantity=3):
         """
         Получения товаров в сравнении.
         """
-        print(list(self.comparison[item[1]] for item in enumerate(self.comparison) if item[0] < quantity))
         return list(self.comparison[item[1]] for item in enumerate(self.comparison) if item[0] < quantity)
 
     def get_len_goods_to_in_comparison(self):
@@ -96,4 +92,4 @@ class ComparisonServicesMixin:
         """
         Получение количества товаров в сравнении.
         """
-        return len(self.comparison[item] for item in self.comparison)
+        return len(self.comparison.keys())

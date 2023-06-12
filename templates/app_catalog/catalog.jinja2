@@ -105,7 +105,7 @@
                                         <div class="Card-hover"><a class="Card-btn" href="#"><img
                                                 src="{{ static ('assets/img/icons/card/cart.svg') }}"
                                                 alt="cart.svg"/></a>
-                                            <a class="Card-comparison" href="{{ url ('app_cart:add-in-comparison', product_id=product.id ) }}"><img
+                                            <a class="Card-comparison" href="{{ url ('app_cart:add_in_comparison', product_id=product.id ) }}"><img
                                                 src="{{ static ('assets/img/icons/card/comparison.png') }}" width="20px"
                                                 alt="cart.svg"/></a>
                                         </div>
@@ -230,12 +230,5 @@
                 </div>
             </div>
         </div>
-    </div>                            {% if messages %}
-                                <ul class="messages">
-                                    {% for message in messages %}
-                                        <li{% if message.tags %}
-                                            class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
+    </div>
 {% endblock %}
