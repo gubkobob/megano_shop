@@ -1,0 +1,42 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}
+    Настройки сайта
+{% endblock %}
+
+{% block body%}
+
+
+    <div class="Middle Middle_top">
+        <div class="Section Section_column Section_columnLeft">
+            <div class="wrap">
+                <div class="Section-column">
+
+                    <p></p>
+                    <div class="Section-columnSection">
+                        <header class="Section-header">
+                            <strong class="Section-title">Редактировать настройки
+                            </strong>
+                        </header>
+                        <form method='post'>
+                        {% csrf_token %}
+                        <p>Товары ограниченного тиража{{form.limited_edition_products}}<br> </p>
+                        <p>Горячие предложения{{form.hot_offers}}<br> </p>
+                        <p>Популярные товары{{form.popular_products}}<br> </p>
+                        <p>Баннеры на главной{{form.products_banner}}<br> </p>
+                        <p>Просмотренные товары{{form.viewed_products}}<br> </p>
+                        <p>Избранные категории{{form.selected_categories}}<br> </p>
+                        <p>Время обновления кэша{{form.cache_time}}<br> </p>
+                        <button>Изменить</button>
+                        <a class="btn btn_primary" href="{{ url('appadministrator:settings') }}">выход</a>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+{% endblock %}

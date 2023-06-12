@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'app_orders.apps.AppOrdersConfig',
     'app_payment.apps.AppPaymentConfig',
     'app_users.apps.AppUsersConfig',
+    'app_main_page.apps.AppMainPageConfig',
     'phone_field',
 
 ]
@@ -142,7 +143,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -158,10 +158,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'app_users.User'
 
+
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(BASE_DIR, 'category_cache'),
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     }
 }
 

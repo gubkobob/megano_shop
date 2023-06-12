@@ -13,8 +13,8 @@ class AdminSettingsServicesMixin:
         функция получения административных настроек
         """
 
-
     def post_admin_settings(self):
         """
         функция изменения административных настроек
         """
+
