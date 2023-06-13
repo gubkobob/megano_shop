@@ -1,0 +1,83 @@
+{% extends 'base.jinja2' %}
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    Количество продуктов в списке сравнения: {{ count_goods }}
+    <div class="Middle">
+        <div class="wrap">
+            <div class="Product">
+                <div class="ProductCard">
+                    {% for product in content %}
+                        <div class="ProductCard-desc">
+                            <div class="ProductCard-header">
+                                <h2 class="ProductCard-title">{{ product.product_name }}
+                                </h2>
+                                <div class="ProductCard-look">
+                                    <div class="ProductCard-photo">
+                                        <img src="{% if product.product_image %}
+                                          {{ product.product_image }}
+                                          {% else %}
+                                         {{ static('assets/img/no_photo.jpg') }}
+                                          {% endif %}"
+                                             alt="{{ product.product_name }}"/>
+                                    </div>
+                                </div>
+                                <div class="Tabs Tabs_default">
+                                    <div class="Tabs-wrap">
+                                        <div class="Tabs-block" id="description">
+                                            <div class="table">
+                                                <table>
+                                                    <tr>
+                                                        <th class="hed">Характеристика</th>
+                                                        <th class="hed">Значение</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Общие параметры</b></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="comparis">{{ product.specification.0.name_subspecification }} </td>
+                                                        <td class="comparis">{{ product.specification.0.text_subspecification }} </td>
+                                                    </tr>
+                                                    {% for specification in product.specification %}
+                                                        {% if specification != product.specification.0 %}
+                                                            <tr>
+                                                                <td>{{ specification.name_subspecification }}</td>
+                                                                <td>{{ specification.text_subspecification }}</td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ProductCard-info">
+                                <div class="ProductCard-cost">
+                                    <div class="ProductCard-price">${{ product.product_price }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ProductCard-cart">
+                                <div class="ProductCard-cartElement">
+                                    <a class="btn btn_primary" href="cart.html">
+                                        <img class="btn-icon"
+                                             src="{{ static('assets/img/icons/card/cart_white.svg') }}"
+                                             alt="cart_white.svg"/>Добавить в корзину</a>
+                                    <a class="btn btn_primary"
+                                       href="{{ url('app_cart:remove_product_in_comparison', product_id=product.product_id) }}"><img
+                                            class="trash-icon"
+                                            src="{{ static('assets/img/icons/card/trash-icon.png') }}" width="31px"
+                                            alt="cart_white.svg"/>Убрать из сравнения</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

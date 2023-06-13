@@ -2,14 +2,15 @@ from django.contrib import admin, messages
 from django.core.cache import cache
 from django.urls import path
 from django.http import HttpResponseRedirect, HttpRequest
-from .models import Category, SubCategory, Product, Shop, ProductImage
+
+from .models import Category, SubCategory, Product, Shop, ProductImage, Specifications, Subspecifications
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     """Админ панель модели Категории товаров"""
-    list_display = "id", "name", "slug"
-    list_display_links = "id", "name", "slug"
+    list_display = "id", "name"
+    list_display_links = "id", "name"
     search_fields = "name",
     prepopulated_fields = {"slug": ("name",)}
     actions = ['clear_cache']
@@ -81,3 +82,28 @@ class ProductAdmin(admin.ModelAdmin):
 class ShopAdmin(admin.ModelAdmin):
     """Админ панель модели Shop"""
     list_display = ['name', 'descriptions', 'address', 'phone', 'email', 'image']
+
+
+class SpecificationsInline(admin.TabularInline):
+    model = Subspecifications
+
+
+@admin.register(Specifications)
+class SpecificationsAdmin(admin.ModelAdmin):
+    """Админ панель модель Specifications"""
+    list_display = ['id', 'name_specification', 'product']
+    inlines = [SpecificationsInline]
+
+
+@admin.register(Subspecifications)
+class SubspecificationsAdmin(admin.ModelAdmin):
+    """Админ панель модель Subspecifications"""
+    list_display = ['id', 'specification', 'text_subspecification']
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": ['specification', "name_subspecification", 'text_subspecification'],
+            },
+        ),
+    ]

@@ -143,6 +143,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+COMPARISON_SESSION_ID = 'comparison'
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -157,7 +160,6 @@ MEDIA_ROOT = BASE_DIR / "uploads"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'app_users.User'
-
 
 CACHES = {
     'default': {
