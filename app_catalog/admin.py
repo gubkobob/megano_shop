@@ -8,9 +8,11 @@ from .models import Category, SubCategory, Product, Shop, ProductImage, Specific
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    """Админ панель модели Категории товаров"""
-    list_display = "id", "name"
-    list_display_links = "id", "name"
+    """
+    Админ панель модели Категории товаров
+    """
+    list_display = "id", "name", "slug"
+    list_display_links = "id", "name", "slug"
     search_fields = "name",
     prepopulated_fields = {"slug": ("name",)}
     actions = ['clear_cache']

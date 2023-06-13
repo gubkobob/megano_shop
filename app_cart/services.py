@@ -1,3 +1,4 @@
+from app_catalog.models import Product
 from config import settings
 from app_catalog.models import Product
 
@@ -6,10 +7,12 @@ class CartServicesMixin:
     Класс - примесь для использования сервисов для работы с корзиной товаров
     """
 
-    def add_product_to_cart(self):
+    def add_product_to_cart(self, pk:int):
         """
         функция добавления товара в корзину
         """
+        product = Product.objects.get(id=pk)
+        print(f'{product.name} добавлен в корзину')
 
     def remove_product_from_cart(self):
         """

@@ -1,8 +1,13 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from .models import Category, Product, ProductImage, SubCategory
+from django.template.response import TemplateResponse
+from django.core.cache import cache
+
+from .services import sort_catalog, paginator, filter_catalog
 
 
 def categories_list(request, category_slug=None, subcategory_slug=None):
@@ -26,13 +31,93 @@ def categories_list(request, category_slug=None, subcategory_slug=None):
     if subcategory_slug:  # отбираем товары выбранной подкатегории по url категории (slug)
         subcategory = get_object_or_404(SubCategory, slug=subcategory_slug)
         products = products.filter(subcategory=subcategory)
-    # print(products[0].specification.get().subspecification.values()[0])
-    # print(products[0])
 
     return render(request,
                   'app_catalog/catalog.jinja2',
                   {'category': category,
+                   'categories': categories.order_by('id'), #фильтр отображения по id
                    'products': products,
                    'subcategory': subcategory,
-                   'subcategories': subcategories, #фильтр отображения по id
+                   'subcategories': subcategories.order_by('id') #фильтр отображения по id
                    })
+
+
+class CategoryCreateView(CreateView):
+    """ создать категорию и очистить кеш """
+    cache.clear()
+    model = Category
+    fields = "name",
+    success_url = reverse_lazy('appcatalog:categories_list')
+
+
+class CategoryUpdateView(UpdateView):
+    """ изменить категорию и очистить кеш """
+    cache.clear()
+    model = Category
+    fields = "name",
+    success_url = reverse_lazy('appcatalog:categories_list')
+
+
+class CategoryDeleteView(DeleteView):
+    """ удалить категорию и очистить кеш"""
+    cache.clear()
+    model = Category
+    success_url = reverse_lazy('appcatalog:categories_list')
+
+
+class SubCategoryCreateView(CreateView):
+    """ создать подкатегорию и очистить кеш"""
+    cache.clear()
+    model = SubCategory
+    fields = "name",
+    success_url = reverse_lazy('appcatalog:categories_list')
+
+
+class SubCategoryUpdateView(UpdateView):
+    """ создать подкатегорию и очистить кеш"""
+    cache.clear()
+    model = SubCategory
+    fields = "name",
+    success_url = reverse_lazy('appcatalog:categories_list')
+
+
+class SubCategoryDeleteView(DeleteView):
+    """ создать подкатегорию и очистить кеш"""
+    cache.clear()
+    model = SubCategory
+    success_url = reverse_lazy('appcatalog:categories_list')
+
+class CategoryView(ListView):
+    """Представление категорий"""
+    model = Product
+    template_name = 'app_catalog/catalog.jinja2'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        request = self.request.GET
+        result = sort_catalog(request)
+        catalog_obj = result.get('products')
+        context['sort'] = result.get('sort')
+
+        # Paginator
+        catalog_page_obj = paginator(obj=catalog_obj, request=request)
+        context['catalog_page_obj'] = catalog_page_obj
+        context['products'] = catalog_page_obj.object_list
+        return context
+
+
+    def post(self, request):
+        if request.method == "POST":
+            post = request.POST
+            catalog_obj = filter_catalog(post)
+
+            # Paginator
+            req = self.request.GET
+            catalog_page_obj = paginator(obj=catalog_obj, request=req)
+            return render(request, 'app_catalog/catalog.jinja2',
+                          context={
+                              'products': catalog_page_obj.object_list,
+                              'catalog_page_obj': catalog_page_obj
+                          }
+                          )
+
