@@ -2,6 +2,9 @@
 Сервисы для работы с каталогом, товарами, магазинами
 """
 from django.core.paginator import Paginator
+from django.http.request import QueryDict
+
+from app_cart.services import CartServicesMixin
 from .models import Product
 
 
@@ -52,19 +55,53 @@ class ShopServicesMixin:
     Класс - примесь для использования сервисов для работы с магазинами
     """
 
+def catalog_obj_order_by(parameter: str) -> Product:
+    return Product.objects.order_by(parameter)
 
-def sort_catalog(obj) -> dict:
-    if obj.get("price") == "True":
-        return {'products': Product.objects.order_by('price'),
+def sort_catalog(obj: QueryDict) -> dict:
+    """
+    Метод сортировки каталога, плюс пагинация
+    :param obj: передаваемый параметр:
+        parameter - popular, price.
+        date - Up, Down.
+    :type obj: django.http.request.QueryDict.
+    :return:
+        {
+        products - объект сортировки,
+        sort - тэг сортировки
+        }
+    :rtype: dict
+    """
+    if obj.get("parameter"):
+        parameter = obj.get("parameter")
+        return {'products': catalog_obj_order_by(parameter),
                 'sort': 'base'}
     if obj.get("date") == "Up":
-        return {'products': Product.objects.order_by('updated'),
+        return {'products': catalog_obj_order_by('updated'),
                 'sort': 'base'}
     if obj.get("date") == "Down":
-        return {'products': Product.objects.order_by('-updated'),
+        return {'products': catalog_obj_order_by('-updated'),
                 'sort': 'price_high'}
+    if obj.get('page_tag'):
+        print(obj.get('page_tag'))
+    if obj.get('add_card'):
+        pk = int(obj.get('product'))
+        cart = CartServicesMixin()
+        cart.add_product_to_cart(pk)
     return {'products': Product.objects.all(),
             'sort': 'base'}
+
+def filter_catalog(post) -> Product:
+    price_filter = post.get('price').split(';')
+    min_price_filter = int(price_filter[0])
+    max_price_filter = int(price_filter[1])
+    if post.get('stock') == 'on':
+        print('good')
+    if post.get('free_delivery') == 'on':
+        print('free delivery')
+    products = Product.objects.filter(price__gte=min_price_filter, price__lte=max_price_filter)
+    return products
+
 
 def paginator(obj, request):
     paginator_catalog = Paginator(obj, 2)

@@ -19,27 +19,27 @@
                                 {% csrf_token %}
                                 <div class="form-group">
                                     <div class="range Section-columnRange">
-                                        <input class="range-line" id="price" name="price" type="text" data-type="double" data-min="7" data-max="50" data-from="7" data-to="27" />
-                                        <div class="range-price">Цена:&#32;
+                                        <input class="range-line" id="price" name="price" type="text" data-type="double" data-min="7" data-max="1000" data-from="200" data-to="500" />
+                                        <div class="range-price">Цена:&#100;
                                             <div class="rangePrice">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-input form-input_full" id="title" name="title" type="text" placeholder="Название" />
+                                    <input class="form-input form-input_full" id="name_product" name="name_product" type="text" placeholder="Название" />
                                 </div>
                                 <div class="form-group">
                                     <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
                                 </div>
                                 <div class="form-group">
                                     <label class="toggle">
-                                        <input type="checkbox" /><span class="toggle-box"></span><span class="toggle-text">Только товары в наличии</span>
+                                        <input type="checkbox" name="stock" id="stock"/><span class="toggle-box"></span><span class="toggle-text">Только товары в наличии</span>
                                     </label>
                                 </div>
                                 <div class="form-group">
                                     <label class="toggle">
-                                        <input type="checkbox" /><span class="toggle-box"></span><span class="toggle-text">С бесплатной доставкой</span>
+                                        <input type="checkbox" name="free_delivery" id="free_delivery" /><span class="toggle-box"></span><span class="toggle-text">С бесплатной доставкой</span>
                                     </label>
                                 </div>
                                 <div class="form-group">
@@ -56,7 +56,7 @@
                             </strong>
                         </header>
                         <div class="Section-columnContent">
-                            <div class="buttons"><a class="btn btn_default btn_sm" href="#">Видео</a><a class="btn btn_default btn_sm" href="#">Разработка</a><a class="btn btn_default btn_sm" href="#">Игры</a><a class="btn btn_default btn_sm" href="#">Asus</a><a class="btn btn_default btn_sm" href="#">Разработка</a><a class="btn btn_default btn_sm" href="#">Видео</a>
+                            <div class="buttons"><a class="btn btn_default btn_sm" href="?page_tag=Видео">Видео</a><a class="btn btn_default btn_sm" href="?page_tag=Разработка">Разработка</a><a class="btn btn_default btn_sm" href="?page_tag=Игры">Игры</a><a class="btn btn_default btn_sm" href="?page_tag=Asus">Asus</a>
                             </div>
                         </div>
                     </div>
@@ -66,10 +66,10 @@
                         <div class="Sort-title">Сортировать по:
                         </div>
                         {% if sort == 'price_high'  %}
-                            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="/catalog/?popular=True">Популярности</a><a class="Sort-sortBy" href="/catalog/?price=True">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a class="Sort-sortBy Sort-sortBy_inc" href="/catalog/?date=Up">Новизне</a>
+                            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="/catalog/?parameter=popular">Популярности</a><a class="Sort-sortBy" href="/catalog/?parameter=price">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a class="Sort-sortBy Sort-sortBy_inc" href="/catalog/?date=Up">Новизне</a>
                             </div>
                         {% else  %}
-                            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="/catalog/?popular=True">Популярности</a><a class="Sort-sortBy" href="/catalog/?price=True">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a class="Sort-sortBy Sort-sortBy_dec" href="?date=Down">Новизне</a>
+                            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="/catalog/?parameter=popular">Популярности</a><a class="Sort-sortBy" href="/catalog/?parameter=price">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a class="Sort-sortBy Sort-sortBy_dec" href="?date=Down">Новизне</a>
                             </div>
                         {% endif %}
                     </div>
@@ -84,7 +84,7 @@
                                         </div>
                                         <div class="Card-category">{{product.category}} / {{product.subcategory}}
                                         </div>
-                                        <div class="Card-hover"><a class="Card-btn" href="#"><img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" /></a>
+                                        <div class="Card-hover"><a class="Card-btn" href="/catalog/?add_card=True&product={{product.pk}}"><img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" /></a>
                                         </div>
                                     </div>
                                 </div>

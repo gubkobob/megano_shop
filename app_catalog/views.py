@@ -7,7 +7,7 @@ from .models import Category, Product, ProductImage, SubCategory
 from django.template.response import TemplateResponse
 from django.core.cache import cache
 
-from .services import sort_catalog, paginator
+from .services import sort_catalog, paginator, filter_catalog
 
 
 def categories_list(request, category_slug=None, subcategory_slug=None):
@@ -101,11 +101,6 @@ class CategoryView(ListView):
 
         # Paginator
         catalog_page_obj = paginator(obj=catalog_obj, request=request)
-        # paginator_catalog = Paginator(catalog_obj, 1)
-        # page_number_promo = self.request.GET.get('page_promo')
-        # if page_number_promo is None:
-        #     page_number_promo = 0
-        # promo_page_obj = paginator_catalog.get_page(page_number_promo)
         context['catalog_page_obj'] = catalog_page_obj
         context['products'] = catalog_page_obj.object_list
         return context
@@ -113,10 +108,10 @@ class CategoryView(ListView):
 
     def post(self, request):
         if request.method == "POST":
-            price_filter = request.POST.get('price').split(';')
-            min_price_filter = int(price_filter[0])
-            max_price_filter = int(price_filter[1])
-            catalog_obj = Product.objects.filter(price__gte=min_price_filter, price__lte=max_price_filter)
+            post = request.POST
+            catalog_obj = filter_catalog(post)
+
+            # Paginator
             req = self.request.GET
             catalog_page_obj = paginator(obj=catalog_obj, request=req)
             return render(request, 'app_catalog/catalog.jinja2',
