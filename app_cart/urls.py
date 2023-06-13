@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import add_in_comparison, list_product_in_comparison, remove_product_in_comparison, get_len_goods_to_in_comparison
+from .views import add_in_comparison, list_product_in_comparison, remove_product_in_comparison
 
 app_name = 'app_cart'
 
