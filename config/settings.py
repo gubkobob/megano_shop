@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -53,6 +54,8 @@ INSTALLED_APPS = [
     'phone_field',
 
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,7 +79,7 @@ TEMPLATES = [
             "match_extension": ".jinja2",
             "match_regex": None,
             "app_dirname": "templates",
-            "environment": "config.jinja.get_categories",
+            "environment": "config.jinjaconfig.environment",
             "constants": {
             },
             'globals': {
@@ -93,7 +96,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
             ],
         },
     },
@@ -175,3 +177,10 @@ LOGIN_REDIRECT_URL = reverse_lazy('app_users:profile')
 
 
 TEMPLATE_CONTEXT_PROCESSORS = ('app_catalog.context_processors.foos')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mail@gmail.com'
+EMAIL_HOST_PASSWORD = 'password'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

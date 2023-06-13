@@ -1,25 +1,42 @@
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib import messages
+from django.contrib.auth.views import (
+    LogoutView,
+    LoginView,
+    PasswordResetView,
+    PasswordResetConfirmView,
+)
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
+from django.views import View
 from django_jinja.views.generic import CreateView
 from django.contrib.auth import get_user_model
-
-from app_users.forms import MyUserCreationForm
+from app_users.forms import (
+    MyUserCreationForm,
+    MyUserChangeForm,
+    UserForgotPasswordForm,
+    UserSetNewPasswordForm,
+)
+from app_users.services import reset_phone_format
 
 User = get_user_model()
 
 
 class MyLoginView(LoginView):
+    """
+    Представление для логина на сайте
+    """
 
     template_name = "users/login.jinja2"
     success_url = reverse_lazy("app_users:profile")
 
 
 class RegisterView(CreateView):
+    """
+    Представление для регистрации на сайте
+    """
 
     form_class = MyUserCreationForm
     template_name = "users/registr.jinja2"
@@ -37,8 +54,98 @@ class RegisterView(CreateView):
 
 
 class MyLogoutView(LogoutView):
+    """
+    Представление для логаута(выхода) пользователя на сайте
+    """
+
     next_page = reverse_lazy("app_users:login")
 
 
-class AboutMeView(TemplateView):
-    template_name = "users/profile.html"
+class ProfileView(View):
+    """
+    Представление для вывода и изменения детальной информации о пользователе
+    """
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        context = {
+            "form": MyUserChangeForm(),
+            "user": request.user,
+        }
+        return render(request, "users/profile.jinja2", context=context)
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        form = MyUserChangeForm(request.POST, request.FILES, instance=request.user)
+        context = {
+            "form": form,
+            "user": request.user,
+        }
+        if form.is_valid():
+            user = form.save(commit=False)
+            reset_phone_format(user)
+
+            if (
+                form.cleaned_data["password1"]
+                and form.cleaned_data["password2"]
+                and form.cleaned_data["password1"] == form.cleaned_data["password2"]
+            ):
+                user.set_password(form.cleaned_data["password1"])
+
+                user1 = authenticate(
+                    request,
+                    email=form.cleaned_data["email"],
+                    password=form.cleaned_data["password1"],
+                )
+                login(request=request, user=user1)
+
+            user.save()
+            messages.add_message(request, messages.SUCCESS, "Профиль успешно сохранен")
+
+        return render(request, "users/profile.jinja2", context=context)
+
+
+class AccountView(View):
+    """
+    Представление для вывода данных аккаунта пользователя
+    """
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        context = {
+            "user": request.user,
+        }
+        return render(request, "users/account.jinja2", context=context)
+
+
+class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
+    """
+    Представление по сбросу пароля по почте
+    """
+
+    form_class = UserForgotPasswordForm
+    template_name = "users/e-mail.jinja2"
+    success_url = reverse_lazy("app_users:login")
+    success_message = (
+        "Письмо с инструкцией по восстановлению пароля отправлена на ваш email"
+    )
+    subject_template_name = "email/password_subject_reset_mail.txt"
+    email_template_name = "email/password_reset_mail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Запрос на восстановление пароля"
+        return context
+
+
+class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
+    """
+    Представление установки нового пароля
+    """
+
+    form_class = UserSetNewPasswordForm
+    template_name = "users/password.jinja2"
+    success_url = reverse_lazy("app_users:login")
+    success_message = "Пароль успешно изменен. Можете авторизоваться на сайте."
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Установить новый пароль"
+        return context

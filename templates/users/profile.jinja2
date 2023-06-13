@@ -1,0 +1,117 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}
+   Login
+{% endblock %}
+
+{% block body %}
+
+      <div class="Middle Middle_top">
+
+        <div class="Section Section_column Section_columnLeft">
+            <div class="wrap">
+                <div class="Section-column">
+                    <div class="Section-columnSection">
+                        <header class="Section-header">
+                            <strong class="Section-title">Навигация
+                            </strong>
+                        </header>
+                        <div class="Section-columnContent">
+                            <div class="NavigateProfile">
+                                <ul class="menu menu_vt">
+                                    <li class="menu-item"><a class="menu-link" href={{ url("app_users:account") }}>Личный кабинет</a>
+                                    </li>
+                                    <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href={{ url("app_users:profile") }}>Профиль</a>
+                                    </li>
+                                    <li class="menu-item"><a class="menu-link" href="#">История заказов</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Section-content">
+                    <div class="Profile">
+                        <form class="form Profile-form" action="#" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+
+                                <div class="row-block">
+                                    <div class="form-group">
+                                        <label class="form-label" for="avatar">Аватар
+                                        </label>
+                                        <div class="Profile-avatar Profile-avatar_noimg">
+                                            {% if user.avatar %}
+                                                <label class="Profile-fileLabel" for="avatar"><img src="{{ user.avatar.url }}" alt="{{ user.avatar }}" />
+                                                </label>
+                                            {% else %}
+                                                <label class="Profile-fileLabel" for="avatar"><img src={{ static("assets/img/icons/upload.png") }} alt="#.png" />Загрузить фото
+                                                </label>
+                                            {% endif %}
+                                                <input class="Profile-file form-input" id="avatar" name="avatar" type="file" data-validate="onlyImgAvatar" />
+                                                <a style="color:red;">{{ form.avatar.errors}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">Никнейм
+                                        </label>
+                                        <input class="form-input" id="name" name="username" type="text" value="{{ user['username'] }}" data-validate="require" />
+                                        <a style="color:red;">{{ form.username.errors}}</a>
+                                    </div>
+                                </div>
+                                <div class="row-block">
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone">Телефон
+                                        </label>
+                                        <input class="form-input" id="phone" name="phone_number" type="tel" value= "{{ user['phone_number'] }}"
+                                               placeholder="Телефон" />
+                                        <a style="color:red;">{{ form.phone_number.errors}}</a>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="mail">E-mail
+                                        </label>
+                                        <input class="form-input" id="mail" name="email" type="text" value="{{ user['email'] }}" data-validate="require" />
+                                        <a style="color:red;">{{ form.email.errors}}</a>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="password">Пароль
+                                        </label>
+                                        <input class="form-input" id="password" name="password1" type="password" placeholder="Тут можно изменить пароль" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="passwordReply">Подтверждение пароля
+                                        </label>
+                                        <input class="form-input" id="passwordReply" name="password2" type="password" placeholder="Введите пароль повторно" />
+                                        {% for error in form.non_field_errors() %}
+                                            <a style="color:red;">{{ error }}</a>
+                                        {% endfor %}
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="Profile-btn">
+                                            <button class="btn btn_success" type="submit">Сохранить
+                                            </button>
+
+                                        {% if get_messages(request) %}
+                                          {% for message in get_messages(request) %}
+                                            <div class="Profile-success">
+                                              <strong>{{message}}</strong>
+                                            </div>
+                                         {% endfor %}
+                                        {% endif %}
+
+{#                                        </div>#}
+{#                                        <div class="Profile-success">{{ message }}#}
+{#                                        </div>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
