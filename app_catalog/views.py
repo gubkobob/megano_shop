@@ -1,12 +1,9 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView, ListView
-from .models import Category, Product, ProductImage, SubCategory
-from django.template.response import TemplateResponse
-from django.core.cache import cache
+from django.views.generic import DetailView, ListView
 
+from app_cart.services import CartServicesMixin
+from .models import Category, Product, SubCategory
 from .services import sort_catalog, paginator, filter_catalog
 
 
@@ -42,51 +39,6 @@ def categories_list(request, category_slug=None, subcategory_slug=None):
                    })
 
 
-class CategoryCreateView(CreateView):
-    """ создать категорию и очистить кеш """
-    cache.clear()
-    model = Category
-    fields = "name",
-    success_url = reverse_lazy('appcatalog:categories_list')
-
-
-class CategoryUpdateView(UpdateView):
-    """ изменить категорию и очистить кеш """
-    cache.clear()
-    model = Category
-    fields = "name",
-    success_url = reverse_lazy('appcatalog:categories_list')
-
-
-class CategoryDeleteView(DeleteView):
-    """ удалить категорию и очистить кеш"""
-    cache.clear()
-    model = Category
-    success_url = reverse_lazy('appcatalog:categories_list')
-
-
-class SubCategoryCreateView(CreateView):
-    """ создать подкатегорию и очистить кеш"""
-    cache.clear()
-    model = SubCategory
-    fields = "name",
-    success_url = reverse_lazy('appcatalog:categories_list')
-
-
-class SubCategoryUpdateView(UpdateView):
-    """ создать подкатегорию и очистить кеш"""
-    cache.clear()
-    model = SubCategory
-    fields = "name",
-    success_url = reverse_lazy('appcatalog:categories_list')
-
-
-class SubCategoryDeleteView(DeleteView):
-    """ создать подкатегорию и очистить кеш"""
-    cache.clear()
-    model = SubCategory
-    success_url = reverse_lazy('appcatalog:categories_list')
-
 class CategoryView(ListView):
     """Представление категорий"""
     model = Product
@@ -121,3 +73,7 @@ class CategoryView(ListView):
                           }
                           )
 
+
+class ProductCartDetailView(CartServicesMixin,DetailView):
+    model = Product
+    template_name = 'product_details.jinja2'

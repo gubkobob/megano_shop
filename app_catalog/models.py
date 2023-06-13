@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 
 User = get_user_model()
@@ -28,7 +28,6 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория',
                                  related_name='subcategory')
     name = models.CharField(max_length=100, null=False, blank=True, db_index=True, verbose_name='Название подкатегории')
-
 
     class Meta:
         verbose_name = 'Подкатегория'
