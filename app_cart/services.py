@@ -61,7 +61,7 @@ class ComparisonServicesMixin:
                 'product_id': product.id,
                 'product_name': product.name,
                 'product_price': int(product.price),
-                'product_image': str(product.image.url),
+                'product_image': str(product.image.url) if product.image else '',
                 'specification': specification,
 
             }
