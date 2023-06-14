@@ -11,7 +11,7 @@ def add_in_comparison(request, product_id):
     comparison.add_to_in_comparison(product_id=product_id)
     # messages.add_message(request, messages.INFO, 'Товар добавлен в сравнение')
     # print(messages)
-    return redirect('appcatalog:categories_list')
+    return redirect('appcatalog:catalog')
 
 
 def list_product_in_comparison(request):

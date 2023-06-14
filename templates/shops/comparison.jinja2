@@ -18,6 +18,7 @@
                                     <div class="ProductCard-photo">
                                         <img src="{% if product.product_image %}
                                           {{ product.product_image }}
+
                                           {% else %}
                                          {{ static('assets/img/no_photo.jpg') }}
                                           {% endif %}"

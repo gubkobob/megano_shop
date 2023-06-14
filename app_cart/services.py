@@ -61,7 +61,7 @@ class ComparisonServicesMixin:
                 'product_id': product.id,
                 'product_name': product.name,
                 'product_price': int(product.price),
-                'product_image': str(product.image),
+                'product_image': str(product.image.url),
                 'specification': specification,
 
             }
@@ -96,3 +96,7 @@ class ComparisonServicesMixin:
         Получение количества товаров в сравнении.
         """
         return len(self.comparison.keys())
+
+
+
+#
