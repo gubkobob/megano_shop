@@ -79,7 +79,7 @@ TEMPLATES = [
             "match_extension": ".jinja2",
             "match_regex": None,
             "app_dirname": "templates",
-            "environment": "config.jinjaconfig.environment",
+            "environment": "config.utils.environment",
             "constants": {
             },
             'globals': {
