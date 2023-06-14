@@ -22,7 +22,9 @@
                       </div>
                       <div class="row-block">
                         <div class="Slider-img">
-                            <img src={{ banner.image.url }} alt={{ banner.image }}/>
+                            <img src="{% if banner.image %}{{ banner.image.url }}
+                                          {% else %}{{ static('assets/img/no_photo.jpg') }}
+                                          {% endif %}"alt="{{ banner.image }}"/>
                         </div>
                       </div>
                     </div>
@@ -94,7 +96,9 @@
                         <div class="Card">
                         {% for one_product_limited in limited_offers %}
                             <a class="Card-picture" href="#">
-                                <img src={{ one_product_limited.image.url }} alt={{ one_product_limited.image }} />
+                                <img src="{% if one_product_limited.image %}{{ one_product_limited.image.url }}
+                                          {% else %}{{ static('assets/img/no_photo.jpg') }}
+                                          {% endif %}"alt="{{ one_product_limited.image }}"/>
                             </a>
                             <div class="Card-content">
                                 <strong class="Card-title"><a href="#">{{one_product_limited.name}}</a></strong>
@@ -148,7 +152,9 @@
                     {% for top_product in top_products %}
                         <div class="Card hide_md">
                             <a class="Card-picture" href="#">
-                                <img src={{ top_product.image.url }} alt={{ top_product.image }} />
+                                <img src="{% if top_product.image %}{{ top_product.image.url }}
+                                          {% else %}{{ static('assets/img/no_photo.jpg') }}
+                                          {% endif %}"alt="{{ top_product.image }}"/>
                             </a>
                             <div class="Card-content">
                                 <strong class="Card-title"><a href="#">{{top_product.name}}</a>
@@ -189,7 +195,9 @@
                                 <div class="Slider-content">
                                     <div class="Card">
                                         <a class="Card-picture" href="#">
-                                            <img src={{ product_limit.image.url }} alt={{ product_limit.image }} />
+                                            <img src="{% if product_limit.image %}{{ product_limit.image.url }}
+                                                {% else %}{{ static('assets/img/no_photo.jpg') }}
+                                                {% endif %}"alt="{{ product_limit.image }}"/>
                                         </a>
                                         <div class="Card-content">
                                             <strong class="Card-title"><a href="#">{{product_limit.name}}</a>
