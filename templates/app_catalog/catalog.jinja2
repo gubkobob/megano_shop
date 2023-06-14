@@ -75,7 +75,9 @@
                     </div>
                     <div class="Cards">
                         {% for product in products %}
-                            <div class="Card"><a class="Card-picture" href="#"><img src="/static/assets/img/content/home/{{product.image}}" alt="{{product.image}}" /></a>
+                            <div class="Card"><a class="Card-picture" href="#"><img src="{% if product.image %}{{ product.image.url }}
+                                          {% else %}{{ static('assets/img/no_photo.jpg') }}
+                                          {% endif %}"alt="{{ product.image }}"/></a>
                                 <div class="Card-content">
                                     <strong class="Card-title"><a href="product.html">{{product.name}}</a>
                                     </strong>
