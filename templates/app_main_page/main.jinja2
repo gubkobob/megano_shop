@@ -96,7 +96,7 @@
                         <div class="Card">
                         {% for one_product_limited in limited_offers %}
                             <a class="Card-picture" href="#">
-                                <img src="{% if one_product_limited.image %}{{ one_product_limited.image.url }}
+                                <img  class="Card-picture_size-img" src="{% if one_product_limited.image %}{{ one_product_limited.image.url }}
                                           {% else %}{{ static('assets/img/no_photo.jpg') }}
                                           {% endif %}"alt="{{ one_product_limited.image }}"/>
                             </a>
@@ -152,7 +152,7 @@
                     {% for top_product in top_products %}
                         <div class="Card hide_md">
                             <a class="Card-picture" href="#">
-                                <img src="{% if top_product.image %}{{ top_product.image.url }}
+                                <img  class="Card-picture_size-img" src="{% if top_product.image %}{{ top_product.image.url }}
                                           {% else %}{{ static('assets/img/no_photo.jpg') }}
                                           {% endif %}"alt="{{ top_product.image }}"/>
                             </a>
@@ -167,6 +167,9 @@
                                     <div class="Card-hover">
                                         <a class="Card-btn" href="#">
                                             <img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" />
+                                        </a>
+                                        <a class="Card-comparison"/>
+                                            <img src="{{ static ('assets/img/icons/card/comparison.svg') }}" width="20px" alt="comparison.svg"/>
                                         </a>
                                     </div>
                                 </div>
@@ -195,7 +198,7 @@
                                 <div class="Slider-content">
                                     <div class="Card">
                                         <a class="Card-picture" href="#">
-                                            <img src="{% if product_limit.image %}{{ product_limit.image.url }}
+                                            <img class="Card-picture_size-img-popular" src="{% if product_limit.image %}{{ product_limit.image.url }}
                                                 {% else %}{{ static('assets/img/no_photo.jpg') }}
                                                 {% endif %}"alt="{{ product_limit.image }}"/>
                                         </a>
@@ -207,7 +210,13 @@
                                                 </div>
                                                 <div class="Card-category">{{product_limit.category}}/{{product_limit.subcategory}}
                                                 </div>
-                                                <div class="Card-hover"><a class="Card-btn" href="#"><img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" /></a>
+                                                <div class="Card-hover">
+                                                    <a class="Card-btn" href="#">
+                                                        <img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" />
+                                                    </a>
+                                                    <a class="Card-comparison"/>
+                                                        <img src="{{ static ('assets/img/icons/card/comparison.svg') }}" width="20px" alt="comparison.svg"/>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
