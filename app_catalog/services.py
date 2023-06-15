@@ -104,9 +104,9 @@ def filter_catalog(post) -> Product:
 
 
 def paginator(obj, request):
-    paginator_catalog = Paginator(obj, 2)
+    paginator_catalog = Paginator(obj, 4)
     page_number = request.get('page_catalog')
     if page_number is None:
-        page_number = 0
+        page_number = 1
     catalog_page_obj = paginator_catalog.get_page(page_number)
     return catalog_page_obj

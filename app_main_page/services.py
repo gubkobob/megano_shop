@@ -36,6 +36,7 @@ def get_products_limited(product_day):
     return products_limited
 
 
+
 def get_top_products():
     """функция отображения популярных товаров на главной"""
     # top_products = Product.objects.annotate(quantity_sum=Sum('order_items__quantity')).order_by('-quantity_sum')[:8]
