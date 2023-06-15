@@ -1,6 +1,10 @@
 {% extends 'base.jinja2' %}
 
+{% block title %}
+  {{ object.name }}
+{% endblock %}
 
+{% block body %}
     <div class="Middle Middle_top">
         <div class="Section">
             <div class="wrap">
@@ -8,7 +12,7 @@
                     <div class="ProductCard">
                         <div class="ProductCard-look">
                             <div class="ProductCard-photo">
-                                <img src="assets/img/content/home/bigGoods.png" alt="bigGoods.png" />
+                                <img src="{{ object.image.url }}" alt="{{ object.image }}" />
                             </div>
                             <div class="ProductCard-picts"><a class="ProductCard-pict ProductCard-pict_ACTIVE" href="assets/img/content/home/bigGoods.png"><img src="assets/img/content/home/bigGoods.png" alt="bigGoods.png" /></a><a class="ProductCard-pict" href="assets/img/content/home/slider.png"><img src="assets/img/content/home/slider.png" alt="slider.png" /></a><a class="ProductCard-pict" href="assets/img/content/home/videoca.png"><img src="assets/img/content/home/videoca.png" alt="videoca.png" /></a>
                             </div>
@@ -26,11 +30,7 @@
                             </div>
                             <div class="ProductCard-text">
                                 <ul>
-                                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod
-                                    </li>
-                                    <li>tempor incididunt ut labore et dolore magna aliqua. Lorem
-                                    </li>
-                                    <li>ipsum dolor sit ameabore et dolore magna aliqua. Lorem ipsum
+                                    <li>{{ object.description }}
                                     </li>
                                 </ul>
                             </div>
@@ -44,7 +44,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="ProductCard-cartElement"><a class="btn btn_primary" href="#modal_open"><img class="btn-icon" src="assets/img/icons/card/cart_white.svg" alt="cart_white.svg" /><span class="btn-content">Купить</span></a>
+                                <div class="ProductCard-cartElement"><a class="btn btn_primary" href="#modal_open"><img class="btn-icon" src="{{ static ('assets/img/icons/card/cart_white.svg') }}" alt="cart_white.svg" /><span class="btn-content">Купить</span></a>
                                 </div>
                                 <div id="modal_open" class="my_modal">
                                     <div class="my_modal-dialog">
@@ -183,4 +183,4 @@
             </div>
         </div>
     </div>
-
+{% endblock %}
