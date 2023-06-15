@@ -19,3 +19,10 @@
     height: 300px;
     min-width: 315px;
 }
+
+.Card-content_new {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 135px;
+}

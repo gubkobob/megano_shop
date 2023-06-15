@@ -96,8 +96,8 @@
                             <div class="Card"><a class="Card-picture" href="product_details/{{product.id}}/"><img src="{% if product.image %}{{ product.image.url }}
                                           {% else %}{{ static('assets/img/no_photo.jpg') }}
                                           {% endif %}"alt="{{ product.image }}"/></a>
-                                <div class="Card-content">
-                                    <strong class="Card-title"><a href="product.html">{{ product.name }}</a>
+                                <div class="Card-content Card-content_new">
+                                    <strong class="Card-title"><a href="product_details/{{product.id}}/">{{ product.name }}</a>
                                     </strong>
                                     <div class="Card-description">
                                         <div class="Card-cost"><span class="Card-price">${{ product.price }}</span>
