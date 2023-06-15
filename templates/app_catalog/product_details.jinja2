@@ -1,6 +1,10 @@
 {% extends 'base.jinja2' %}
 
+{% block title %}
+  {{ object.name }}
+{% endblock %}
 
+{% block body %}
     <div class="Middle Middle_top">
         <div class="Section">
             <div class="wrap">
@@ -183,4 +187,4 @@
             </div>
         </div>
     </div>
-
+{% endblock %}

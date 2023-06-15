@@ -40,6 +40,7 @@ class CategoryView(ListView):
                           )
 
 
-class ProductCartDetailView(CartServicesMixin,DetailView):
+class ProductCartDetailView(DetailView):
     model = Product
-    template_name = 'product_details.jinja2'
+    template_name = 'app_catalog/product_details.jinja2'
+
