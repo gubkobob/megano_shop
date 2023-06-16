@@ -1,0 +1,87 @@
+[
+  {
+    "id": 1,
+    "product_id": null,
+    "name_specification": "1"
+  },
+  {
+    "id": 2,
+    "product_id": null,
+    "name_specification": "Экран"
+  },
+  {
+    "id": 3,
+    "product_id": 1,
+    "name_specification": "Общие характеристики"
+  },
+  {
+    "id": 4,
+    "product_id": 3,
+    "name_specification": "One"
+  },
+  {
+    "id": 5,
+    "product_id": 4,
+    "name_specification": "OpenElectronics"
+  },
+  {
+    "id": 6,
+    "product_id": 4,
+    "name_specification": "Разрешение 1"
+  },
+  {
+    "id": 7,
+    "product_id": 19,
+    "name_specification": "Монитор"
+  },
+  {
+    "id": 8,
+    "product_id": 13,
+    "name_specification": "Монитор"
+  },
+  {
+    "id": 9,
+    "product_id": 12,
+    "name_specification": "Видеокарта"
+  },
+  {
+    "id": 10,
+    "product_id": 16,
+    "name_specification": "Видеокарта"
+  },
+  {
+    "id": 11,
+    "product_id": 11,
+    "name_specification": "Видеокарта"
+  },
+  {
+    "id": 12,
+    "product_id": 10,
+    "name_specification": "Видеокарта"
+  },
+  {
+    "id": 13,
+    "product_id": 14,
+    "name_specification": "Видеокарта"
+  },
+  {
+    "id": 14,
+    "product_id": 5,
+    "name_specification": "Монитор"
+  },
+  {
+    "id": 15,
+    "product_id": 6,
+    "name_specification": "Монитор"
+  },
+  {
+    "id": 16,
+    "product_id": 9,
+    "name_specification": "Монитор"
+  },
+  {
+    "id": 17,
+    "product_id": 8,
+    "name_specification": "Монитор"
+  }
+]

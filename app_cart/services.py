@@ -55,38 +55,8 @@ class ComparisonServicesMixin:
         Добавить продукт в сравнение.
         """
         product = Product.objects.get(id=product_id)
-        subspecification_dict = {}
-        specification_dict = {}
 
-        print(product.specification.all().values())
-        print('OPEN', (x for x in product.specification.all().values()))
-        for subspecification in product.specification.select_related('product').all():
-            print(subspecification.name_specification)
-            subspecification_dict['subspecification'] = subspecification.name_specification
-            print(subspecification_dict)
-            for dubsub in subspecification.subspecification.get_queryset().values('name_subspecification', 'text_subspecification'):
-                subspecification_dict[str(subspecification.name_specification)] = dubsub
-                # print(test)
-            # print('OER', subspecification.subspecification.get_queryset().values('name_subspecification', 'text_subspecification'))
-            # print('tt', subspecification.subspecification.values('name_subspecification', 'text_subspecification'))
-            # subspecification_dict['subspecification'] = subspecification.subspecification.values_list('name_subspecification', 'text_subspecification')
-
-        print('subspecification_dict', subspecification_dict)
-        for exsubspecification in subspecification_dict.values():
-            print('TTTT', exsubspecification)
-            # print('ttt', subspecification_dict[exsubspecification])
-            specification_dict['specification'] = {'subspecification': exsubspecification}
-        print(specification_dict.values())
-        print(specification_dict)
-
-        # print(specification)
-        # for spec in product.specification.select_related('product'):
-        #     subspecification = spec.subspecification.values('name_subspecification', 'text_subspecification')
-        #     print(subspecification)
-        #     serialized_data = serializers.serialize("json", subspecification)
-        #     specification['specification'] = {str(spec): serialized_data}
-
-        # specification = list(product.specification.get().subspecification.values('name_subspecification', 'text_subspecification'))
+        specification = list(product.specification.get().subspecification.values('name_subspecification', 'text_subspecification'))
 
         if product not in self.comparison:
             self.comparison[product_id] = {
@@ -94,11 +64,9 @@ class ComparisonServicesMixin:
                 'product_name': product.name,
                 'product_price': int(product.price),
                 'product_image': str(product.image.url) if product.image else '',
-                'specification': self.comparison,
-                'specifications': specification_dict,
+                'specification': specification,
 
             }
-        # print(self.comparison)
         self.save_to_in_comparison()
 
     def save_to_in_comparison(self):

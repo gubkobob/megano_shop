@@ -22,11 +22,12 @@
                                           {% else %}
                                          {{ static('assets/img/no_photo.jpg') }}
                                           {% endif %}"
-                                             alt="{{ product.product_name }}"/>
-                                    </div>
+                                             alt="{{ product.product_name }}" width="250px"/></div>
                                 </div>
                                 <div class="Tabs Tabs_default">
                                     <div class="Tabs-wrap">
+
+
                                         <div class="Tabs-block" id="description">
                                             <div class="table">
                                                 <table>
@@ -38,18 +39,22 @@
                                                         <td><b>Общие параметры</b></td>
                                                         <td></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td class="comparis">{{ product.specification.0.name_subspecification }} </td>
-                                                        <td class="comparis">{{ product.specification.0.text_subspecification }} </td>
-                                                    </tr>
-                                                    {% for specification in product.specification %}
-                                                        {% if specification != product.specification.0 %}
+                                                    {#                                                    <tr>#}
+                                                    {#                                                        <td class="comparis">{{ product.specification.0 }} </td>#}
+                                                    {#                                                        <td class="comparis">{{ product }} </td>#}
+                                                    {#                                                    </tr>#}
+                                                    {% if product.specification %}
+                                                        {% for specification in product.specification %}
+
+
                                                             <tr>
                                                                 <td>{{ specification.name_subspecification }}</td>
                                                                 <td>{{ specification.text_subspecification }}</td>
                                                             </tr>
-                                                        {% endif %}
-                                                    {% endfor %}
+
+                                                        {% endfor %}
+                                                    {% endif %}
+
                                                 </table>
                                             </div>
                                         </div>
