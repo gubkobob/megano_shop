@@ -44,6 +44,9 @@ class RegisterView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
+        user = form.save(commit=False)
+        reset_phone_format(user)
+        user.save()
 
         password = form.cleaned_data.get("password1")
         email = form.cleaned_data.get("email")

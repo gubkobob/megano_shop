@@ -1,6 +1,7 @@
-from app_catalog.models import Product
+from django.http import JsonResponse
 from config import settings
 from app_catalog.models import Product
+from django.core import serializers
 
 class CartServicesMixin:
     """
@@ -54,6 +55,7 @@ class ComparisonServicesMixin:
         Добавить продукт в сравнение.
         """
         product = Product.objects.get(id=product_id)
+
         specification = list(product.specification.get().subspecification.values('name_subspecification', 'text_subspecification'))
 
         if product not in self.comparison:
@@ -61,7 +63,7 @@ class ComparisonServicesMixin:
                 'product_id': product.id,
                 'product_name': product.name,
                 'product_price': int(product.price),
-                'product_image': str(product.image),
+                'product_image': str(product.image.url) if product.image else '',
                 'specification': specification,
 
             }
@@ -96,3 +98,7 @@ class ComparisonServicesMixin:
         Получение количества товаров в сравнении.
         """
         return len(self.comparison.keys())
+
+
+
+#

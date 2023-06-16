@@ -43,10 +43,10 @@
                                         </label>
                                         <div class="Profile-avatar Profile-avatar_noimg">
                                             {% if user.avatar %}
-                                                <label class="Profile-fileLabel" for="avatar"><img src="{{ user.avatar.url }}" alt="{{ user.avatar }}" />
+                                                <label class="Profile-fileLabel New-fileLabel_size-label" for="avatar"><img class="New-fileLabel_size-img" src="{{ user.avatar.url }}" alt="{{ user.avatar }}" />
                                                 </label>
                                             {% else %}
-                                                <label class="Profile-fileLabel" for="avatar"><img src={{ static("assets/img/icons/upload.png") }} alt="#.png" />Загрузить фото
+                                                <label class="Profile-fileLabel" for="avatar"><img class="avatar_new" src={{ static("assets/img/icons/upload.png") }} alt="#.png" />Загрузить фото
                                                 </label>
                                             {% endif %}
                                                 <input class="Profile-file form-input" id="avatar" name="avatar" type="file" data-validate="onlyImgAvatar" />

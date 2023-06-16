@@ -27,6 +27,12 @@
 
                     </div>
                     <div>
+                        <input class="user-input" type="tel" name="phone_number" id="name" placeholder="Телефон"
+                        {% if form.is_bound %} value="{{ form.phone_number.value() }}"{% endif %}/>
+                        <b style="color:red;">{{ form.phone_number.errors }}</b>
+
+                    </div>
+                    <div>
                         <input type="password" name="password1" id="name" placeholder="Пароль" />
                         <b style="color:red;">{{ form.password1.errors }}</b>
 

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body%}
-
+    {{ count_goods }}
     <header class="Header">
         <div class="Header-slider">
             <div class="Slider Slider_main">
@@ -15,14 +15,16 @@
                   <div class="Slider-content">
                     <div class="row">
                       <div class="row-block">
-                        <strong class="Slider-title">{{ banner.name }}</strong>
+                        <strong class="Slider-title"><a href="catalog/product_details/{{banner.id}}">{{ banner.name }}</a></strong>
                         <div class="Slider-text">{{ banner.description }}</div>
                         <div class="Slider-footer"><a class="btn btn_primary" href="#">Get Started</a>
                         </div>
                       </div>
                       <div class="row-block">
                         <div class="Slider-img">
-                            <img src={{ banner.image.url }} alt={{ banner.image }}/>
+                            <img src="{% if banner.image %}{{ banner.image.url }}
+                                          {% else %}{{ static('assets/img/no_photo.jpg') }}
+                                          {% endif %}"alt="{{ banner.image }}"/>
                         </div>
                       </div>
                     </div>
@@ -93,11 +95,13 @@
                         </header>
                         <div class="Card">
                         {% for one_product_limited in limited_offers %}
-                            <a class="Card-picture" href="#">
-                                <img src={{ one_product_limited.image.url }} alt={{ one_product_limited.image }} />
+                            <a class="Card-picture" href="catalog/product_details/{{one_product_limited.id}}">
+                                <img  class="Card-picture_size-img" src="{% if one_product_limited.image %}{{ one_product_limited.image.url }}
+                                          {% else %}{{ static('assets/img/no_photo.jpg') }}
+                                          {% endif %}"alt="{{ one_product_limited.image }}"/>
                             </a>
-                            <div class="Card-content">
-                                <strong class="Card-title"><a href="#">{{one_product_limited.name}}</a></strong>
+                            <div class="Card-content Card-content_new">
+                                <strong class="Card-title"><a href="catalog/product_details/{{one_product_limited.id}}">{{one_product_limited.name}}</a></strong>
                                 <div class="Card-description">
                                     <div class="Card-cost">
                                         <span class="Card-priceOld">$115.00</span><span class="Card-price">{{one_product_limited.price}}</span>
@@ -147,11 +151,13 @@
                     <div class="Cards">
                     {% for top_product in top_products %}
                         <div class="Card hide_md">
-                            <a class="Card-picture" href="#">
-                                <img src={{ top_product.image.url }} alt={{ top_product.image }} />
+                            <a class="Card-picture" href="catalog/product_details/{{top_product.id}}">
+                                <img  class="Card-picture_size-img" src="{% if top_product.image %}{{ top_product.image.url }}
+                                          {% else %}{{ static('assets/img/no_photo.jpg') }}
+                                          {% endif %}"alt="{{ top_product.image }}"/>
                             </a>
-                            <div class="Card-content">
-                                <strong class="Card-title"><a href="#">{{top_product.name}}</a>
+                            <div class="Card-content Card-content_new">
+                                <strong class="Card-title" ><a href="catalog/product_details/{{top_product.id}}">{{top_product.name}}</a>
                                 </strong>
                                 <div class="Card-description">
                                     <div class="Card-cost"><span class="Card-price">{{top_product.price}}</span>
@@ -161,6 +167,9 @@
                                     <div class="Card-hover">
                                         <a class="Card-btn" href="#">
                                             <img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" />
+                                        </a>
+                                        <a class="Card-comparison" href="{{ url ('app_cart:add_in_comparison', product_id=top_product.id ) }} ">
+                                            <img src="{{ static ('assets/img/icons/card/comparison.svg') }}" width="20px" alt="comparison.svg"/>
                                         </a>
                                     </div>
                                 </div>
@@ -188,18 +197,26 @@
                             <div class="Slider-item">
                                 <div class="Slider-content">
                                     <div class="Card">
-                                        <a class="Card-picture" href="#">
-                                            <img src={{ product_limit.image.url }} alt={{ product_limit.image }} />
+                                        <a class="Card-picture" href="catalog/product_details/{{product_limit.id}}">
+                                            <img class="Card-picture_size-img-popular" src="{% if product_limit.image %}{{ product_limit.image.url }}
+                                                {% else %}{{ static('assets/img/no_photo.jpg') }}
+                                                {% endif %}"alt="{{ product_limit.image }}"/>
                                         </a>
-                                        <div class="Card-content">
-                                            <strong class="Card-title"><a href="#">{{product_limit.name}}</a>
+                                        <div class="Card-content Card-content_new">
+                                            <strong class="Card-title"><a href="catalog/product_details/{{product_limit.id}}">{{product_limit.name}}</a>
                                             </strong>
                                             <div class="Card-description">
                                                 <div class="Card-cost"><span class="Card-price">{{product_limit.price}}</span>
                                                 </div>
                                                 <div class="Card-category">{{product_limit.category}}/{{product_limit.subcategory}}
                                                 </div>
-                                                <div class="Card-hover"><a class="Card-btn" href="#"><img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" /></a>
+                                                <div class="Card-hover">
+                                                    <a class="Card-btn" href="#">
+                                                        <img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" />
+                                                    </a>
+                                                    <a class="Card-comparison"/>
+                                                        <img src="{{ static ('assets/img/icons/card/comparison.svg') }}" width="20px" alt="comparison.svg"/>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

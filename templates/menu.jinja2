@@ -57,12 +57,15 @@
             <nav class="row-block row-block_right Header-menu">
                 <div class="menuModal" id="navigate" style="height: 0px;">
                     <ul class="menu menu_main" style="position: static;">
-                        <li class="menu-item"><a class="menu-link" href="#">Главная</a>
+                        <li class="menu-item"><a class="menu-link" href="/">Главная</a>
                         </li>
                         <li class="menu-item"><span class="menu-label menu-label_success">Скидки</span><a
                                 class="menu-link" href="/catalog/">Каталог</a>
                         </li>
-                        <li class="menu-item"><a class="menu-link" href="{{ url('app_cart:comparison_list') }}">Сравнение</a>
+                        <li class="menu-item">
+                            <a class="menu-link" href="{{ url('app_cart:comparison_list') }}">Сравнение{% if count_goods %}({{ count_goods }})
+                            {% endif %}
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -106,7 +109,7 @@
     <div class="Header-searchWrap">
         <div class="wrap">
             <div class="Header-categories">
-                <div class="CategoriesButton CategoriesButton_OPEN">
+                <div class="CategoriesButton">
                     <div class="CategoriesButton-title">
                         <div class="CategoriesButton-icon"><img src="{{ static ('assets/img/icons/allDep.svg') }}"
                                                                 alt="allDep.svg">

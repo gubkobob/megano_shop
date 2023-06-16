@@ -23,7 +23,25 @@ class MyUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ("username", "email", "phone_number", "password1", "password2")
+
+    def __init__(self, *args, **kwargs):
+        super(MyUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields["phone_number"].validators = [
+            phone_validator,
+        ]
+
+    def clean_phone_number(self):
+        cleaned_data = super(MyUserCreationForm, self).clean()
+        phone_number_10_digits = get_10_digits_from_phone_number(
+            cleaned_data.get("phone_number")
+        )
+        users = User.objects.all()
+        for user in users:
+            if phone_number_10_digits == user.phone_number:
+                msg = "This phone number already used by another user"
+                raise forms.ValidationError(msg)
+        return cleaned_data.get("phone_number")
 
     def clean(self):
         cleaned_data = super(MyUserCreationForm, self).clean()

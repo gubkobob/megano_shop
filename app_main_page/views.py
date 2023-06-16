@@ -5,14 +5,14 @@ from app_catalog.models import Product
 from .services import Limit, get_product_banner, get_products_limited, get_top_products
 
 
-class MainPage(View):
+class OneProduct(View):
     """ Класс ограниченного предложения товара (1шт) """
     products_limited_offers_all = Product.objects.filter(limited_product=True).order_by('?')[:1]
 
     def product_day(self):
         """функция отображения ограниченного предложения товара с фиксацией на сутки"""
         products_limited_offers = Limit().get_product_day(my_product=self.products_limited_offers_all)
-        MainPage.products_limited_offers_all = products_limited_offers
+        OneProduct.products_limited_offers_all = products_limited_offers
         return products_limited_offers
 
 
@@ -20,7 +20,7 @@ def main_page(request: HttpRequest):
     """функция главной страницы"""
     top_products = get_top_products()
     products_banners = get_product_banner()
-    product_day = MainPage().product_day()
+    product_day = OneProduct().product_day()
     products_limited = get_products_limited(product_day)
 
     return render(request, 'app_main_page/main.jinja2', {
