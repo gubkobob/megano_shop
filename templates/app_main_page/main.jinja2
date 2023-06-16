@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body%}
-
+    {{ count_goods }}
     <header class="Header">
         <div class="Header-slider">
             <div class="Slider Slider_main">
@@ -168,7 +168,7 @@
                                         <a class="Card-btn" href="#">
                                             <img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" />
                                         </a>
-                                        <a class="Card-comparison"/>
+                                        <a class="Card-comparison" href="{{ url ('app_cart:add_in_comparison', product_id=top_product.id ) }}">
                                             <img src="{{ static ('assets/img/icons/card/comparison.svg') }}" width="20px" alt="comparison.svg"/>
                                         </a>
                                     </div>
