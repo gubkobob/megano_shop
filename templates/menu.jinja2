@@ -62,7 +62,10 @@
                         <li class="menu-item"><span class="menu-label menu-label_success">Скидки</span><a
                                 class="menu-link" href="/catalog/">Каталог</a>
                         </li>
-                        <li class="menu-item"><a class="menu-link" href="{{ url('app_cart:comparison_list') }}">Сравнение</a>
+                        <li class="menu-item">
+                            <a class="menu-link" href="{{ url('app_cart:comparison_list') }}">Сравнение{% if count_goods %}({{ count_goods }})
+                            {% endif %}
+                            </a>
                         </li>
                     </ul>
                 </div>
