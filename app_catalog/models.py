@@ -50,8 +50,9 @@ class Product(models.Model):
     available = models.BooleanField(default=True, verbose_name='Доступность товара')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания товара')
     updated = models.DateTimeField(auto_now=True, verbose_name='Дата обновления товара')
-    image = models.ImageField(null=True, blank=True, verbose_name='Картинка')
+    image = models.ImageField(null=True, blank=True, default='no_photo.jpg', verbose_name='Картинка')
     limited_product = models.BooleanField(default=False, verbose_name='Ограниченный тираж')
+    last_visit = models.TimeField(blank=True, null=True, verbose_name='Последнее время просмотра')
 
     class Meta:
         verbose_name = 'Товар'

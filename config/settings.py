@@ -147,6 +147,8 @@ USE_TZ = True
 
 COMPARISON_SESSION_ID = 'comparison'
 
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

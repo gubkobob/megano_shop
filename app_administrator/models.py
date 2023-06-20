@@ -10,9 +10,9 @@ class SettingsModel(models.Model):
     popular_products = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(8)],
                                            null=True, blank=True, verbose_name='Популярные товары')
     products_banner = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)],
-                                       null=True, blank=True, verbose_name='Баннеры на главной')
-    viewed_products = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)],
-                                          null=True, blank=True, verbose_name='Просмотренные товары')
+                                          null=True, blank=True, verbose_name='Баннеры на главной')
+    count_viewed = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(20)],
+                                       null=True, blank=True, verbose_name='История просмотра')
     selected_categories = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)],
                                               null=True, blank=True, verbose_name='Избранные категории')
     cache_time = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(86400)],
