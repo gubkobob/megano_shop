@@ -1,9 +1,10 @@
+import datetime
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView
-
-from app_cart.services import CartServicesMixin
+from django.views.generic import ListView
+from app_administrator.models import SettingsModel
 from .models import Product
 from .services import sort_catalog, paginator, filter_catalog
+
 
 class CategoryView(ListView):
     """Представление категорий"""
@@ -23,7 +24,6 @@ class CategoryView(ListView):
         context['products'] = catalog_page_obj.object_list
         return context
 
-
     def post(self, request):
         if request.method == "POST":
             post = request.POST
@@ -40,7 +40,29 @@ class CategoryView(ListView):
                           )
 
 
-class ProductCartDetailView(DetailView):
-    model = Product
-    template_name = 'app_catalog/product_details.jinja2'
+def product_details(request, pk):
+    product = Product.objects.get(pk=pk)
+    product.last_visit = datetime.datetime.now()
+    product.save()
+    count_viewed = getattr(SettingsModel.objects.first(), 'count_viewed')
+    recently_viewed_products = None
+    product_id = pk
+
+    if 'recently_viewed' in request.session:
+        if product_id in request.session['recently_viewed']:
+            request.session['recently_viewed'].remove(product_id)
+        request.session['recently_viewed'].insert(0, product_id)
+        recently_viewed_products = Product.objects.filter(pk__in=request.session['recently_viewed']).order_by(
+            '-last_visit')
+        if len(request.session['recently_viewed']) > count_viewed:
+            request.session['recently_viewed'].pop(-1)
+    else:
+        request.session['recently_viewed'] = [product_id]
+    request.session.modified = True
+    context = {
+        'product': product,
+        'recently_viewed_products': recently_viewed_products
+    }
+    return render(request, 'app_catalog/product_details.jinja2', context)
+
 

@@ -7,13 +7,17 @@ from .services import Limit, get_product_banner, get_products_limited, get_top_p
 
 class OneProduct(View):
     """ Класс ограниченного предложения товара (1шт) """
-    products_limited_offers_all = Product.objects.filter(limited_product=True).order_by('?')[:1]
+    if Product.objects.filter(limited_product=True).order_by('?')[:1]:
+        products_limited_offers_all = Product.objects.filter(limited_product=True).order_by('?')[:1]
+    else:
+        products_limited_offers_all = None
 
     def product_day(self):
         """функция отображения ограниченного предложения товара с фиксацией на сутки"""
-        products_limited_offers = Limit().get_product_day(my_product=self.products_limited_offers_all)
-        OneProduct.products_limited_offers_all = products_limited_offers
-        return products_limited_offers
+        if self.products_limited_offers_all:
+            products_limited_offers = Limit().get_product_day(my_product=self.products_limited_offers_all)
+            OneProduct.products_limited_offers_all = products_limited_offers
+            return products_limited_offers
 
 
 def main_page(request: HttpRequest):

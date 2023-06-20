@@ -81,7 +81,7 @@
                             <div class="dropdown-content">
                                 <a class="dropdown-content-a" href={{ url("app_users:account") }}>Личный кабинет</a>
                                 {% if request.user.is_superuser %}
-                                    <a class="dropdown-content-a" href="#">Административный раздел</a>
+                                    <a class="dropdown-content-a" href="/admin">Административный раздел</a>
                                 {% endif %}
                                 <a class="dropdown-content-a" href={{ url("app_users:logout") }}>Выход</a>
                             </div>

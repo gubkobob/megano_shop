@@ -16,9 +16,10 @@ class Limit:
         if 0 < time_difference < 86400:
             return my_product
         else:
-            products_limited_offers = Product.objects.filter(limited_product=True).order_by('?')[:1]
-            Limit.start_time = datetime.now().replace(hour=00, minute=00, second=10, microsecond=0)
-            return products_limited_offers
+            if Product.objects.filter(limited_product=True).order_by('?')[:1]:
+                products_limited_offers = Product.objects.filter(limited_product=True).order_by('?')[:1]
+                Limit.start_time = datetime.now().replace(hour=00, minute=00, second=10, microsecond=0)
+                return products_limited_offers
 
 
 def get_product_banner():
@@ -30,11 +31,11 @@ def get_product_banner():
 
 def get_products_limited(product_day):
     """функция отображения товаров ограниченного тиража на главной"""
-    value_limited_edition_products = getattr(SettingsModel.objects.first(), 'limited_edition_products')
-    products_limited = Product.objects.filter(limited_product=True).exclude(name=product_day[0])[
-                       :value_limited_edition_products]
-    return products_limited
-
+    if product_day:
+        value_limited_edition_products = getattr(SettingsModel.objects.first(), 'limited_edition_products')
+        products_limited = Product.objects.filter(limited_product=True).exclude(name=product_day[0])[
+                           :value_limited_edition_products]
+        return products_limited
 
 
 def get_top_products():

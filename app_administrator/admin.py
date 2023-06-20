@@ -9,11 +9,11 @@ from .models import SettingsModel
 class SettingsModelAdmin(admin.ModelAdmin):
     """Админ панель модели Настроек """
     list_display = 'id', 'limited_edition_products', 'hot_offers', 'popular_products', 'products_banner', \
-                   'viewed_products', 'selected_categories', 'cache_time'
+                   'count_viewed', 'selected_categories', 'cache_time'
     list_display_links = 'id', 'limited_edition_products', 'hot_offers', 'popular_products', 'products_banner', \
-                         'viewed_products', 'selected_categories', 'cache_time'
+                         'count_viewed', 'selected_categories', 'cache_time'
     search_fields = 'id', 'limited_edition_products', 'hot_offers', 'popular_products', 'products_banner', \
-                    'viewed_products', 'selected_categories', 'cache_time'
+                    'count_viewed', 'selected_categories', 'cache_time'
 
     def has_add_permission(self, request: HttpRequest):
         return False

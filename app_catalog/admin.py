@@ -61,7 +61,7 @@ class ProductAdmin(admin.ModelAdmin):
     """Админ панель модели Товары"""
     inlines = [ProductImageInline]
     list_display = "id", "image", "name", "slug", "price", "stock",  "available", \
-                   "created", "updated", "limited_product"
+                   "created", "updated", "limited_product", "last_visit"
     list_display_links = "name",
     list_filter = "available", "created", "updated"
     search_fields = "name",

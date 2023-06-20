@@ -1,36 +1,44 @@
 {% extends 'base.jinja2' %}
 
+
 {% block title %}
-  {{ object.name }}
+  {{product.name}}
 {% endblock %}
 
 {% block body %}
     <div class="Middle Middle_top">
         <div class="Section">
+
             <div class="wrap">
                 <div class="Product">
                     <div class="ProductCard">
+
                         <div class="ProductCard-look">
                             <div class="ProductCard-photo">
-                                <img src="{{ object.image.url }}" alt="{{ object.image }}" />
+                                <img src="{{ product.image.url }}" alt="{{ product.image }}" />
                             </div>
-                            <div class="ProductCard-picts"><a class="ProductCard-pict ProductCard-pict_ACTIVE" href="assets/img/content/home/bigGoods.png"><img src="assets/img/content/home/bigGoods.png" alt="bigGoods.png" /></a><a class="ProductCard-pict" href="assets/img/content/home/slider.png"><img src="assets/img/content/home/slider.png" alt="slider.png" /></a><a class="ProductCard-pict" href="assets/img/content/home/videoca.png"><img src="assets/img/content/home/videoca.png" alt="videoca.png" /></a>
+                            <div class="ProductCard-picts">
+                                {% for viewed_products in recently_viewed_products %}
+                                    <a class="ProductCard-pict ProductCard-pict_ACTIVE "href="{{ url ('appcatalog:product_details', pk=viewed_products.id) }} ">
+                                        <img src="{{ viewed_products.image.url }}"alt="{{ viewed_products.image }}"/></a>
+                                {% endfor %}
                             </div>
+
                         </div>
                         <div class="ProductCard-desc">
                             <div class="ProductCard-header">
-                                <h2 class="ProductCard-title">{{ object.name }}
+                                <h2 class="ProductCard-title">{{ product.name }}
                                 </h2>
                                 <div class="ProductCard-info">
                                     <div class="ProductCard-cost">
-                                        <div class="ProductCard-price">Цена: {{ object.price }}
+                                        <div class="ProductCard-price">Цена: {{ product.price }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="ProductCard-text">
                                 <ul>
-                                    <li>{{ object.description }}
+                                    <li>{{ product.description }}
                                     </li>
                                 </ul>
                             </div>
