@@ -94,10 +94,17 @@ class Shop(models.Model):
 
 
 class ProductInShop(models.Model):
+
+    class Meta:
+        verbose_name_plural = "products_in_shop"
+        verbose_name = "product_in_shop"
+        unique_together = ("product", 'shop',)
+
+
     product = models.ForeignKey(Product, related_name='products_in_shop', on_delete=models.CASCADE, verbose_name=_('Название'))
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='products_in_shop')
     price = models.DecimalField(default=0, max_digits=8, decimal_places=2, verbose_name=_('Цена'))
-    quantity = models.PositiveIntegerField(default=0, verbose_name=_('Количество товара'))
+    quantity = models.PositiveIntegerField(default=0, null=False, blank=True, verbose_name=_('Количество товара'))
 
 
 class Comments(models.Model):
