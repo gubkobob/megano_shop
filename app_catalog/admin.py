@@ -3,7 +3,7 @@ from django.core.cache import cache
 from django.urls import path
 from django.http import HttpResponseRedirect, HttpRequest
 
-from .models import Category, SubCategory, Product, Shop, ProductImage, Specifications, Subspecifications
+from .models import Category, SubCategory, Product, Shop, ProductInShopImage, Specifications, Subspecifications
 
 
 @admin.register(Category)
@@ -52,7 +52,7 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
 class ProductImageInline(admin.TabularInline):
     """Админ панель отображения Картинок товаров в самом товаре"""
-    model = ProductImage
+    model = ProductInShopImage
     extra = 0
 
 
