@@ -17,11 +17,7 @@
                             <div class="ProductCard-photo">
                                 <img src="{{ product.image.url }}" alt="{{ product.image }}" />
                             </div>
-                            <div class="ProductCard-picts">
-                                {% for viewed_products in recently_viewed_products %}
-                                    <a class="ProductCard-pict ProductCard-pict_ACTIVE "href="{{ url ('appcatalog:product_details', pk=viewed_products.id) }} ">
-                                        <img src="{{ viewed_products.image.url }}"alt="{{ viewed_products.image }}"/></a>
-                                {% endfor %}
+                            <div class="ProductCard-picts"><a class="ProductCard-pict ProductCard-pict_ACTIVE" href="assets/img/content/home/bigGoods.png"><img src="assets/img/content/home/bigGoods.png" alt="bigGoods.png" /></a><a class="ProductCard-pict" href="assets/img/content/home/slider.png"><img src="assets/img/content/home/slider.png" alt="slider.png" /></a><a class="ProductCard-pict" href="assets/img/content/home/videoca.png"><img src="assets/img/content/home/videoca.png" alt="videoca.png" /></a>
                             </div>
 
                         </div>
