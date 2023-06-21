@@ -62,8 +62,7 @@ class ComparisonServicesMixin:
             self.comparison[product_id] = {
                 'product_id': product.id,
                 'product_name': product.name,
-                'product_price': int(product.price),
-                'product_image': str(product.image.url) if product.image else '',
+                'product_image': str(product.image_main.url) if product.image_main else '',
                 'specification': specification,
 
             }

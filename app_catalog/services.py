@@ -92,15 +92,16 @@ def sort_catalog(obj: QueryDict) -> dict:
             'sort': 'base'}
 
 def filter_catalog(post) -> Product:
-    price_filter = post.get('price').split(';')
-    min_price_filter = int(price_filter[0])
-    max_price_filter = int(price_filter[1])
-    if post.get('stock') == 'on':
-        print('good')
-    if post.get('free_delivery') == 'on':
-        print('free delivery')
-    products = Product.objects.filter(price__gte=min_price_filter, price__lte=max_price_filter)
-    return products
+    pass
+    # price_filter = post.get('price').split(';')
+    # min_price_filter = int(price_filter[0])
+    # max_price_filter = int(price_filter[1])
+    # if post.get('stock') == 'on':
+    #     print('good')
+    # if post.get('free_delivery') == 'on':
+    #     print('free delivery')
+    # products = Product.objects.filter(price__gte=min_price_filter, price__lte=max_price_filter)
+    # return products
 
 
 def paginator(obj, request):

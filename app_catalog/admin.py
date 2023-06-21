@@ -50,22 +50,20 @@ class SubCategoryAdmin(admin.ModelAdmin):
         return my_urls + urls
 
 
-class ProductImageInline(admin.TabularInline):
-    """Админ панель отображения Картинок товаров в самом товаре"""
-    model = ProductInShopImage
-    extra = 0
+# class ProductImageInline(admin.TabularInline):
+#     """Админ панель отображения Картинок товаров в самом товаре"""
+#     model = ProductInShopImage
+#     extra = 0
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     """Админ панель модели Товары"""
-    inlines = [ProductImageInline]
-    list_display = "id", "image", "name", "slug", "price", "stock",  "available", \
-                   "created", "updated", "limited_product", "last_visit"
+    # inlines = [ProductImageInline]
+    list_display = "id", "image_main", "name", "created", "updated", "description"
     list_display_links = "name",
-    list_filter = "available", "created", "updated"
+    list_filter = "created", "updated"
     search_fields = "name",
-    prepopulated_fields = {"slug": ("name",)}
 
     def product_cache_clear(self, request: HttpRequest):
         cache.delete('products')
