@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpRequest
+
+from app_cart.services import ComparisonServicesMixin
 from app_catalog.models import Product
 from .services import Limit, get_product_banner, get_products_limited, get_top_products
 
@@ -23,9 +25,14 @@ def main_page(request: HttpRequest):
     product_day = OneProduct().product_day()
     products_limited = get_products_limited(product_day)
 
+    # Добавляет возврат количества товара в списке сравнения
+    comparison = ComparisonServicesMixin(request=request)
+    count_goods = comparison.get_len_goods_to_in_comparison()
+
     return render(request, 'app_main_page/main.jinja2', {
         'top_products': top_products,
         'products_limited': products_limited,
         'products_banners': products_banners,
-        'limited_offers': product_day
+        'limited_offers': product_day,
+        'count_goods': count_goods,
     })

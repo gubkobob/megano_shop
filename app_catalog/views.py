@@ -4,6 +4,8 @@ from django.views.generic import DetailView, ListView
 from app_cart.services import CartServicesMixin
 from .models import Product
 from .services import sort_catalog, paginator, filter_catalog
+from app_cart.services import ComparisonServicesMixin
+
 
 class CategoryView(ListView):
     """Представление категорий"""
@@ -23,7 +25,6 @@ class CategoryView(ListView):
         context['products'] = catalog_page_obj.object_list
         return context
 
-
     def post(self, request):
         if request.method == "POST":
             post = request.POST
@@ -31,11 +32,17 @@ class CategoryView(ListView):
 
             # Paginator
             req = self.request.GET
+
+            # Добавляет возврат количества товара в списке сравнения
+            comparison = ComparisonServicesMixin(request=request)
+            count_goods = comparison.get_len_goods_to_in_comparison()
+
             catalog_page_obj = paginator(obj=catalog_obj, request=req)
             return render(request, 'app_catalog/catalog.jinja2',
                           context={
                               'products': catalog_page_obj.object_list,
-                              'catalog_page_obj': catalog_page_obj
+                              'catalog_page_obj': catalog_page_obj,
+                              'count_goods': count_goods,
                           }
                           )
 

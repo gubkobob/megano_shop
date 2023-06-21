@@ -90,7 +90,7 @@
 .Amount-remove {
     min-width: 56px;
     height: 56px;
-    background: none;
+    /*background: none;*/
     display: block;
     position: relative;
     margin-right: 10px;
@@ -533,7 +533,7 @@
 @media screen and (min-width: 990px) {
     .Cards {
         width: auto;
-        margin: 0px -1% -3.6%;
+        margin: 0 -1% -3.6%;
     }
 }
 
@@ -551,7 +551,7 @@
 
 .Cards .Card {
     width: 23%;
-    margin: 0px 1% 3.6%;
+    margin: 0 1% 3.6%;
     box-shadow: 0 3px 0 rgba(0, 0, 0, 0.05);
     border: 1px solid #e0e0e0;
     background-color: #fff;
@@ -1482,7 +1482,7 @@ a.Cart-title {
     background: #0063d1;
     position: absolute;
     right: -14px;
-    top: 0px;
+    top: 0;
     min-width: 23px;
     font-size: 12px;
     letter-spacing: -0.6px;
@@ -1586,7 +1586,7 @@ a.Cart-title {
     display: none;
     margin-top: 2rem;
     color: #0064c9;
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-size: 14px;
     font-weight: 900;
     line-height: 1.2em;
@@ -1697,7 +1697,7 @@ a.Cart-title {
 
 @media screen and (max-width: 480px) {
     .Categories-desc {
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
     }
 }
 
@@ -1756,7 +1756,7 @@ a.Cart-title {
         margin-bottom: 1rem;
         display: inline-block;
         vertical-align: top;
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
     }
 }
 
@@ -1930,7 +1930,7 @@ a.Cart-title {
 
 @media screen and (max-width: 480px) {
     .Categories-slogan {
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         font-size: 1.1rem;
     }
 }
@@ -2013,7 +2013,7 @@ a.Cart-title {
 .Categories_product .Categories-row .Categories-size {
     width: 22%;
     margin-left: 0;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     letter-spacing: 0.086rem;
 }
 
@@ -2086,7 +2086,7 @@ a.Cart-title {
 .Categories_similar .Categories-slogan {
     font-size: 13px;
     letter-spacing: 0.093rem;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
 }
 
 @media screen and (max-width: 480px) {
@@ -2476,7 +2476,6 @@ a.Cart-title {
 @media screen and (max-width: 480px) {
     .Compare-title {
         color: #0063d1;
-        max-width: none;
         margin-bottom: 10px;
         font-size: 18px;
         font-weight: normal;
@@ -3047,7 +3046,7 @@ a.Cart-title {
 }
 
 .Footer-menu {
-    margin-left: 0px;
+    margin-left: 0;
     padding-left: 0;
 }
 
@@ -3748,6 +3747,7 @@ a.Cart-title {
     justify-content: center;
     align-items: center;
     margin-top: 79px;
+    padding-bottom: 40px;
 }
 
 .Pagination-ins {
@@ -3823,7 +3823,7 @@ a.Cart-title {
 .Product {
     visibility: visible;
     padding-left: 95px;
-    padding-right: 0px;
+    padding-right: 0;
     max-width: 1336px;
     margin-left: auto;
     margin-right: auto;
@@ -4443,7 +4443,7 @@ a.Cart-title {
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -4587,11 +4587,9 @@ a.Cart-title {
 
 
 
-
-
 html,
 body {
-    background: while;
+    background: #fff;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -4657,7 +4655,7 @@ form {
     height: 30px;
     position: absolute;
     background: #22272d;
-    top: 0px;
+    top: 0;
     left: 100%;
 }
 
@@ -4676,7 +4674,7 @@ form {
     height: 30px;
     position: absolute;
     background: #22272d;
-    top: 0px;
+    top: 0;
     left: 100%;
 }
 
@@ -5347,7 +5345,7 @@ input[type="radio"] {
     letter-spacing: 3px;
     display: block;
     font-weight: 600;
-    padding-top: 0px;
+    padding-top: 0;
 }
 
 .Section-columnContent {
@@ -5770,9 +5768,9 @@ input[type="radio"] {
 .Slider-navigateWrap {
     position: absolute;
     bottom: 0;
-    left: 0px;
+    left: 0;
     height: 40px;
-    right: 0px;
+    right: 0;
 }
 
 .Slider-navigate .slick-dots {
@@ -5875,7 +5873,7 @@ input[type="radio"] {
 
 .slick-list.dragging {
     cursor: pointer;
-    cursor: hand;
+    /*cursor: hand;*/
 }
 
 .slick-slider .slick-track,

@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from config import settings
-from app_catalog.models import Product
+from app_catalog.models import Product, ProductInShop
 from django.core import serializers
 
 class CartServicesMixin:
@@ -54,7 +54,7 @@ class ComparisonServicesMixin:
         """
         Добавить продукт в сравнение.
         """
-        product = Product.objects.get(id=product_id)
+        product = Product.objects.get(product_id=product_id)
 
         specification = list(product.specification.get().subspecification.values('name_subspecification', 'text_subspecification'))
 
