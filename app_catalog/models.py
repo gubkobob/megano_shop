@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
@@ -138,6 +140,8 @@ class Comments(models.Model):
     goods = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments', verbose_name=_('Товары'))
     comment = models.TextField(max_length=1000, verbose_name=_('Комментарии'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания товара')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Дата обновления товара')
 
 
 class Specifications(models.Model):
