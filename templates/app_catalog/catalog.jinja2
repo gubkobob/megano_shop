@@ -94,12 +94,12 @@
                     <div class="Cards">
                         {% for product in products %}
                             <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=product.id) }} ">
-                                          <img src="{{ product.image.url }}"alt="{{ product.image }}"/></a>
+                                          <img src="{{ product.image_main.url }}" alt="{{ product.image_main }}"/></a>
                                 <div class="Card-content Card-content_new">
                                     <strong class="Card-title"><a href="{{ url ('appcatalog:product_details', pk=product.id) }} ">{{ product.name }}</a>
                                     </strong>
                                     <div class="Card-description">
-                                        <div class="Card-cost"><span class="Card-price">${{ product.price }}</span>
+                                        <div class="Card-cost"><span class="Card-price">$ price </span>
                                         </div>
                                         <div class="Card-category">{{ product.category }} / {{ product.subcategory }}
 {#                                            {% if product.image %}#}
