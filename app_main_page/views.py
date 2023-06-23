@@ -16,7 +16,7 @@ class OneProduct(View):
     def product_day(self):
         """функция отображения ограниченного предложения товара с фиксацией на сутки"""
         if self.products_limited_offers_all:
-            products_limited_offers = Limit().get_product_day(my_product=self.products_limited_offers_all)
+            products_limited_offers = Limit().get_product_day(product_for_day=self.products_limited_offers_all)
             OneProduct.products_limited_offers_all = products_limited_offers
             return products_limited_offers
 

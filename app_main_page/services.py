@@ -9,13 +9,13 @@ class Limit:
     """ Класс смены товара дня через определенный промежуток времени """
     start_time = datetime.now().replace(hour=00, minute=00, second=10, microsecond=0)
 
-    def get_product_day(self, my_product):
+    def get_product_day(self, product_for_day):
         """функция смены товара дня через определенный промежуток времени"""
         now_time = datetime.now()
         time_difference = int((now_time - self.start_time).total_seconds())
 
         if 0 < time_difference < 86400:
-            return my_product
+            return product_for_day
         else:
             if ProductInShop.objects.filter(limited_product=True).order_by('?')[:1]:
                 products_limited_offers = ProductInShop.objects.filter(limited_product=True).order_by('?')[:1]
@@ -33,9 +33,11 @@ def get_product_banner():
 def get_products_limited(product_day):
     """функция отображения товаров ограниченного тиража на главной"""
     if product_day:
-        value_limited_edition_products = getattr(SettingsModel.objects.first(), 'limited_edition_products')
-        products_limited = ProductInShop.objects.filter(limited_product=True)[:value_limited_edition_products]
-        return products_limited
+        for item_product_day in product_day:
+            value_limited_edition_products = getattr(SettingsModel.objects.first(), 'limited_edition_products')
+            products_limited = ProductInShop.objects.filter(limited_product=True).exclude(id=item_product_day.id)[
+                               :value_limited_edition_products]
+            return products_limited
 
 
 def get_top_products():
