@@ -15,8 +15,8 @@ class SettingsModelAdmin(admin.ModelAdmin):
     search_fields = 'id', 'limited_edition_products', 'hot_offers', 'popular_products', 'products_banner', \
                     'count_viewed', 'selected_categories', 'cache_time'
 
-    # def has_add_permission(self, request: HttpRequest):
-    #     return False
+    def has_add_permission(self, request: HttpRequest):
+        return False
 
     def has_delete_permission(self, request: HttpRequest, obj=None):
         return False

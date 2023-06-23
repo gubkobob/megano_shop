@@ -3,7 +3,8 @@ from django.core.cache import cache
 from django.urls import path
 from django.http import HttpResponseRedirect, HttpRequest
 
-from .models import Category, SubCategory, Product, Shop, ProductInShopImage, Specifications, Subspecifications
+from .models import Category, SubCategory, Product, ProductInShop, Shop, Specifications, \
+    Subspecifications, ProductInShopImage
 
 
 @admin.register(Category)
@@ -50,17 +51,15 @@ class SubCategoryAdmin(admin.ModelAdmin):
         return my_urls + urls
 
 
-# class ProductImageInline(admin.TabularInline):
-#     """Админ панель отображения Картинок товаров в самом товаре"""
-#     model = ProductInShopImage
-#     extra = 0
-
+class ProductInShopImageInline(admin.TabularInline):
+    """Админ панель отображения Картинок товаров в самом товаре"""
+    model = ProductInShopImage
+    extra = 0
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     """Админ панель модели Товары"""
-    # inlines = [ProductImageInline]
-    list_display = "id", "image_main", "name", "created", "updated", "description"
+    list_display = "id", "image_main", "name", "slug", "created", "updated", "description"
     list_display_links = "name",
     list_filter = "created", "updated"
     search_fields = "name",
@@ -76,6 +75,14 @@ class ProductAdmin(admin.ModelAdmin):
             path('clear_cache', self.admin_site.admin_view(self.product_cache_clear)),
         ]
         return my_urls + urls
+
+
+@admin.register(ProductInShop)
+class ProductInShopAdmin(admin.ModelAdmin):
+    inlines = [ProductInShopImageInline]
+    list_display = "id", "product", "shop", "quantity", "price", "available", "limited_product", "last_visit"
+    list_display_links = "product", "shop", "quantity", "price", "available", "limited_product", "last_visit"
+    list_filter = "product", "shop", "quantity", "price", "available", "limited_product", "last_visit"
 
 
 @admin.register(Shop)
