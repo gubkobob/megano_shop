@@ -69,7 +69,7 @@ class ProductInShopAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     """Админ панель модели Товары"""
-    list_display = "id", "image_main", "name", "slug", "created", "updated", "description"
+    list_display = "id", "image_main", "name", "created", "updated", "description"
     list_display_links = "name",
     list_filter = "created", "updated"
     search_fields = "name",

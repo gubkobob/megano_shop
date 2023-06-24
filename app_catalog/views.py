@@ -17,11 +17,23 @@ class CategoryView(ListView):
         result = sort_catalog(request)
         catalog_obj = result.get('productsinshops')
         context['sort'] = result.get('sort')
-        # pis = ProductInShop.objects.all()
-        pis = ProductInShop.objects.get(id = 1)
-        # print(pis.product.comments.count())
         context['productsinshops'] = catalog_obj
         return context
+
+    def post(self, request):
+        if request.method == "POST":
+            post = request.POST
+            catalog_obj = filter_catalog(post)
+
+            # Paginator
+            # req = self.request.GET
+            # catalog_page_obj = paginator(obj=catalog_obj, request=req)
+            return render(request, 'app_catalog/catalog.jinja2',
+                          context={
+                              'productsinshops': catalog_obj
+                              # 'catalog_page_obj': catalog_page_obj
+                          }
+                          )
 
 # class CategoryView2(ListView):
 #     """Представление категорий"""

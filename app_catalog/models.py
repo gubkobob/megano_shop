@@ -65,7 +65,6 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, verbose_name='Название категории', related_name='products')
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, verbose_name='Название подкатегории', related_name='products')
     name = models.CharField(max_length=200, db_index=True, verbose_name='Название товара')
-    slug = models.SlugField(max_length=200, db_index=True, verbose_name='URL товара')
     description = models.TextField(blank=True, verbose_name='Описание товара')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания товара')
     updated = models.DateTimeField(auto_now=True, verbose_name='Дата обновления товара')
@@ -75,8 +74,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
-        ordering = ['name', 'slug']
-        index_together = [('id', 'slug'), ]
+
 
     def __str__(self):
         return self.name
