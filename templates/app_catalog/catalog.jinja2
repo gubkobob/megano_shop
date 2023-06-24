@@ -20,7 +20,7 @@
                                 <div class="form-group">
                                     <div class="range Section-columnRange">
                                         <input class="range-line" id="price" name="price" type="text" data-type="double"
-                                               data-min="7" data-max="1000" data-from="200" data-to="500"/>
+                                               data-min="7" data-max="{{maxprice}}" data-from="200" data-to="500"/>
                                         <div class="range-price">Цена:&#100;
                                             <div class="rangePrice">
                                             </div>
@@ -89,7 +89,7 @@
                     <div class="Cards">
                         {% for product in productsinshops %}
 
-                            <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=product.product.id) }} ">
+                            <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=product.id) }} ">
                                           <img src="{{ product.product.image_main.url }}" alt="{{ product.product.image_main }}"/></a>
                                 <div class="Card-content Card-content_new">
                                     <strong class="Card-title"><a href="{{ url ('appcatalog:product_details', pk=product.id) }} ">{{ product.product.name }}</a>
@@ -122,6 +122,31 @@
 
                         {% endfor %}
 
+                        <div class="Pagination">
+                            <div class="Pagination-ins">
+                                {% if catalog_page_obj.has_previous() %}
+                                    <a class="Pagination-element Pagination-element_prev"
+                                       href="?page_catalog={{ catalog_page_obj.previous_page_number() }}"><img
+                                            src="{{ static ('assets/img/icons/prevPagination.svg') }}"
+                                            alt="prevPagination.svg"/></a>
+                                    <a class="Pagination-element"
+                                       href="?page_catalog={{ catalog_page_obj.previous_page_number() }}">{{ catalog_page_obj.previous_page_number() }}<span
+                                            class="Pagination-text"></span></a>
+                                {% endif %}
+                                <a class="Pagination-element Pagination-element_current"
+                                   href="?page_catalog={{ catalog_page_obj.number }}"><span
+                                        class="Pagination-text">{{ catalog_page_obj.number }}</span></a>
+                                {% if catalog_page_obj.has_next() %}
+                                    <a class="Pagination-element"
+                                       href="?page_catalog={{ catalog_page_obj.next_page_number() }}"><span
+                                            class="Pagination-text">{{ catalog_page_obj.next_page_number() }}</span></a>
+                                    <a class="Pagination-element Pagination-element_prev"
+                                       href="?page_catalog={{ catalog_page_obj.next_page_number() }}"><img
+                                            src="{{ static ('assets/img/icons/nextPagination.svg') }}"
+                                            alt="nextPagination.svg"/></a>
+                                {% endif %}
+                            </div>
+                        </div>
 
                     </div>
                 </div>

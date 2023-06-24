@@ -1,4 +1,6 @@
 import datetime
+
+from django.db.models import Max
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from app_administrator.models import SettingsModel
@@ -17,7 +19,14 @@ class CategoryView(ListView):
         result = sort_catalog(request)
         catalog_obj = result.get('productsinshops')
         context['sort'] = result.get('sort')
-        context['productsinshops'] = catalog_obj
+
+
+        # Paginator
+        catalog_page_obj = paginator(obj=catalog_obj, request=request)
+        context['catalog_page_obj'] = catalog_page_obj
+        context['productsinshops'] = catalog_page_obj.object_list
+        maxprice = ProductInShop.objects.aggregate(Max('price'))
+        context['maxprice'] = maxprice.get("price__max")
         return context
 
     def post(self, request):
@@ -26,47 +35,14 @@ class CategoryView(ListView):
             catalog_obj = filter_catalog(post)
 
             # Paginator
-            # req = self.request.GET
-            # catalog_page_obj = paginator(obj=catalog_obj, request=req)
+            req = self.request.GET
+            catalog_page_obj = paginator(obj=catalog_obj, request=req)
             return render(request, 'app_catalog/catalog.jinja2',
-                          context={
-                              'productsinshops': catalog_obj
-                              # 'catalog_page_obj': catalog_page_obj
-                          }
-                          )
-
-# class CategoryView2(ListView):
-#     """Представление категорий"""
-#     model = ProductInShop
-#     template_name = 'app_catalog/catalog.jinja2'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         request = self.request.GET
-#         result = sort_catalog(request)
-#         catalog_obj = result.get('productsinshop')
-#         context['sort'] = result.get('sort')
-#
-#         # Paginator
-#         catalog_page_obj = paginator(obj=catalog_obj, request=request)
-#         context['catalog_page_obj'] = catalog_page_obj
-#         context['productsinshops'] = catalog_page_obj.object_list
-#         return context
-#
-#     def post(self, request):
-#         if request.method == "POST":
-#             post = request.POST
-#             catalog_obj = filter_catalog(post)
-#
-#             # Paginator
-#             req = self.request.GET
-#             catalog_page_obj = paginator(obj=catalog_obj, request=req)
-#             return render(request, 'app_catalog/catalog.jinja2',
-#                           context={
-#                               'products': catalog_page_obj.object_list,
-#                               'catalog_page_obj': catalog_page_obj
-#                           }
-#                           )
+                                      context={
+                                          'productsinshops': catalog_page_obj.object_list,
+                                          'catalog_page_obj': catalog_page_obj,
+                                      }
+                                      )
 
 
 class ProductInShopDetailView(DetailView):
