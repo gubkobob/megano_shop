@@ -70,15 +70,12 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name='Дата обновления товара')
     image_main = models.ImageField(null=True, blank=True, default='no_photo.jpg', verbose_name='Картинка')
 
-
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
 
-
     def __str__(self):
         return self.name
-
 
 
 class ProductInShop(models.Model):
@@ -88,14 +85,11 @@ class ProductInShop(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена товара')
     available = models.BooleanField(default=True, verbose_name='Доступность товара')
     limited_product = models.BooleanField(default=False, verbose_name='Ограниченный тираж')
-    last_visit = models.TimeField(blank=True, null=True, verbose_name='Последнее время просмотра')
-
 
     class Meta:
         verbose_name = 'Магазины и их товары'
         verbose_name_plural = 'Магазины и их товары'
         ordering = ['shop', 'product', 'price']
-
 
 
 def product_images_directory_path(instance: "ProductImage", filename: str) -> str:
@@ -115,7 +109,6 @@ class ProductImage(models.Model):
         verbose_name_plural = 'Картинки товаров'
 
 
-
 def product_in_shop_images_directory_path(instance: "ProductInShopImage", filename: str) -> str:
     return "products/product_{pk}/images/{filename}".format(
         pk=instance.product.pk,
@@ -131,7 +124,6 @@ class ProductInShopImage(models.Model):
     class Meta:
         verbose_name = 'Картинка товара'
         verbose_name_plural = 'Картинки товаров'
-
 
 
 class Comments(models.Model):
