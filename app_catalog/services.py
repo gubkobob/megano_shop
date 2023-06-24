@@ -2,10 +2,11 @@
 Сервисы для работы с каталогом, товарами, магазинами
 """
 from django.core.paginator import Paginator
+from django.db.models import Count
 from django.http.request import QueryDict
 
 from app_cart.services import CartServicesMixin
-from .models import Product
+from .models import ProductInShop
 
 
 
@@ -55,8 +56,10 @@ class ShopServicesMixin:
     Класс - примесь для использования сервисов для работы с магазинами
     """
 
-def catalog_obj_order_by(parameter: str) -> Product:
-    return Product.objects.order_by(parameter)
+def catalog_obj_order_by(parameter: str) -> ProductInShop:
+    if parameter == 'comments':
+        return ProductInShop.objects.annotate(num_parametr=Count('product__comments')).order_by('-num_parametr')
+    return ProductInShop.objects.order_by(f'{parameter}')
 
 def sort_catalog(obj: QueryDict) -> dict:
     """
@@ -74,24 +77,19 @@ def sort_catalog(obj: QueryDict) -> dict:
     """
     if obj.get("parameter"):
         parameter = obj.get("parameter")
-        return {'products': catalog_obj_order_by(parameter),
-                'sort': 'base'}
-    if obj.get("date") == "Up":
-        return {'products': catalog_obj_order_by('updated'),
-                'sort': 'base'}
-    if obj.get("date") == "Down":
-        return {'products': catalog_obj_order_by('-updated'),
-                'sort': 'price_high'}
-    if obj.get('page_tag'):
-        print(obj.get('page_tag'))
+        sort = 'base' if parameter != '-product__created' else 'price_high'
+        return {'productsinshops': catalog_obj_order_by(parameter),
+                'sort': sort}
+    # if obj.get('page_tag'):
+    #     print(obj.get('page_tag'))
     if obj.get('add_card'):
         pk = int(obj.get('product'))
         cart = CartServicesMixin()
         cart.add_product_to_cart(pk)
-    return {'products': Product.objects.all(),
+    return {'productsinshops': ProductInShop.objects.all(),
             'sort': 'base'}
 
-def filter_catalog(post) -> Product:
+def filter_catalog(post) -> ProductInShop:
     pass
     # price_filter = post.get('price').split(';')
     # min_price_filter = int(price_filter[0])

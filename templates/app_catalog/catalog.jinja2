@@ -75,35 +75,31 @@
                     <div class="Sort">
                         <div class="Sort-title">Сортировать по:
                         </div>
-                        {% if sort == 'price_high' %}
-                            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec"
-                                                          href="/catalog/?parameter=popular">Популярности</a><a
-                                    class="Sort-sortBy" href="/catalog/?parameter=price">Цене</a><a class="Sort-sortBy"
-                                                                                                    href="#">Отзывам</a><a
-                                    class="Sort-sortBy Sort-sortBy_inc" href="/catalog/?date=Up">Новизне</a>
+                            <div class="Sort-variants">
+                                <a class="Sort-sortBy Sort-sortBy_dec" href="/catalog/?parameter=popular">Популярности</a>
+                                <a class="Sort-sortBy" href="/catalog/?parameter=price">Цене</a>
+                                <a class="Sort-sortBy" href="/catalog/?parameter=comments">Отзывам</a>
+                                {% if sort == 'price_high' %}
+                                    <a class="Sort-sortBy Sort-sortBy_inc" href="/catalog/?parameter=product__created">Новизне</a>
+                                {% else %}
+                                    <a class="Sort-sortBy Sort-sortBy_dec" href="?parameter=-product__created">Новизне</a>
+                                {% endif %}
                             </div>
-                        {% else %}
-                            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec"
-                                                          href="/catalog/?parameter=popular">Популярности</a><a
-                                    class="Sort-sortBy" href="/catalog/?parameter=price">Цене</a><a class="Sort-sortBy"
-                                                                                                    href="#">Отзывам</a><a
-                                    class="Sort-sortBy Sort-sortBy_dec" href="?date=Down">Новизне</a>
-                            </div>
-                        {% endif %}
                     </div>
                     <div class="Cards">
-                        {% for product in products %}
-                            <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=product.id) }} ">
-                                          <img src="{{ product.image_main.url }}" alt="{{ product.image_main }}"/></a>
+                        {% for product in productsinshops %}
+
+                            <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=product.product.id) }} ">
+                                          <img src="{{ product.product.image_main.url }}" alt="{{ product.product.image_main }}"/></a>
                                 <div class="Card-content Card-content_new">
-                                    <strong class="Card-title"><a href="{{ url ('appcatalog:product_details', pk=product.id) }} ">{{ product.name }}</a>
+                                    <strong class="Card-title"><a href="{{ url ('appcatalog:product_details', pk=product.id) }} ">{{ product.product.name }}</a>
                                     </strong>
                                     <div class="Card-description">
-                                        <div class="Card-cost"><span class="Card-price">$ price </span>
+                                        <div class="Card-cost"><span class="Card-price">$ {{product.price}} </span>
                                         </div>
-                                        <div class="Card-category">{{ product.category }} / {{ product.subcategory }}
-{#                                            {% if product.image %}#}
-{#                                                {{ product.image.url }}#}
+                                        <div class="Card-category">{{ product.product.category }} / {{ product.product.subcategory }}
+{#                                            {% if product.product.image %}#}
+{#                                                {{ product.product.image.url }}#}
 {#                                            {% else %}#}
 {#                                                {{ static('assets/img/no_photo.jpg') }}#}
 {#                                            {% endif %}#}
@@ -123,33 +119,10 @@
                                     </div>
                                 </div>
                             </div>
+
                         {% endfor %}
 
-                        <div class="Pagination">
-                            <div class="Pagination-ins">
-                                {% if catalog_page_obj.has_previous() %}
-                                    <a class="Pagination-element Pagination-element_prev"
-                                       href="?page_catalog={{ catalog_page_obj.previous_page_number() }}"><img
-                                            src="{{ static ('assets/img/icons/prevPagination.svg') }}"
-                                            alt="prevPagination.svg"/></a>
-                                    <a class="Pagination-element"
-                                       href="?page_catalog={{ catalog_page_obj.previous_page_number() }}">{{ catalog_page_obj.previous_page_number() }}<span
-                                            class="Pagination-text"></span></a>
-                                {% endif %}
-                                <a class="Pagination-element Pagination-element_current"
-                                   href="?page_catalog={{ catalog_page_obj.number }}"><span
-                                        class="Pagination-text">{{ catalog_page_obj.number }}</span></a>
-                                {% if catalog_page_obj.has_next() %}
-                                    <a class="Pagination-element"
-                                       href="?page_catalog={{ catalog_page_obj.next_page_number() }}"><span
-                                            class="Pagination-text">{{ catalog_page_obj.next_page_number() }}</span></a>
-                                    <a class="Pagination-element Pagination-element_prev"
-                                       href="?page_catalog={{ catalog_page_obj.next_page_number() }}"><img
-                                            src="{{ static ('assets/img/icons/nextPagination.svg') }}"
-                                            alt="nextPagination.svg"/></a>
-                                {% endif %}
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
