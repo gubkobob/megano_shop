@@ -19,14 +19,17 @@ class CategoryView(ListView):
         result = sort_catalog(request)
         catalog_obj = result.get('productsinshops')
         context['sort'] = result.get('sort')
+        maxprice = ProductInShop.objects.aggregate(Max('price'))
+        popular_tags = ProductInShop.objects.order_by('product__subcategory')[:4]
+        context['maxprice'] = maxprice.get("price__max")
+        context['popular_tags'] = popular_tags
+
 
 
         # Paginator
         catalog_page_obj = paginator(obj=catalog_obj, request=request)
         context['catalog_page_obj'] = catalog_page_obj
         context['productsinshops'] = catalog_page_obj.object_list
-        maxprice = ProductInShop.objects.aggregate(Max('price'))
-        context['maxprice'] = maxprice.get("price__max")
         return context
 
     def post(self, request):

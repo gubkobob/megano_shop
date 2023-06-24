@@ -63,10 +63,10 @@
                             </strong>
                         </header>
                         <div class="Section-columnContent">
-                            <div class="buttons"><a class="btn btn_default btn_sm" href="?page_tag=Видео">Видео</a><a
-                                    class="btn btn_default btn_sm" href="?page_tag=Разработка">Разработка</a><a
-                                    class="btn btn_default btn_sm" href="?page_tag=Игры">Игры</a><a
-                                    class="btn btn_default btn_sm" href="?page_tag=Asus">Asus</a>
+                            <div class="buttons">
+                            {% for test in popular_tags %}
+                                <a class="btn btn_default btn_sm" href="?page_tag=Видео">{{test.product.subcategory}}</a>
+                            {% endfor %}
                             </div>
                         </div>
                     </div>

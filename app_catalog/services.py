@@ -56,9 +56,14 @@ class ShopServicesMixin:
     Класс - примесь для использования сервисов для работы с магазинами
     """
 
-def catalog_obj_order_by(parameter: str) -> ProductInShop:
+def catalog_obj_order_by(parameter: str, flag: str = None) -> ProductInShop:
+    print(parameter)
     if parameter == 'comments':
         return ProductInShop.objects.annotate(num_parametr=Count('product__comments')).order_by('-num_parametr')
+    if parameter == 'subcategory':
+        return ProductInShop.objects.filter(product__subcategory__name=flag)
+    if parameter == 'category':
+        return ProductInShop.objects.filter(product__category__name=flag)
     return ProductInShop.objects.order_by(f'{parameter}')
 
 def sort_catalog(obj: QueryDict) -> dict:
@@ -75,10 +80,12 @@ def sort_catalog(obj: QueryDict) -> dict:
         }
     :rtype: dict
     """
+    print(obj.get("parameter"))
     if obj.get("parameter"):
         parameter = obj.get("parameter")
+        flag = obj.get("flag")
         sort = 'base' if parameter != '-product__created' else 'price_high'
-        return {'productsinshops': catalog_obj_order_by(parameter),
+        return {'productsinshops': catalog_obj_order_by(parameter, flag),
                 'sort': sort}
     # if obj.get('page_tag'):
     #     print(obj.get('page_tag'))
