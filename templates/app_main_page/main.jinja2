@@ -147,8 +147,6 @@
                         </h2>
                     </header>
                     <div class="Cards">
-
-
                     {% for top_product in top_products %}
                     {%for product in products %}
                     {% if top_product.name == product.name %}
@@ -162,14 +160,6 @@
                                 <div class="Card-description">
                                     <div class="Card-cost"><span class="Card-price">цена от {{top_product.min_price}}</span></div>
                                     <div class="Card-category">{{product.category}}/{{product.subcategory}}
-                                    </div>
-                                    <div class="Card-hover">
-                                        <a class="Card-btn" href="#">
-                                            <img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" />
-                                        </a>
-                                        <a class="Card-comparison" href="{{ url ('app_cart:add_in_comparison', product_id=top_product.id ) }} ">
-                                            <img src="{{ static ('assets/img/icons/card/comparison.svg') }}" width="20px" alt="comparison.svg"/>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
