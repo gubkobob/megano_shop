@@ -69,10 +69,10 @@ class CategoryView(ListView):
 #                           )
 
 
-class ProductCartDetailView(DetailView):
-    pass
-#     model = Product
-#     template_name = 'app_catalog/product_details.jinja2'
+class ProductInShopDetailView(DetailView):
+    model = ProductInShop
+    template_name = 'app_catalog/product_details.jinja2'
+    context_object_name = "product_in_shop"
 #
 #     def get_context_data(self, **kwargs):
 #

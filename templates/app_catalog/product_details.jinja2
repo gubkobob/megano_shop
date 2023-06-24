@@ -2,7 +2,7 @@
 
 
 {% block title %}
-  {{product.name}}
+  {{product_in_shop.product.name}}
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@
 
                         <div class="ProductCard-look">
                             <div class="ProductCard-photo">
-                                <img src="{{ product.image_main.url }}" alt="{{ product.image_main }}" />
+                                <img src="{{ product_in_shop.product.image_main.url }}" alt="{{ product_in_shop.image_main }}" />
                             </div>
                             <div class="ProductCard-picts"><a class="ProductCard-pict ProductCard-pict_ACTIVE" href="assets/img/content/home/bigGoods.png"><img src="assets/img/content/home/bigGoods.png" alt="bigGoods.png" /></a><a class="ProductCard-pict" href="assets/img/content/home/slider.png"><img src="assets/img/content/home/slider.png" alt="slider.png" /></a><a class="ProductCard-pict" href="assets/img/content/home/videoca.png"><img src="assets/img/content/home/videoca.png" alt="videoca.png" /></a>
                             </div>
@@ -23,18 +23,18 @@
                         </div>
                         <div class="ProductCard-desc">
                             <div class="ProductCard-header">
-                                <h2 class="ProductCard-title">{{ product.name }}
+                                <h2 class="ProductCard-title">{{ product_in_shop.product.name }}
                                 </h2>
                                 <div class="ProductCard-info">
                                     <div class="ProductCard-cost">
-                                        <div class="ProductCard-price">Цена: {{ product.price }}
+                                        <div class="ProductCard-price">Цена: {{ product_in_shop.price }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="ProductCard-text">
                                 <ul>
-                                    <li>{{ product.description }}
+                                    <li>{{ product_in_shop.product.description }}
                                     </li>
                                 </ul>
                             </div>
@@ -73,8 +73,8 @@
                         </div>
                     </div>
                     <div class="Tabs Tabs_default">
-                        <div class="Tabs-links"><a class="Tabs-link_ACTIVE Tabs-link" href="#description"><span>Описание</span></a><a class="Tabs-link" href="#addit"><span>Характеристика</span></a><a class="Tabs-link" href="#reviews"><span>Отзывы({{comments.count()}})</span></a>
-                        </div>
+{#                        <div class="Tabs-links"><a class="Tabs-link_ACTIVE Tabs-link" href="#description"><span>Описание</span></a><a class="Tabs-link" href="#addit"><span>Характеристика</span></a><a class="Tabs-link" href="#reviews"><span>Отзывы({{comments.count()}})</span></a>#}
+{#                        </div>#}
                         <div class="Tabs-wrap">
                             <div class="Tabs-block" id="description">
                                 <h2>Megano Store Hystory
@@ -110,7 +110,7 @@
                                         <tr>
                                             <td>Тип устройства
                                             </td>
-                                            <td>{{ product.specification_set }}
+{#                                            <td>{{ product.specification_set }}#}
                                             </td>
                                         </tr>
                                     </table>
