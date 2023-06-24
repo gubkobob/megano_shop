@@ -8,10 +8,7 @@ from .services import Limit, get_product_banner, get_products_limited, get_top_p
 
 class OneProduct(View):
     """ Класс ограниченного предложения товара (1шт) """
-    if ProductInShop.objects.filter(limited_product=True).order_by('?')[:1]:
-        products_limited_offers_all = ProductInShop.objects.filter(limited_product=True).order_by('?')[:1]
-    else:
-        products_limited_offers_all = None
+    products_limited_offers_all = ProductInShop.objects.filter(limited_product=True).order_by('?')[:1]
 
     def product_day(self):
         """функция отображения ограниченного предложения товара с фиксацией на сутки"""
