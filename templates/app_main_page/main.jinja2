@@ -14,14 +14,14 @@
                   <div class="Slider-content">
                     <div class="row">
                       <div class="row-block">
-                        <strong class="Slider-title"><a href="catalog/product_details/{{banner.id}}">{{ banner.name }}</a></strong>
-                        <div class="Slider-text">{{ banner.description }}</div>
-                        <div class="Slider-footer"><a class="btn btn_primary" href="#">Get Started</a>
+                        <strong class="Slider-title"><a href="{{ url ('appcatalog:product_details', pk=banner.id) }}">{{ banner.product.name }}</a></strong>
+                        <div class="Slider-text">{{ banner.product.description }}</div>
+                        <div class="Slider-footer"><a class="btn btn_primary" href="{{ url ('appcatalog:product_details', pk=banner.id) }}">Get Started</a>
                         </div>
                       </div>
                       <div class="row-block">
                         <div class="Slider-img">
-                        <img src="{{ banner.image_main.url }}"alt="{{ banner.image_main }}"/>
+                        <img src="{{ banner.product.image_main.url }}"alt="{{ banner.product.image_main }}"/>
                         </div>
                       </div>
                     </div>
@@ -93,11 +93,11 @@
                         </header>
                         <div class="Card">
                         {% for one_product_limited in limited_offers %}
-                            <a class="Card-picture" href="catalog/product_details/{{one_product_limited.id}}">
+                            <a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=one_product_limited.id) }}">
                                 <img class="Card-picture_size-img" src="{{ one_product_limited.product.image_main.url }}"alt="{{ one_product_limited.product.image_main }}"/>
                             </a>
                             <div class="Card-content Card-content_new">
-                                <strong class="Card-title"><a href="catalog/product_details/{{one_product_limited.id}}">{{one_product_limited.product.name}}</a></strong>
+                                <strong class="Card-title"><a href="{{ url ('appcatalog:product_details', pk=one_product_limited.id) }}">{{one_product_limited.product.name}}</a></strong>
                                 <div class="Card-description">
                                     <div class="Card-cost">
                                         <span class="Card-priceOld">$115.00</span><span class="Card-price">{{one_product_limited.price}}</span>
@@ -148,24 +148,28 @@
                     </header>
                     <div class="Cards">
                     {% for top_product in top_products %}
-                    {%for product in products %}
-                    {% if top_product.name == product.name %}
                         <div class="Card hide_md">
-                            <a class="Card-picture" href="catalog/product_details/{{product.id}}">
-                                <img class="Card-picture_size-img" src="{{ product.image_main.url }}"alt="{{ product.image_main }}"/>
+                            <a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=top_product.id) }}">
+                                <img class="Card-picture_size-img" src="{{ top_product.product.image_main.url }}"alt="{{ top_product.product.image_main }}"/>
                             </a>
                             <div class="Card-content Card-content_new">
-                                <strong class="Card-title" ><a href="catalog/product_details/{{product.id}}">{{top_product.name}}</a>
+                                <strong class="Card-title" ><a href="{{ url ('appcatalog:product_details', pk=top_product.id) }}">{{top_product.product.name}}</a>
                                 </strong>
                                 <div class="Card-description">
-                                    <div class="Card-cost"><span class="Card-price">цена от {{top_product.min_price}}</span></div>
-                                    <div class="Card-category">{{product.category}}/{{product.subcategory}}
+                                    <div class="Card-cost"><span class="Card-price">{{top_product.price}}</span></div>
+                                    <div class="Card-category">{{top_product.product.category}}/{{top_product.product.subcategory}}
+                                    </div>
+                                    <div class="Card-hover">
+                                        <a class="Card-btn" href="#">
+                                            <img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" />
+                                        </a>
+                                        <a class="Card-comparison" href="{{ url ('app_cart:add_in_comparison', product_id=top_product.product.id ) }} ">
+                                            <img src="{{ static ('assets/img/icons/card/comparison.svg') }}" width="20px" alt="comparison.svg"/>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
-                    {% endfor %}
                     {% endfor %}
                     </div>
                 </div>
@@ -190,11 +194,11 @@
                             <div class="Slider-item">
                                 <div class="Slider-content">
                                     <div class="Card">
-                                        <a class="Card-picture" href="catalog/product_details/{{product_limit.product.id}}">
+                                        <a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=product_limit.id) }}">
                                             <img class="Card-picture_size-img-popular" src="{{ product_limit.product.image_main.url }}"alt="{{ product_limit.product.image_main }}"/>
                                         </a>
                                         <div class="Card-content Card-content_new">
-                                            <strong class="Card-title"><a href="catalog/product_details/{{product_limit.product.id}}">{{product_limit.product.name}}</a>
+                                            <strong class="Card-title"><a href="{{ url ('appcatalog:product_details', pk=product_limit.id) }}">{{product_limit.product.name}}</a>
                                             </strong>
                                             <div class="Card-description">
                                                 <div class="Card-cost"><span class="Card-price">{{product_limit.price}}</span>

@@ -26,7 +26,7 @@ class Limit:
 def get_product_banner():
     """функция отображения баннеров на главной"""
     value_products_banner = getattr(SettingsModel.objects.first(), 'products_banner')
-    products_banners = Product.objects.all().order_by('name')[:value_products_banner]
+    products_banners = ProductInShop.objects.all().order_by('-quantity')[:value_products_banner]
     return products_banners
 
 
@@ -44,7 +44,5 @@ def get_top_products():
     """функция отображения популярных товаров на главной"""
     # top_products = Product.objects.annotate(quantity_sum=Sum('order_items__quantity')).order_by('-quantity_sum')[:8]
     value_popular_products = getattr(SettingsModel.objects.first(), 'popular_products')
-    top_products = Product.objects.values('name', 'category', 'subcategory').annotate(
-        min_price=Min('products_in_shop__price')).filter(min_price__isnull=False).order_by('min_price')[:value_popular_products]
-    # top_products = Product.objects.all().order_by('name')[:value_popular_products]
+    top_products = ProductInShop.objects.all().order_by('price')[:value_popular_products]
     return top_products

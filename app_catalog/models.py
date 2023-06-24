@@ -111,14 +111,15 @@ class ProductImage(models.Model):
 
 def product_in_shop_images_directory_path(instance: "ProductInShopImage", filename: str) -> str:
     return "products/product_{pk}/images/{filename}".format(
-        pk=instance.product.pk,
+        pk=instance.product_in_shop.pk,
         filename=filename,
     )
 
 
 class ProductInShopImage(models.Model):
     """ Модель картинок к товарам """
-    product_in_shop = models.ForeignKey(ProductInShop, on_delete=models.CASCADE, related_name="images_in_shop", verbose_name='Товар')
+    product_in_shop = models.ForeignKey(ProductInShop, on_delete=models.CASCADE, related_name="images_in_shop",
+                                        verbose_name='Товар')
     image = models.ImageField(upload_to=product_in_shop_images_directory_path, verbose_name='Картинка')
 
     class Meta:
