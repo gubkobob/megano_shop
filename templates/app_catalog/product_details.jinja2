@@ -19,12 +19,12 @@
                             </div>
                             <div class="ProductCard-picts">
                                 {% if product_in_shop.images_in_shop %}
-                                        <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="#">
+                                        <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ product_in_shop.product.image_main.url }} ">
                                             <img src="{{ product_in_shop.product.image_main.url }}"
                                                  alt="{{ product_in_shop.image_main }}" />
                                         </a>
                                     {% for img in product_in_shop.images_in_shop.all() %}
-                                        <a class="ProductCard-pict" href="#">
+                                        <a class="ProductCard-pict" href="{{ img.image.url }}">
                                             <img src="{{ img.image.url }}" alt="{{ img.image.url }}" />
                                         </a>
                                     {%  endfor %}
