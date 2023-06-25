@@ -92,23 +92,6 @@ class ProductInShop(models.Model):
         ordering = ['shop', 'product', 'price']
 
 
-def product_images_directory_path(instance: "ProductImage", filename: str) -> str:
-    return "products/product_{pk}/images/{filename}".format(
-        pk=instance.product.pk,
-        filename=filename,
-    )
-
-
-class ProductImage(models.Model):
-    """ Модель картинок к товарам """
-    product_in_shop = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images", verbose_name='Товар')
-    image = models.ImageField(upload_to=product_images_directory_path, verbose_name='Картинка')
-
-    class Meta:
-        verbose_name = 'Картинка товара'
-        verbose_name_plural = 'Картинки товаров'
-
-
 def product_in_shop_images_directory_path(instance: "ProductInShopImage", filename: str) -> str:
     return "products/product_{pk}/images/{filename}".format(
         pk=instance.product_in_shop.pk,
