@@ -1,10 +1,10 @@
 import datetime
 
 from django.db.models import Max
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from app_administrator.models import SettingsModel
-from .models import ProductInShop, Comments
+from .models import ProductInShop, Comments, Specifications, Subspecifications
 from .services import sort_catalog, paginator, filter_catalog
 
 
@@ -49,29 +49,30 @@ class CategoryView(ListView):
 
 
 class ProductInShopDetailView(DetailView):
-    model = ProductInShop
+    # model = ProductInShop
+    queryset = ProductInShop.objects\
+        .select_related("product")\
+        .prefetch_related("images_in_shop")\
+        .prefetch_related("comments")
     template_name = 'app_catalog/product_details.jinja2'
     context_object_name = "product_in_shop"
 #
-#     def get_context_data(self, **kwargs):
-#
-#         context = super().get_context_data(**kwargs)
-#         product = Product.objects.get(pk=self.kwargs.get('pk'))
-#         comments = Comments.objects.filter(goods=product)
-#         context['comments'] = comments
-#         return context
-#
-#     def post(self, request, pk=None):
-#         if request.method == "POST":
-#             text_comment = request.POST.get('review')
-#             user = request.user
-#             product = Product.objects.get(pk=pk)
-#             new_comment = Comments.objects.create(user=user, comment=text_comment, goods = product)
-#             new_comment.save()
-#             comments = Comments.objects.filter(goods=product)
-#             return render(request, 'app_catalog/product_details.jinja2',
-#                           context={
-#                               'comments': comments,
-#                               'product': product,
-#                           }
-#                           )
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        product = ProductInShop.objects.get(pk=self.kwargs.get('pk')).product
+        specifications = Specifications.objects.filter(product=product).all()
+        subspecifications = Subspecifications.objects.filter(specification__in=specifications).all()
+        context['specifications'] = subspecifications
+        return context
+
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        if request.method == "POST":
+            text_comment = request.POST.get('review')
+            user = request.user
+            product_in_shop = ProductInShop.objects.get(pk=pk)
+            new_comment = Comments.objects.create(user=user, comment=text_comment, product_in_shop=product_in_shop)
+            new_comment.save()
+            return redirect('appcatalog:product_details', pk=pk)
+
