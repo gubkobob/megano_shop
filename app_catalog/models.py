@@ -111,7 +111,7 @@ class ProductInShopImage(models.Model):
 
 
 class Comments(models.Model):
-    goods = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments', verbose_name=_('Товары'))
+    product_in_shop = models.ForeignKey(ProductInShop, on_delete=models.CASCADE, related_name='comments', verbose_name=_('Товары'))
     comment = models.TextField(max_length=1000, verbose_name=_('Комментарии'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания товара')
