@@ -1,0 +1,55 @@
+{% extends 'base.jinja2' %}
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="Middle Middle_top">
+    <div class="Middle-top">
+        <div class="wrap">
+            <div class="Middle-header">
+
+                <ul class="breadcrumbs Middle-breadcrumbs">
+                    <li class="breadcrumbs-item"><a href="index.html">Главная</a>
+                    </li>
+                    <li class="breadcrumbs-item breadcrumbs-item_current"><span>Блог</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="Section">
+        <div class="wrap">
+            <div class="Cards Cards_blog">
+                <div class="Card"><a class="Card-picture" href="#"><img src="assets/img/content/sale/product.png"
+                                                                        alt="product.png"/></a>
+                    <div class="Card-date">
+                        <strong class="Card-date-number">24
+                        </strong><span class="Card-date-month">nov</span>
+                    </div>
+                    <div class="Card-pin">
+                    </div>
+                    <div class="Card-content">
+                        <strong class="Card-title"><a href="#">Basic Time Management Advanced Course</a>
+                        </strong>
+                        <div class="Card-description">Lorem ipsum dolor sit amet consectetuer adipiscing elit sed diam
+                            nonummy nibh euismod tincid unt ut laoreet dolore
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="Pagination">
+    <div class="Pagination-ins"><a class="Pagination-element Pagination-element_prev" href="#"><img
+            src="assets/img/icons/prevPagination.svg" alt="prevPagination.svg"/></a><a
+            class="Pagination-element Pagination-element_current" href="#"><span class="Pagination-text">1</span></a><a
+            class="Pagination-element" href="#"><span class="Pagination-text">2</span></a><a class="Pagination-element"
+                                                                                             href="#"><span
+            class="Pagination-text">3</span></a><a class="Pagination-element Pagination-element_prev" href="#"><img
+            src="assets/img/icons/nextPagination.svg" alt="nextPagination.svg"/></a>
+    </div>
+</div>
+{% endblock %}

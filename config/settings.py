@@ -83,7 +83,11 @@ TEMPLATES = [
             "constants": {
             },
             'globals': {
-            }
+            },
+            'context_processors': [
+                'app_cart.context_processor.comparison',
+            ]
+
         },
     },
     {

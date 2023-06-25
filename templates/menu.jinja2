@@ -63,7 +63,7 @@
                                 class="menu-link" href="/catalog/">Каталог</a>
                         </li>
                         <li class="menu-item">
-                            <a class="menu-link" href="{{ url('app_cart:comparison_list') }}">Сравнение{% if count_goods %}({{ count_goods }})
+                            <a class="menu-link" href="{{ url('app_cart:comparison_list') }}">Сравнение{% if comparison and comparison.get_len_goods_to_in_comparison() != 0 %}({{ comparison.get_len_goods_to_in_comparison() }})
                             {% endif %}
                             </a>
                         </li>

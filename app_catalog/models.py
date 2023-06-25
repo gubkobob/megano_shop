@@ -91,6 +91,8 @@ class ProductInShop(models.Model):
         verbose_name_plural = 'Магазины и их товары'
         ordering = ['shop', 'product', 'price']
 
+    def __str__(self):
+        return self.product.name
 
 def product_images_directory_path(instance: "ProductImage", filename: str) -> str:
     return "products/product_{pk}/images/{filename}".format(

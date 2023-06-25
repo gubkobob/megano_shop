@@ -4,13 +4,23 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Discount(models.Model):
+    types = [
+        ('percent', 'процент'),
+        ('quantity', 'количество'),
+        ('percent and quantity', 'процент и количество'),
+    ]
+
     product = models.ForeignKey(ProductInShop, on_delete=models.CASCADE, verbose_name='Продукт',
                                 related_name='product_discount')
-    # price_product = models.DecimalField(default=0, max_digits=8, decimal_places=2, verbose_name=_('Цена продукта'))
-    discount = models.IntegerField(default=0, verbose_name=_('Скидка'))
-    # Если у продукта есть цена, но нет цены со скидкой, но есть скидка то
+    type_discount = models.CharField(choices=types, max_length=20,
+                                   blank=True, null=True, verbose_name=_('тип скидки'))
+
     start_discount = models.DateTimeField()
     end_discount = models.DateTimeField()
+
+
+
+    # Если у продукта есть цена, но нет цены со скидкой, но есть скидка то
 
     # Отдельные
     # - получить все скидки на указанный список товаров или на один товар;
@@ -18,33 +28,50 @@ class Discount(models.Model):
     # - получить скидку на корзину;
     # - рассчитать цену со скидкой на товар с дополнительным необязательным параметром ― цена товара.
 
+
     class Meta:
         verbose_name = 'Скидка'
         verbose_name_plural = 'Скидки'
 
-    # def save(
-    #     self, force_insert=False, force_update=False, using=None, update_fields=None
-    # ):
-    #     super(Discount, self).save(
-    #         force_insert=False, force_update=False, using=None, update_fields=None
-    #     )
-    #     if self.price_discount <= 0 and (self.discount > 0):
-    #         self.price_discount = (self.price_product // self.discount)
-    #         return super(Discount, self).save(force_insert, force_update, using, update_fields)
-    #     return
-
-
-class DiscountList(models.Model):
-    pass
-
-
-class DiscountPrior(models.Model):
-    pass
-
-
-class DiscountCart(models.Model):
-    pass
+    def __str__(self):
+        return self.product
 
 
 class DiscountPrice(models.Model):
-    pass
+    discount = models.ForeignKey(Discount, on_delete=models.CASCADE, verbose_name='скидка',
+                                related_name='discount_price')
+    percent = models.IntegerField(blank=True, null=True, verbose_name=_('процентная скидка'))
+    quantity = models.IntegerField(blank=True, null=True, verbose_name=_('количественная скидка'))
+
+    class Meta:
+        verbose_name = 'Значение скидки'
+        verbose_name_plural = 'Значения скидок'
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        super(DiscountPrice, self).save(
+            force_insert=False, force_update=False, using=None, update_fields=None
+        )
+
+        if self.discount.type_discount == 'percent':
+            self.quantity = 0
+            if self.percent > 30:
+                self.percent = 30
+
+        elif self.discount.type_discount == 'quantity':
+            self.percent = 0
+            if self.quantity >= self.discount.product.price:
+                self.quantity = self.discount.product.price // 20
+
+        elif self.discount.type_discount == 'percent and quantity':
+
+            if self.percent > 30:
+                self.percent = 10
+
+            if self.quantity >= self.discount.product.price:
+                self.quantity = self.discount.product.price // 40
+
+        return super(DiscountPrice, self).save(force_insert, force_update, using, update_fields)
+
+
