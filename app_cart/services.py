@@ -54,8 +54,8 @@ class ComparisonServicesMixin:
         """
         Добавить продукт в сравнение.
         """
-        product = ProductInShop.product.objects.get(product_id=product_id)
-        product_d = product
+        product = ProductInShop.objects.get(product_id=product_id)
+        product_d = product.product
 
         if product not in self.comparison:
             self.comparison[product_id] = {

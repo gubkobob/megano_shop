@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Discount
+from .models import Discount, DiscountPrice
 from django import forms
 
 
@@ -9,18 +9,18 @@ class DiscountAdminForm(forms.ModelForm):
         fields = '__all__'
 
 
+class DiscountPriceInline(admin.TabularInline):
+    model = DiscountPrice
+
+
 @admin.register(Discount)
 class DiscountAdmin(admin.ModelAdmin):
     """Админ панель модель Specifications"""
     list_display = [
         'product',
-        # 'auto_price',
-        'discount',
+        'type_discount',
         'start_discount',
         'end_discount',
     ]
     form = DiscountAdminForm
-
-    #
-    # def auto_price(self, obj: Discount):
-    #     return obj.product.price
+    inlines = [DiscountPriceInline]
