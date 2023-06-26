@@ -94,23 +94,6 @@ class ProductInShop(models.Model):
     def __str__(self):
         return self.product.name
 
-def product_images_directory_path(instance: "ProductImage", filename: str) -> str:
-    return "products/product_{pk}/images/{filename}".format(
-        pk=instance.product.pk,
-        filename=filename,
-    )
-
-
-class ProductImage(models.Model):
-    """ Модель картинок к товарам """
-    product_in_shop = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images", verbose_name='Товар')
-    image = models.ImageField(upload_to=product_images_directory_path, verbose_name='Картинка')
-
-    class Meta:
-        verbose_name = 'Картинка товара'
-        verbose_name_plural = 'Картинки товаров'
-
-
 def product_in_shop_images_directory_path(instance: "ProductInShopImage", filename: str) -> str:
     return "products/product_{pk}/images/{filename}".format(
         pk=instance.product_in_shop.pk,
@@ -130,7 +113,7 @@ class ProductInShopImage(models.Model):
 
 
 class Comments(models.Model):
-    goods = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments', verbose_name=_('Товары'))
+    product_in_shop = models.ForeignKey(ProductInShop, on_delete=models.CASCADE, related_name='comments', verbose_name=_('Товары'))
     comment = models.TextField(max_length=1000, verbose_name=_('Комментарии'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания товара')
