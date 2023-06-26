@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+    {{ content }}
     Количество продуктов в списке сравнения: {% if comparison and comparison.get_len_goods_to_in_comparison() != 0 %}({{ comparison.get_len_goods_to_in_comparison() }})
                             {% endif %}
     <div class="Middle">

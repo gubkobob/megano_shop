@@ -54,17 +54,22 @@ class ComparisonServicesMixin:
         """
         Добавить продукт в сравнение.
         """
-        product = ProductInShop.objects.get(product_id=product_id)
-        product_d = product.product
+
+        product = Product.objects.get(products_in_shop=product_id)
+        # product = ProductInShop.objects.get(id=product_id)
+        # product = ProductInShop.objects.values().filter(id=product_id)
+        # print(ProductInShop.objects.values().filter(id=product_id))
+        # print(product.products_in_shop.values('price').filter(id=product_id))
 
         if product not in self.comparison:
             self.comparison[product_id] = {
-                'product_id': product_d.id,
-                'product_name': product_d.name,
-                'product_image': str(product_d.image_main.url) if product_d.image_main else '',
-                'specification': list(product_d.specification.get().
+                'product_id': product_id,
+                'product_name': product.name,
+                # 'product_price': product.products_in_shop.values('price').filter(id=product_id),
+                'product_image': str(product.image_main.url) if product.image_main else '',
+                'specification': list(product.specification.get().
                                       subspecification.values('name_subspecification', 'text_subspecification'))
-                if product_d.specification else '',
+                if product.specification else '',
 
             }
         self.save_to_in_comparison()
