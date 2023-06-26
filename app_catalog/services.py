@@ -59,7 +59,7 @@ class ShopServicesMixin:
 def catalog_obj_order_by(parameter: str, flag: str = None) -> ProductInShop:
     print(parameter)
     if parameter == 'comments':
-        return ProductInShop.objects.annotate(num_parametr=Count('product__comments')).order_by('-num_parametr')
+        return ProductInShop.objects.annotate(num_parametr=Count('comments')).order_by('-num_parametr')
     if parameter == 'subcategory':
         return ProductInShop.objects.filter(product__subcategory__name=flag)
     if parameter == 'category':
