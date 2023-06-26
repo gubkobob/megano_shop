@@ -137,8 +137,8 @@ class Subspecifications(models.Model):
     """Модель значений характеристик"""
     specification = models.ForeignKey(Specifications, on_delete=models.CASCADE, null=True, blank=True,
                                       related_name='subspecification', max_length=1000, verbose_name=_('Характеристика'))
-    name_subspecification = models.TextField(max_length=40, verbose_name=_('Название характеристики'))
-    text_subspecification = models.TextField(max_length=40, verbose_name=_('Текст Характеристики'))
+    name_subspecification = models.TextField(max_length=100, verbose_name=_('Название характеристики'))
+    text_subspecification = models.TextField(max_length=100, verbose_name=_('Текст Характеристики'))
 
     class Meta:
         verbose_name = 'Значение характеристики'
