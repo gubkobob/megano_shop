@@ -74,4 +74,5 @@ class DiscountPrice(models.Model):
 
         return super(DiscountPrice, self).save(force_insert, force_update, using, update_fields)
 
-
+    def __str__(self):
+        return self.discount
