@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
 
 from .forms import CSVImportForm
 from .models import Category, SubCategory, Product, Shop, ProductInShopImage, Specifications, Subspecifications, \
-    ProductInShop
+    ProductInShop, Comments
 
 
 @admin.register(Category)
@@ -142,6 +142,13 @@ class ProductAdmin(admin.ModelAdmin):
 class ShopAdmin(admin.ModelAdmin):
     """Админ панель модели Shop"""
     list_display = ['name', 'descriptions', 'address', 'phone', 'email', 'image']
+
+
+@admin.register(Comments)
+class CommentsAdmin(admin.ModelAdmin):
+    """Админ панель модели Comments"""
+    list_display = ['product_in_shop', 'comment', 'user', 'created', 'updated']
+    list_display_links = "comment",
 
 
 class SpecificationsInline(admin.TabularInline):

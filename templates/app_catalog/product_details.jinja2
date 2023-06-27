@@ -191,6 +191,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                         {% if get_messages(request) %}
+                                          {% for message in get_messages(request) %}
+                                            <h3 ="red">
+                                              <font color="red"> <strong>{{message}}</strong> </font>
+                                            </h3>
+                                         {% endfor %}
+                                        {% endif %}
                                 <header class="Section-header Section-header_product">
                                     <h3 class="Section-title">Добавить отзыв
                                     </h3>

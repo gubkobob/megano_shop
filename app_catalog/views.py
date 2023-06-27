@@ -1,5 +1,7 @@
 import datetime
 
+from django.contrib import messages
+from django.contrib.auth.models import AnonymousUser
 from django.db.models import Max
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
@@ -71,8 +73,11 @@ class ProductInShopDetailView(DetailView):
         if request.method == "POST":
             text_comment = request.POST.get('review')
             user = request.user
-            product_in_shop = ProductInShop.objects.get(pk=pk)
-            new_comment = Comments.objects.create(user=user, comment=text_comment, product_in_shop=product_in_shop)
-            new_comment.save()
+            if user == AnonymousUser():
+                messages.add_message(request, messages.ERROR, "Для оставления отзыва нужно зарегистрироваться")
+            else:
+                product_in_shop = ProductInShop.objects.get(pk=pk)
+                new_comment = Comments.objects.create(user=user, comment=text_comment, product_in_shop=product_in_shop)
+                new_comment.save()
             return redirect('appcatalog:product_details', pk=pk)
 
