@@ -63,7 +63,7 @@
                                 class="menu-link" href="/catalog/">Каталог</a>
                         </li>
                         <li class="menu-item">
-                            <a class="menu-link" href="{{ url('app_cart:comparison_list') }}">Сравнение{% if count_goods %}({{ count_goods }})
+                            <a class="menu-link" href="{{ url('app_cart:comparison_list') }}">Сравнение{% if comparison and comparison.get_len_goods_to_in_comparison() != 0 %}({{ comparison.get_len_goods_to_in_comparison() }})
                             {% endif %}
                             </a>
                         </li>
@@ -81,7 +81,7 @@
                             <div class="dropdown-content">
                                 <a class="dropdown-content-a" href={{ url("app_users:account") }}>Личный кабинет</a>
                                 {% if request.user.is_superuser %}
-                                    <a class="dropdown-content-a" href="#">Административный раздел</a>
+                                    <a class="dropdown-content-a" href="/admin">Административный раздел</a>
                                 {% endif %}
                                 <a class="dropdown-content-a" href={{ url("app_users:logout") }}>Выход</a>
                             </div>
@@ -121,7 +121,7 @@
                     <div class="CategoriesButton-content">
                        {% for category in categories %}
 
-                           <div class="CategoriesButton-link"><a href="#">
+                           <div class="CategoriesButton-link"><a href="?parameter=category&flag={{ category.name }}">
                                <div class="CategoriesButton-icon"><img
                                        src="{{ static ('assets/img/icons/departments/2.svg') }}"
                                        alt="{{ loop.index }}.svg">
@@ -132,7 +132,7 @@
                                 <a class="CategoriesButton-arrow" href="#"></a>
                                 <div class="CategoriesButton-submenu">
                                 {% for subcategory in category.subcategory.all() %}
-                                        <a class="CategoriesButton-link" href="#">
+                                        <a class="CategoriesButton-link" href="/catalog/?parameter=subcategory&flag={{ subcategory.name }}">
                                         <div class="CategoriesButton-icon"><img
                                                 src="{{ static ('assets/img/icons/departments/1.svg') }}"
                                                 alt="1.svg">

@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from config import settings
-from app_catalog.models import Product
+from app_catalog.models import Product, ProductInShop
 from django.core import serializers
 
 class CartServicesMixin:
@@ -54,17 +54,22 @@ class ComparisonServicesMixin:
         """
         Добавить продукт в сравнение.
         """
-        product = Product.objects.get(id=product_id)
 
-        specification = list(product.specification.get().subspecification.values('name_subspecification', 'text_subspecification'))
+        product = Product.objects.get(products_in_shop=product_id)
+        # product = ProductInShop.objects.get(id=product_id)
+        # product = ProductInShop.objects.values().filter(id=product_id)
+        # print(ProductInShop.objects.values().filter(id=product_id))
+        # print(product.products_in_shop.values('price').filter(id=product_id))
 
         if product not in self.comparison:
             self.comparison[product_id] = {
-                'product_id': product.id,
+                'product_id': product_id,
                 'product_name': product.name,
-                'product_price': int(product.price),
-                'product_image': str(product.image.url) if product.image else '',
-                'specification': specification,
+                # 'product_price': product.products_in_shop.values('price').filter(id=product_id),
+                'product_image': str(product.image_main.url) if product.image_main else '',
+                'specification': list(product.specification.get().
+                                      subspecification.values('name_subspecification', 'text_subspecification'))
+                if product.specification else '',
 
             }
         self.save_to_in_comparison()

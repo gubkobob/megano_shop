@@ -144,4 +144,5 @@ data/
 *.db
 *.sqlite3
 /category_cache/
-/uploads/
+/import_csv_files/
+
