@@ -20,7 +20,7 @@
                                 <div class="form-group">
                                     <div class="range Section-columnRange">
                                         <input class="range-line" id="price" name="price" type="text" data-type="double"
-                                               data-min="7" data-max="1000" data-from="200" data-to="500"/>
+                                               data-min="7" data-max="{{maxprice}}" data-from="200" data-to="500"/>
                                         <div class="range-price">Цена:&#100;
                                             <div class="rangePrice">
                                             </div>
@@ -63,10 +63,10 @@
                             </strong>
                         </header>
                         <div class="Section-columnContent">
-                            <div class="buttons"><a class="btn btn_default btn_sm" href="?page_tag=Видео">Видео</a><a
-                                    class="btn btn_default btn_sm" href="?page_tag=Разработка">Разработка</a><a
-                                    class="btn btn_default btn_sm" href="?page_tag=Игры">Игры</a><a
-                                    class="btn btn_default btn_sm" href="?page_tag=Asus">Asus</a>
+                            <div class="buttons">
+                            {% for test in popular_tags %}
+                                <a class="btn btn_default btn_sm" href="?page_tag=Видео">{{test.product.subcategory}}</a>
+                            {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -75,39 +75,29 @@
                     <div class="Sort">
                         <div class="Sort-title">Сортировать по:
                         </div>
-                        {% if sort == 'price_high' %}
-                            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec"
-                                                          href="/catalog/?parameter=popular">Популярности</a><a
-                                    class="Sort-sortBy" href="/catalog/?parameter=price">Цене</a><a class="Sort-sortBy"
-                                                                                                    href="#">Отзывам</a><a
-                                    class="Sort-sortBy Sort-sortBy_inc" href="/catalog/?date=Up">Новизне</a>
+                            <div class="Sort-variants">
+                                <a class="Sort-sortBy Sort-sortBy_dec" href="/catalog/?parameter=popular">Популярности</a>
+                                <a class="Sort-sortBy" href="/catalog/?parameter=price">Цене</a>
+                                <a class="Sort-sortBy" href="/catalog/?parameter=comments">Отзывам</a>
+                                {% if sort == 'price_high' %}
+                                    <a class="Sort-sortBy Sort-sortBy_inc" href="/catalog/?parameter=product__created">Новизне</a>
+                                {% else %}
+                                    <a class="Sort-sortBy Sort-sortBy_dec" href="?parameter=-product__created">Новизне</a>
+                                {% endif %}
                             </div>
-                        {% else %}
-                            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec"
-                                                          href="/catalog/?parameter=popular">Популярности</a><a
-                                    class="Sort-sortBy" href="/catalog/?parameter=price">Цене</a><a class="Sort-sortBy"
-                                                                                                    href="#">Отзывам</a><a
-                                    class="Sort-sortBy Sort-sortBy_dec" href="?date=Down">Новизне</a>
-                            </div>
-                        {% endif %}
                     </div>
                     <div class="Cards">
-                        {% for product in products %}
-                            <div class="Card"><a class="Card-picture" href="product_details/{{product.id}}/"><img src="{% if product.image %}{{ product.image.url }}
-                                          {% else %}{{ static('assets/img/no_photo.jpg') }}
-                                          {% endif %}"alt="{{ product.image }}"/></a>
+                        {% for product in productsinshops %}
+                            <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=product.id) }} ">
+                                          <img src="{{ product.product.image_main.url }}" alt="{{ product.product.image_main }}"/></a>
                                 <div class="Card-content Card-content_new">
-                                    <strong class="Card-title"><a href="product_details/{{product.id}}/">{{ product.name }}</a>
+                                    <strong class="Card-title"><a href="{{ url ('appcatalog:product_details', pk=product.id) }} ">{{ product.product.name }}</a>
                                     </strong>
                                     <div class="Card-description">
-                                        <div class="Card-cost"><span class="Card-price">${{ product.price }}</span>
+                                        <div class="Card-cost"><span class="Card-price">$ {{product.price}} </span>
                                         </div>
-                                        <div class="Card-category">{{ product.category }} / {{ product.subcategory }}
-{#                                            {% if product.image %}#}
-{#                                                {{ product.image.url }}#}
-{#                                            {% else %}#}
-{#                                                {{ static('assets/img/no_photo.jpg') }}#}
-{#                                            {% endif %}#}
+                                        <div class="Card-category">{{ product.product.category }}
+                                            / {{ product.product.subcategory }}
                                         </div>
                                         <div class="Card-hover">
                                             <a class="Card-btn"
@@ -116,16 +106,24 @@
                                                 <img
                                                     src="{{ static ('assets/img/icons/card/cart.svg') }}"
                                                     alt="cart.svg"/></a>
+                                            {% if product.product.specification.values() %}
+                                                <a class="Card-comparison"
+                                                   href="{{ url ('app_cart:add_in_comparison', product_id=product.id ) }}"><img
+                                                        src="{{ static ('assets/img/icons/card/comparison.svg') }}"
+                                                        width="20px"
+                                                        alt="comparison.svg"/></a>
 
-                                            <a class="Card-comparison"
-                                               href="{{ url ('app_cart:add_in_comparison', product_id=product.id ) }}"><img
-                                                    src="{{ static ('assets/img/icons/card/comparison.svg') }}"
-                                                    width="20px"
-                                                    alt="comparison.svg"/></a>
+                                            {% endif %}
+{#                                            <a class="Card-comparison"#}
+{#                                               href="{{ url ('app_cart:add_in_comparison', product_id=product.id ) }}"><img#}
+{#                                                    src="{{ static ('assets/img/icons/card/comparison.svg') }}"#}
+{#                                                    width="20px"#}
+{#                                                    alt="comparison.svg"/></a>#}
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         {% endfor %}
 
                         <div class="Pagination">
@@ -153,6 +151,7 @@
                                 {% endif %}
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

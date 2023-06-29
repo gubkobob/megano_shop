@@ -83,7 +83,11 @@ TEMPLATES = [
             "constants": {
             },
             'globals': {
-            }
+            },
+            'context_processors': [
+                'app_cart.context_processor.comparison',
+            ]
+
         },
     },
     {
@@ -147,6 +151,8 @@ USE_I18N = True
 USE_TZ = True
 
 COMPARISON_SESSION_ID = 'comparison'
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 
 # Static files (CSS, JavaScript, Images)

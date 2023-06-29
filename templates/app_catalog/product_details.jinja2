@@ -1,39 +1,55 @@
 {% extends 'base.jinja2' %}
 
+
 {% block title %}
-  {{ object.name }}
+  {{product_in_shop.product.name}}
 {% endblock %}
 
 {% block body %}
     <div class="Middle Middle_top">
         <div class="Section">
+
             <div class="wrap">
                 <div class="Product">
                     <div class="ProductCard">
+
                         <div class="ProductCard-look">
                             <div class="ProductCard-photo">
-                                <img src="{{ object.image.url }}" alt="{{ object.image }}" />
+                                    <img src="{{ product_in_shop.product.image_main.url }}" alt="{{ product_in_shop.image_main }}" />
                             </div>
-                            <div class="ProductCard-picts"><a class="ProductCard-pict ProductCard-pict_ACTIVE" href="assets/img/content/home/bigGoods.png"><img src="assets/img/content/home/bigGoods.png" alt="bigGoods.png" /></a><a class="ProductCard-pict" href="assets/img/content/home/slider.png"><img src="assets/img/content/home/slider.png" alt="slider.png" /></a><a class="ProductCard-pict" href="assets/img/content/home/videoca.png"><img src="assets/img/content/home/videoca.png" alt="videoca.png" /></a>
+                            <div class="ProductCard-picts">
+                                {% if product_in_shop.images_in_shop %}
+                                        <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ product_in_shop.product.image_main.url }} ">
+                                            <img src="{{ product_in_shop.product.image_main.url }}"
+                                                 alt="{{ product_in_shop.image_main }}" />
+                                        </a>
+                                    {% for img in product_in_shop.images_in_shop.all() %}
+                                        <a class="ProductCard-pict" href="{{ img.image.url }}">
+                                            <img src="{{ img.image.url }}" alt="{{ img.image.url }}" />
+                                        </a>
+                                    {%  endfor %}
+                                {% endif %}
                             </div>
                         </div>
+
                         <div class="ProductCard-desc">
                             <div class="ProductCard-header">
-                                <h2 class="ProductCard-title">{{ object.name }}
+                                <h2 class="ProductCard-title">{{ product_in_shop.product.name }}
                                 </h2>
                                 <div class="ProductCard-info">
                                     <div class="ProductCard-cost">
-                                        <div class="ProductCard-price">Цена: {{ object.price }}
+                                        <div class="ProductCard-price">Цена: {{ product_in_shop.price }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="ProductCard-text">
                                 <ul>
-                                    <li>{{ object.description }}
+                                    <li>{{ product_in_shop.product.description }}
                                     </li>
                                 </ul>
                             </div>
+                            {% if product_in_shop.available %}
                             <div class="ProductCard-cart">
                                 <div class="ProductCard-cartElement ProductCard-cartElement_amount">
                                     <div class="Amount Amount_product">
@@ -60,6 +76,9 @@
                                     </div>
                                 </div>
                             </div>
+                            {% else %}
+                                <h2> Товар недоступен для заказа </h2>
+                            {% endif %}
                             <div class="ProductCard-footer">
                                 <div class="ProductCard-tags">
                                     <strong class="ProductCard-tagsTitle">Тэги:
@@ -69,16 +88,19 @@
                         </div>
                     </div>
                     <div class="Tabs Tabs_default">
-                        <div class="Tabs-links"><a class="Tabs-link_ACTIVE Tabs-link" href="#description"><span>Описание</span></a><a class="Tabs-link" href="#addit"><span>Характеристика</span></a><a class="Tabs-link" href="#reviews"><span>Отзывы (3)</span></a>
+                        <div class="Tabs-links">
+                            <a class="Tabs-link_ACTIVE Tabs-link" href="#description"><span>Описание</span></a>
+                            <a class="Tabs-link" href="#addit"><span>Характеристика</span></a>
+                            <a class="Tabs-link" href="#reviews"><span>Отзывы({{product_in_shop.comments.count()}})</span></a>
                         </div>
                         <div class="Tabs-wrap">
                             <div class="Tabs-block" id="description">
-                                <h2>Megano Store Hystory
+                                <h2>Описание {{ product_in_shop.product.name }}
                                 </h2>
-                                <p>Lorem ipsum dolor sit amet, consectetuer&#32;
-                                    <strong>adipiscing
-                                    </strong>&#32;elit doli. Aenean commodo ligula eget dolor. Aenean massa.&#32;<a href="#">Cumtipsu</a>&#32;sociis natoque penatibus et magnis dis parturient montesti, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eutu, pretiumem.
-                                </p><img class="pict pict_right" src="assets/img/content/home/bigGoods.png" alt="bigGoods.png" />
+                                <p>{{ product_in_shop.product.description }}
+                                </p>
+                                <img class="pict pict_right" src="{{ product_in_shop.product.image_main.url }}"
+                                     alt="{{ product_in_shop.image_main }}" />
                                 <ul>
                                     <li>Lorem ipsum dolor sit amet, consectetuer
                                     </li>
@@ -104,9 +126,15 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <td>Тип устройства
+                                            <td>Категория
                                             </td>
-                                            <td>Ноутбук
+                                            <td>{{ product_in_shop.product.category.name }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Подкатегория
+                                            </td>
+                                            <td>{{ product_in_shop.product.subcategory.name }}
                                             </td>
                                         </tr>
                                     </table>
@@ -116,29 +144,27 @@
                                 <div class="Categories Categories_product">
                                 </div>
                             </div>
+
                             <div class="Tabs-block" id="addit">
                                 <div class="Product-props">
+{#                                    {% if product_in_shop.product.specification.subspecification %} }}#}
+                                      {% if specifications %}
+{#                                    {% for specif in product_in_shop.product.specification.subspecification.all() %}#}
+                                      {% for specif in specifications %}
                                     <div class="Product-prop">
-                                        <strong>Lorem
-                                        </strong><span> Pfizer</span>
+                                        <strong> {{ specif.name_subspecification }}
+                                        </strong><span> {{ specif.text_subspecification }}</span>
                                     </div>
-                                    <div class="Product-prop">
-                                        <strong>ipsum
-                                        </strong><span> Lorem ipsum dolor sit</span>
-                                    </div>
-                                    <div class="Product-prop">
-                                        <strong>dolor sit
-                                        </strong><span> 5 ans</span>
-                                    </div>
-                                    <div class="Product-prop">
-                                        <strong>psum dolo
-                                        </strong><span> 2–3 jours</span>
-                                    </div>
+                                    {% endfor %}
+                                    {% else %}
+                                        <h2> Нет характеристик у товара</h2>
+                                    {% endif %}
                                 </div>
                             </div>
+
                             <div class="Tabs-block" id="reviews">
                                 <header class="Section-header">
-                                    <h3 class="Section-title">1 отзыв
+                                    <h3 class="Section-title">{{product_in_shop.comments.count()}} отзывов
                                     </h3>
                                 </header>
                                 <div class="Comments">
@@ -148,30 +174,43 @@
                                             </div>
                                         </div>
                                         <div class="Comment-column">
-                                            <header class="Comment-header">
-                                                <div>
-                                                    <strong class="Comment-title">Александра Бровина
-                                                    </strong><span class="Comment-date">Декабрь 25&#32;&#32;/&#32;&#32;2017&#32;&#32;/&#32;&#32;22:50</span>
-                                                </div>
-                                            </header>
-                                            <div class="Comment-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit doli. Aenean commodo ligula eget dolor. Aenean massa. Cumtipsu sociis natoque penatibus et magnis dis parturient montesti, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eutu, pretiumem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justotuio, rhoncus ut loret, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus element semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae.
-                                            </div>
+                                            {% if product_in_shop.comments %}
+                                            {% for comment in product_in_shop.comments.all() %}
+                                                <header class="Comment-header">
+
+                                                    <div>
+                                                        <strong class="Comment-title">{{comment.user.username}}
+                                                        </strong><span class="Comment-date">{{comment.updated }}</span>
+                                                    </div>
+                                                 </header>
+                                                <div class="Comment-content">{{comment.comment}}</div>
+                                            {% endfor %}
+                                            {% else %}
+                                                <h3> Еще нет отзывов к товару</h3>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
+                                         {% if get_messages(request) %}
+                                          {% for message in get_messages(request) %}
+                                            <h3 ="red">
+                                              <font color="red"> <strong>{{message}}</strong> </font>
+                                            </h3>
+                                         {% endfor %}
+                                        {% endif %}
                                 <header class="Section-header Section-header_product">
                                     <h3 class="Section-title">Добавить отзыв
                                     </h3>
                                 </header>
                                 <div class="Tabs-addComment">
                                     <form class="form" action="#" method="post">
+                                        {% csrf_token %}
                                         <div class="form-group">
                                             <textarea class="form-textarea" name="review" id="review" placeholder="Отзыв"></textarea>
                                         </div>
 
                                         <div class="form-group">
-                                            <button class="btn btn_muted" type="submit">Отправить отзыв
-                                            </button>
+                                            <button class="btn btn_muted" type="submit" name="send_comment">Отправить отзыв</button>
                                         </div>
                                     </form>
                                 </div>
@@ -184,3 +223,4 @@
         </div>
     </div>
 {% endblock %}
+

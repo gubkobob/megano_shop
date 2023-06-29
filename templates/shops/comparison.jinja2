@@ -4,7 +4,9 @@
 {% endblock %}
 
 {% block body %}
-    Количество продуктов в списке сравнения: {{ count_goods }}
+
+    Количество продуктов в списке сравнения: {% if comparison and comparison.get_len_goods_to_in_comparison() != 0 %}({{ comparison.get_len_goods_to_in_comparison() }})
+                            {% endif %}
     <div class="Middle">
         <div class="wrap">
             <div class="Product">
@@ -63,7 +65,12 @@
                             </div>
                             <div class="ProductCard-info">
                                 <div class="ProductCard-cost">
-                                    <div class="ProductCard-price">${{ product.product_price }}
+                                    <div class="ProductCard-price">{% if product.product_price %}
+                                    ${{ product.product_price }}
+                                        {% else %}
+                                        Not Price
+                                    {% endif %}
+
                                     </div>
                                 </div>
                             </div>
