@@ -85,7 +85,8 @@ TEMPLATES = [
             'globals': {
             },
             'context_processors': [
-                'app_cart.context_processor.comparison',
+                'app_cart.context_processors.comparison',
+                'app_cart.context_processors.cart',
             ]
 
         },
@@ -100,7 +101,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'app_cart.context_processors.cart',
             ],
         },
     },

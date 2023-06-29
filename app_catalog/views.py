@@ -5,7 +5,10 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models import Max
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import FormMixin
+
 from app_administrator.models import SettingsModel
+from app_cart.forms import CartAddProductInShopForm
 from .models import ProductInShop, Comments, Specifications, Subspecifications
 from .services import sort_catalog, paginator, filter_catalog
 
@@ -50,7 +53,7 @@ class CategoryView(ListView):
                                       )
 
 
-class ProductInShopDetailView(DetailView):
+class ProductInShopDetailView(DetailView, FormMixin):
     # model = ProductInShop
     queryset = ProductInShop.objects\
         .select_related("product")\
@@ -58,7 +61,8 @@ class ProductInShopDetailView(DetailView):
         .prefetch_related("comments")
     template_name = 'app_catalog/product_details.jinja2'
     context_object_name = "product_in_shop"
-#
+    form_class = CartAddProductInShopForm
+
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
@@ -66,18 +70,20 @@ class ProductInShopDetailView(DetailView):
         specifications = Specifications.objects.filter(product=product).all()
         subspecifications = Subspecifications.objects.filter(specification__in=specifications).all()
         context['specifications'] = subspecifications
+        # context['cart_add_form'] = CartAddProductInShopForm()
         return context
 
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         if request.method == "POST":
-            text_comment = request.POST.get('review')
             user = request.user
-            if user == AnonymousUser():
-                messages.add_message(request, messages.ERROR, "Для оставления отзыва нужно зарегистрироваться")
-            else:
-                product_in_shop = ProductInShop.objects.get(pk=pk)
-                new_comment = Comments.objects.create(user=user, comment=text_comment, product_in_shop=product_in_shop)
-                new_comment.save()
+            text_comment = request.POST.get('review')
+            if text_comment:
+                if user == AnonymousUser():
+                    messages.add_message(request, messages.ERROR, "Для оставления отзыва нужно зарегистрироваться")
+                else:
+                    product_in_shop = ProductInShop.objects.get(pk=pk)
+                    new_comment = Comments.objects.create(user=user, comment=text_comment, product_in_shop=product_in_shop)
+                    new_comment.save()
             return redirect('appcatalog:product_details', pk=pk)
 

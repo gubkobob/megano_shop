@@ -101,8 +101,8 @@
                                         </div>
                                         <div class="Card-hover">
                                             <a class="Card-btn"
-                                                 href="#">
-{#                                               href={{ url ('app_cart:cart_add', product_in_shop_id=product.id) }}>#}
+{#                                                 href="#">#}
+                                                 href="{{ url('app_cart:cart_add', product_in_shop_id=product.id) }}">
                                                 <img
                                                     src="{{ static ('assets/img/icons/card/cart.svg') }}"
                                                     alt="cart.svg"/></a>
