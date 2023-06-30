@@ -160,10 +160,10 @@
                                     <div class="Card-category">{{top_product.product.category}}/{{top_product.product.subcategory}}
                                     </div>
                                     <div class="Card-hover">
-                                        <a class="Card-btn" href="#">
+                                        <a class="Card-btn" href="{{ url('app_cart:cart_add', product_in_shop_id=top_product.id) }}">
                                             <img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" />
                                         </a>
-                                        <a class="Card-comparison" href="{{ url ('app_cart:add_in_comparison', product_id=top_product.product.id ) }} ">
+                                        <a class="Card-comparison" href="{{ url ('app_cart:add_in_comparison', product_id=top_product.id ) }} ">
                                             <img src="{{ static ('assets/img/icons/card/comparison.svg') }}" width="20px" alt="comparison.svg"/>
                                         </a>
                                     </div>
@@ -206,11 +206,11 @@
                                                 <div class="Card-category">{{product_limit.product.category}}/{{product_limit.product.subcategory}}
                                                 </div>
                                                 <div class="Card-hover">
-                                                    <a class="Card-btn" href="#">
-                                                        <img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" />
+                                                    <a class="Card-btn" href="{{ url('app_cart:cart_add', product_in_shop_id=product_limit.id) }}">
+                                                    <img src="{{ static ('assets/img/icons/card/cart.svg') }}" alt="cart.svg" />
                                                     </a>
-                                                    <a class="Card-comparison"/>
-                                                        <img src="{{ static ('assets/img/icons/card/comparison.svg') }}" width="20px" alt="comparison.svg"/>
+                                                    <a class="Card-comparison" href="{{ url ('app_cart:add_in_comparison', product_id=product_limit.id ) }} ">
+                                                    <img src="{{ static ('assets/img/icons/card/comparison.svg') }}" width="20px" alt="comparison.svg"/>
                                                     </a>
                                                 </div>
                                             </div>

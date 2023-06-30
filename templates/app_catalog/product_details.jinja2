@@ -50,17 +50,25 @@
                                 </ul>
                             </div>
                             {% if product_in_shop.available %}
+                                    <form class="form" action="{{ url('app_cart:cart_add', product_in_shop_id=product_in_shop.id) }}"
+                                          method="post">
+                                        {% csrf_token %}
+
+
                             <div class="ProductCard-cart">
                                 <div class="ProductCard-cartElement ProductCard-cartElement_amount">
                                     <div class="Amount Amount_product">
                                         <button class="Amount-remove" type="button">
                                         </button>
-                                        <input class="Amount-input form-input" name="amount" type="text" value="1" />
+                                        <input class="Amount-input form-input" name="quantity" type="text" value="1" />
                                         <button class="Amount-add" type="button">
                                         </button>
                                     </div>
                                 </div>
-                                <div class="ProductCard-cartElement"><a class="btn btn_primary" href="#modal_open"><img class="btn-icon" src="{{ static ('assets/img/icons/card/cart_white.svg') }}" alt="cart_white.svg" /><span class="btn-content">Купить</span></a>
+                                <div class="ProductCard-cartElement">
+                                    <a class="btn btn_primary" href="#modal_open">
+                                        <img class="btn-icon" src="{{ static ('assets/img/icons/card/cart_white.svg') }}" alt="cart_white.svg" />
+                                        <input type="submit" class="btn-content" value="Купить"></a>
                                 </div>
                                 <div id="modal_open" class="my_modal">
                                     <div class="my_modal-dialog">
@@ -76,6 +84,7 @@
                                     </div>
                                 </div>
                             </div>
+                                    </form>
                             {% else %}
                                 <h2> Товар недоступен для заказа </h2>
                             {% endif %}

@@ -85,7 +85,8 @@ TEMPLATES = [
             'globals': {
             },
             'context_processors': [
-                'app_cart.context_processor.comparison',
+                'app_cart.context_processors.comparison',
+                'app_cart.context_processors.cart',
             ]
 
         },
@@ -183,6 +184,8 @@ LOGIN_REDIRECT_URL = reverse_lazy('app_users:profile')
 
 
 TEMPLATE_CONTEXT_PROCESSORS = ('app_catalog.context_processors.foos')
+
+CART_SESSION_ID = 'cart'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
