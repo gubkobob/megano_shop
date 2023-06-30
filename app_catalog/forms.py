@@ -1,5 +1,6 @@
 from django import forms
 
 
-class CSVImportForm(forms.Form):
-    csv_file = forms.FileField()
+class ProductCSVImportForm(forms.Form):
+    csv_file_product = forms.FileField()
+
