@@ -34,7 +34,7 @@ class Discount(models.Model):
         verbose_name_plural = 'Скидки'
 
     def __str__(self):
-        return self.product
+        return str(self.product)
 
 
 class DiscountPrice(models.Model):
@@ -75,4 +75,4 @@ class DiscountPrice(models.Model):
         return super(DiscountPrice, self).save(force_insert, force_update, using, update_fields)
 
     def __str__(self):
-        return self.discount
+        return str(self.discount)
