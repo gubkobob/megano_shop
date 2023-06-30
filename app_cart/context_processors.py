@@ -1,4 +1,4 @@
-from .cart import Cart
+from .cart import Cart, get_cart
 from .services import ComparisonServicesMixin
 def cart(request):
     return {'cart': Cart(request)}

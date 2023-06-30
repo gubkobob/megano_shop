@@ -1,6 +1,20 @@
 from decimal import Decimal
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.http import HttpRequest
+
 from app_catalog.models import ProductInShop
+from .models import CartRegisteredUser
+
+
+def change_products_in_cart_db_from_cart(cart, user_id):
+    CartRegisteredUser.objects.filter(user_id=user_id).delete()
+    for product_in_shop_id in cart.keys():
+        cart_row = CartRegisteredUser(user_id=user_id,
+                                      product_in_shop_id=product_in_shop_id,
+                                      quantity=cart[product_in_shop_id]["quantity"],
+                                      price=cart[product_in_shop_id]["price"])
+        cart_row.save()
 
 
 class Cart(object):
@@ -15,6 +29,7 @@ class Cart(object):
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+
 
     def add(self, product_in_shop, quantity=1, update_quantity=False):
         """
@@ -77,3 +92,24 @@ class Cart(object):
         # удаление корзины из сессии
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True
+
+    def to_dict(self):
+        return {key: value for (key, value) in self.cart.items()}
+
+
+def add_products_to_cart_from_db(cart: Cart, request: HttpRequest) -> Cart:
+    if request.user.is_authenticated:
+        cart_from_db = CartRegisteredUser.objects.filter(user_id=request.user.id).all()
+        for product in cart_from_db:
+            cart.add(product_in_shop=product.product_in_shop,
+                     quantity=product.quantity,
+                     update_quantity=False)
+        cart.save()
+    return cart
+
+
+def get_cart(request):
+    cart = Cart(request)
+    cart = add_products_to_cart_from_db(cart=cart, request=request)
+    cart.save()
+    return cart
