@@ -8,6 +8,7 @@ from .models import SettingsModel
 @admin.register(SettingsModel)
 class SettingsModelAdmin(admin.ModelAdmin):
     """Админ панель модели Настроек """
+    change_list_template = 'admin/cache_all_change_list.html'
     list_display = 'id', 'limited_edition_products', 'hot_offers', 'popular_products', 'products_banner', \
                    'count_viewed', 'selected_categories', 'cache_time', 'price_express_delivery', \
                    'price_ordinary_delivery', 'min_total_price_order'
