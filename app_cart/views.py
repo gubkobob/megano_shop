@@ -1,8 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from django.views.decorators.http import require_POST
-
-from app_cart.cart import Cart, change_products_in_cart_db_from_cart, get_cart
+from app_cart.cart import Cart, change_products_in_cart_db_from_cart, CartDB
 from app_cart.forms import CartAddProductInShopForm
 from app_cart.services import ComparisonServicesMixin
 from app_catalog.models import ProductInShop
@@ -47,7 +44,10 @@ def remove_product_in_comparison(request, product_id):
 
 
 def cart_add(request, product_in_shop_id):
-    cart = Cart(request)
+    if request.user.is_authenticated:
+        cart = CartDB(request)
+    else:
+        cart = Cart(request)
     product_in_shop = get_object_or_404(ProductInShop, id=product_in_shop_id)
     if request.method == "POST":
         form = CartAddProductInShopForm(request.POST)
@@ -60,27 +60,34 @@ def cart_add(request, product_in_shop_id):
         cart.add(product_in_shop=product_in_shop,
                  quantity=1,
                  update_quantity=False)
-
-    if request.user.is_authenticated:
-        change_products_in_cart_db_from_cart(cart=cart.to_dict(), user_id=request.user.id)
-
-
     return redirect('app_cart:cart_detail')
 
 
 def cart_remove(request, product_in_shop_id):
-    cart = Cart(request)
+    if request.user.is_authenticated:
+        cart = CartDB(request)
+    else:
+        cart = Cart(request)
     product_in_shop = get_object_or_404(ProductInShop, id=product_in_shop_id)
     cart.remove(product_in_shop)
-    if request.user.is_authenticated:
-        change_products_in_cart_db_from_cart(cart=cart.to_dict(), user_id=request.user.id)
+    # if request.user.is_authenticated:
+    #     change_products_in_cart_db_from_cart(cart=cart.to_dict(), user_id=request.user.id)
     return redirect('app_cart:cart_detail')
 
 
 def cart_detail(request):
-    cart = Cart(request)
-    for item in cart:
-        item['update_quantity_form'] = CartAddProductInShopForm(
-            initial={'quantity': item['quantity'], 'update': True})
+    form = {}
+    if request.user.is_authenticated:
+        cart = CartDB(request)
+        for item in cart:
+            form['update_quantity_form'] = CartAddProductInShopForm(
+                initial={'quantity': item.quantity, 'update': True})
+    else:
+        cart = Cart(request)
+        for item in cart:
+            form['update_quantity_form'] = CartAddProductInShopForm(
+                initial={'quantity': item['quantity'], 'update': True})
 
-    return render(request, 'cart/cart.jinja2', {'cart': cart})
+    context = {"cart": cart, "form": form}
+
+    return render(request, 'cart/cart.jinja2', context=context)
