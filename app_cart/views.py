@@ -1,6 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.views.decorators.http import require_POST
+
+from app_cart.cart import Cart
+from app_cart.forms import CartAddProductInShopForm
 from app_cart.services import ComparisonServicesMixin
+from app_catalog.models import ProductInShop
 
 
 def add_in_comparison(request, product_id):
@@ -38,3 +43,37 @@ def remove_product_in_comparison(request, product_id):
 #     comparison = ComparisonServicesMixin(request=request)
 #     x = comparison.get_len_goods_to_in_comparison()
 #     return x
+
+
+
+def cart_add(request, product_in_shop_id):
+    cart = Cart(request)
+    product_in_shop = get_object_or_404(ProductInShop, id=product_in_shop_id)
+    if request.method == "POST":
+        form = CartAddProductInShopForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            cart.add(product_in_shop=product_in_shop,
+                     quantity=cd['quantity'],
+                     update_quantity=cd['update'])
+    else:
+        cart.add(product_in_shop=product_in_shop,
+                 quantity=1,
+                 update_quantity=False)
+    return redirect('app_cart:cart_detail')
+
+
+def cart_remove(request, product_in_shop_id):
+    cart = Cart(request)
+    product_in_shop = get_object_or_404(ProductInShop, id=product_in_shop_id)
+    cart.remove(product_in_shop)
+    return redirect('app_cart:cart_detail')
+
+
+def cart_detail(request):
+    cart = Cart(request)
+    for item in cart:
+        item['update_quantity_form'] = CartAddProductInShopForm(
+            initial={'quantity': item['quantity'], 'update': True})
+
+    return render(request, 'cart/cart.jinja2', {'cart': cart})
