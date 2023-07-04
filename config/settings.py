@@ -85,8 +85,8 @@ TEMPLATES = [
             'globals': {
             },
             'context_processors': [
-                'app_cart.context_processors.comparison',
                 'app_cart.context_processors.cart',
+                'app_cart.context_processors.comparison',
             ]
 
         },
@@ -194,31 +194,31 @@ EMAIL_HOST_PASSWORD = 'password'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-# LOGFILE_NAME = BASE_DIR / 'log.txt'
-# LOGFILE_SIZE = 1 * 1024 * 1024
-# LOGFILE_COUNT = 3
-#
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'formatters': {
-#         'verbose': {
-#             'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s',
-#         },
-#     },
-#     'handlers': {
-#         'logfile': {
-#             'class': 'logging.handlers.RotatingFileHandler',
-#             'filename': LOGFILE_NAME,
-#             'maxBytes': LOGFILE_SIZE,
-#             'backupCount': LOGFILE_COUNT,
-#             'formatter': 'verbose',
-#         },
-#     },
-#     'root': {
-#         'handlers': ['file'],
-#         'level': 'DEBUG',
-#         'propagate': True
-#     },
-# }
+LOGFILE_NAME = BASE_DIR / 'log.txt'
+LOGFILE_SIZE = 1 * 1024 * 1024
+LOGFILE_COUNT = 3
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+        },
+    },
+    'handlers': {
+        'logfile': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOGFILE_NAME,
+            'maxBytes': LOGFILE_SIZE,
+            'backupCount': LOGFILE_COUNT,
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['logfile'],
+        'level': 'DEBUG',
+        'propagate': True
+    },
+}
 
