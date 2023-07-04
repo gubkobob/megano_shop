@@ -20,6 +20,7 @@ class CategoryAdmin(admin.ModelAdmin):
     """
     Админ панель модели Категории товаров
     """
+    change_list_template = 'admin/cache_change_list.html'
     list_display = "id", "name", "slug"
     list_display_links = "id", "name", "slug"
     search_fields = "name",
@@ -27,7 +28,7 @@ class CategoryAdmin(admin.ModelAdmin):
     actions = ['clear_cache']
 
     def category_cache_clear(self, request: HttpRequest):
-        cache.delete('categories')
+        cache.delete('category')
         messages.add_message(request, messages.INFO, 'Category cache cleared')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -42,12 +43,14 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(SubCategory)
 class SubCategoryAdmin(admin.ModelAdmin):
     """Админ панель модели Подкатегории товаров"""
+    change_list_template = 'admin/cache_change_list.html'
     list_display = "id", "category", "name"
     list_display_links = "id", "category", "name"
     search_fields = "name",
+    actions = ['clear_cache']
 
     def subcategory_cache_clear(self, request: HttpRequest):
-        cache.delete('subcategories')
+        cache.delete('subcategory')
         messages.add_message(request, messages.INFO, 'Subcategory cache cleared')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -62,13 +65,15 @@ class SubCategoryAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     """Админ панель модели Товары"""
+    change_list_template = 'admin/cache_change_list.html'
     list_display = "id", "image_main", "name", "created", "updated", "description"
     list_display_links = "name",
     list_filter = "created", "updated"
     search_fields = "name",
+    actions = ['clear_cache']
 
     def product_cache_clear(self, request: HttpRequest):
-        cache.delete('products')
+        cache.delete('product')
         messages.add_message(request, messages.INFO, 'Product cache cleared')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
