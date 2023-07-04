@@ -21,7 +21,7 @@ class CheckoutOrderView(View):
             'cart': cart,
             'form': form
         }
-        return render(request, 'app_orders/order.jinja2', context)
+        return render(request, 'app_orders/order_test.jinja2', context)
 
 
 class CreateOrderView(View):
