@@ -89,10 +89,11 @@ class ProductInShop(models.Model):
     class Meta:
         verbose_name = 'Магазины и их товары'
         verbose_name_plural = 'Магазины и их товары'
-        ordering = ['shop', 'product', 'price']
+        ordering = ['-id', 'shop', 'product', 'price']
 
     def __str__(self):
         return self.product.name
+
 
 def product_in_shop_images_directory_path(instance: "ProductInShopImage", filename: str) -> str:
     return "products/product_{pk}/images/{filename}".format(

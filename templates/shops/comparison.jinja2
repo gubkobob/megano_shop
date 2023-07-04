@@ -76,7 +76,7 @@
                             </div>
                             <div class="ProductCard-cart">
                                 <div class="ProductCard-cartElement">
-                                    <a class="btn btn_primary" href="cart.html">
+                                    <a class="btn btn_primary" href="{{ url('app_cart:cart_add', product_in_shop_id=product.product_id) }}">
                                         <img class="btn-icon"
                                              src="{{ static('assets/img/icons/card/cart_white.svg') }}"
                                              alt="cart_white.svg"/>Добавить в корзину</a>
