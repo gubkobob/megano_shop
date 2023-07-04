@@ -5,9 +5,9 @@ from django.utils.translation import gettext_lazy as _
 
 class Discount(models.Model):
     types = [
-        ('percent', 'процент'),
-        ('quantity', 'количество'),
-        ('percent and quantity', 'процент и количество'),
+        ('процент', 'процент'),
+        ('количество', 'количество'),
+        ('процент и количество', 'процент и количество'),
     ]
 
     product = models.ForeignKey(ProductInShop, on_delete=models.CASCADE, verbose_name='Продукт',
@@ -43,6 +43,13 @@ class DiscountPrice(models.Model):
     percent = models.IntegerField(blank=True, null=True, verbose_name=_('процентная скидка'))
     quantity = models.IntegerField(blank=True, null=True, verbose_name=_('количественная скидка'))
 
+    def get_price_product(self):
+        if self.discount.type_discount == 'процент':
+            return self.discount.product.price * (int(self.percent * 0.10))
+
+        elif self.discount.type_discount == 'количество':
+            return self.discount.product.price - self.quantity
+
     class Meta:
         verbose_name = 'Значение скидки'
         verbose_name_plural = 'Значения скидок'
@@ -54,17 +61,17 @@ class DiscountPrice(models.Model):
             force_insert=False, force_update=False, using=None, update_fields=None
         )
 
-        if self.discount.type_discount == 'percent':
+        if self.discount.type_discount == 'процент':
             self.quantity = 0
             if self.percent > 30:
                 self.percent = 30
 
-        elif self.discount.type_discount == 'quantity':
+        elif self.discount.type_discount == 'количество':
             self.percent = 0
             if self.quantity >= self.discount.product.price:
                 self.quantity = self.discount.product.price // 20
 
-        elif self.discount.type_discount == 'percent and quantity':
+        elif self.discount.type_discount == 'процент и количество':
 
             if self.percent > 30:
                 self.percent = 10

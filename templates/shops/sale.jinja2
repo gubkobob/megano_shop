@@ -36,13 +36,13 @@
 
                 <div class="Cards Cards_blog">
                     {% for obj in context %}
-{#                        {% if obj.category_product != obj.category_product %}#}
-{##}
-{#                        {% endif %}#}
+                        {#                        {% if obj.category_product != obj.category_product %}#}
+                        {##}
+                        {#                        {% endif %}#}
 
 
-                        <div class="Card"><a class="Card-picture" href="#"><img
-                                src="{{ static('assets/img/content/sale/product.png') }} "
+                        <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=obj.product_id) }}"><img
+                                src="{{ obj.product_image }}"
                                 alt="product.png"/></a>
                             <div class="Card-date">
                                 <strong class="Card-date-number">
@@ -67,12 +67,18 @@
                             {#                            </div>#}
                             <div class="Card-content">
                                 <strong class="Card-title"><a href="#">
-                                    {% if obj.category_product %}{{ obj.category_product }}
+                                    {% if obj.category_product %}
+                                        {{ obj.category_product }}
                                     {% endif %}  </a>
                                 </strong>
-                                <div class="Card-description">{% if obj.product_name %} {{ obj.product_name }}
-                                
-                                {% endif %} 
+                                <div class="Card-description"><div>{% if obj.product_name %}{{ obj.product_name }} </div>
+                                    <div>{% if obj.product_type_discount %}Тип скидки: {{ obj.product_type_discount }}
+                                    {% endif %}</div>
+                                    <div>{% if obj.product_price %}цена без скидки: {{ obj.product_price }}</div>
+                                       <div>{% if obj.product_discount_price %}Цена со скидкой: {{ obj.product_discount_price }}</div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -87,14 +93,27 @@
     </div>
     <div class="Pagination">
         <div class="Pagination-ins">
-            <a class="Pagination-element Pagination-element_prev" href="#"><img
-                    src="{{ static('assets/img/icons/prevPagination.svg') }}" alt="prevPagination.svg"/></a>
-            <a class="Pagination-element Pagination-element_current" href="#"> <span
-                    class="Pagination-text">1</span></a>
-            <a class="Pagination-element" href="#"><span class="Pagination-text">2</span></a>
-            <a class="Pagination-element" href="#"><span class="Pagination-text">3</span></a>
-            <a class="Pagination-element Pagination-element_prev" href="#"><img
-                    src="{{ static('assets/img/icons/nextPagination.svg') }}" alt="nextPagination.svg"/></a>
+            {% if catalog_page_obj.has_previous() %}
+                <a class="Pagination-element Pagination-element_prev"
+                   href="?page_catalog={{ catalog_page_obj.previous_page_number() }}"><img
+                        src="{{ static ('assets/img/icons/prevPagination.svg') }}"
+                        alt="prevPagination.svg"/></a>
+                <a class="Pagination-element"
+                   href="?page_catalog={{ catalog_page_obj.previous_page_number() }}">{{ catalog_page_obj.previous_page_number() }}<span
+                        class="Pagination-text"></span></a>
+            {% endif %}
+            <a class="Pagination-element Pagination-element_current"
+               href="?page_catalog={{ catalog_page_obj.number }}"><span
+                    class="Pagination-text">{{ catalog_page_obj.number }}</span></a>
+            {% if catalog_page_obj.has_next() %}
+                <a class="Pagination-element"
+                   href="?page_catalog={{ catalog_page_obj.next_page_number() }}"><span
+                        class="Pagination-text">{{ catalog_page_obj.next_page_number() }}</span></a>
+                <a class="Pagination-element Pagination-element_prev"
+                   href="?page_catalog={{ catalog_page_obj.next_page_number() }}"><img
+                        src="{{ static ('assets/img/icons/nextPagination.svg') }}"
+                        alt="nextPagination.svg"/></a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

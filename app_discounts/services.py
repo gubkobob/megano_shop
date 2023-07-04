@@ -1,10 +1,11 @@
 """
 Сервисы для работы со скидками
 """
+import datetime
+from django.utils import timezone
 from app_catalog.models import ProductInShop, Product
-from .models import Discount
-from django.db.models.functions import TruncMonth, TruncDay
-from django.db.models import Count
+from .models import Discount, DiscountPrice
+
 
 
 class DiscountsServicesMixin:
@@ -17,27 +18,36 @@ class DiscountsServicesMixin:
         """
         функция получения страницы со скидками
         """
-        discount = Discount
-
         context = {}
-        category_is = []
-        content = []
 
-        for t in discount.objects.values():
-            print(Product.objects.get(products_in_shop=t['product_id']))
+        # - /СДЕЛАНО/ - фильтр добавить
+
+        # - //Добавить айдишник// + //поправить шаблон на переход по айдишнику//
+        # - //Добавить картинки//
+        # - //Добавить цену со скидкой и без + вывод какая скидка.//
+        # - ПРИОРИТЕТ - Начать логику корзины + добавить логику цены со скидкой через *ЕСЛИ* / Совместить с 3 пунктом
+
+
+
+        # Вопрос правильности фильтра
+
+
+
+        #
+        for t in Discount.objects.filter(end_discount__day=timezone.now().day + 1).values():
             context[t['id']] = {
-                'datetime_start': discount.objects.get(product=t['product_id']).start_discount,
-                'datetime_end': discount.objects.get(product=t['product_id']).end_discount,
+                'product_id': Discount.objects.get(product=t['product_id']).product_id,
+                'datetime_start': Discount.objects.get(product=t['product_id'], start_discount=t['start_discount']).start_discount,
+                'datetime_end': Discount.objects.get(product=t['product_id'], end_discount=t['end_discount']).end_discount,
                 'category_product': Product.objects.get(products_in_shop=t['product_id']).category,
                 'product_name': Product.objects.get(products_in_shop=t['product_id']),
+                'product_price': ProductInShop.objects.get(id=t['product_id']).price,
+                'product_discount_price':
+                    DiscountPrice.objects.get(discount=t['id']).get_price_product(),
+                'product_type_discount': Discount.objects.get(product=t['product_id']).type_discount,
+                'product_image': str(Product.objects.get(products_in_shop=t['product_id']).image_main.url)
+                if Product.objects.get(products_in_shop=t['product_id']).image_main else ''
             }
-            category_is.append(Product.objects.get(products_in_shop=t['product_id']).category)
-
-
-        # for context_ in context.values():
-        #     for content_ in context_:
-        #         print(context_[content_])
-        #         content.append(context_)
 
         return list(_context_ for _context_ in context.values())
 
