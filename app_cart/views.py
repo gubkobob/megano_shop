@@ -60,7 +60,7 @@ def cart_add(request, product_in_shop_id):
         cart.add(product_in_shop=product_in_shop,
                  quantity=1,
                  update_quantity=False)
-    return redirect('app_cart:cart_detail')
+    return redirect(request.META['HTTP_REFERER'])
 
 
 def cart_remove(request, product_in_shop_id):
@@ -70,8 +70,6 @@ def cart_remove(request, product_in_shop_id):
         cart = Cart(request)
     product_in_shop = get_object_or_404(ProductInShop, id=product_in_shop_id)
     cart.remove(product_in_shop)
-    # if request.user.is_authenticated:
-    #     change_products_in_cart_db_from_cart(cart=cart.to_dict(), user_id=request.user.id)
     return redirect('app_cart:cart_detail')
 
 
@@ -87,7 +85,5 @@ def cart_detail(request):
         for item in cart:
             form['update_quantity_form'] = CartAddProductInShopForm(
                 initial={'quantity': item['quantity'], 'update': True})
-
     context = {"cart": cart, "form": form}
-
     return render(request, 'cart/cart.jinja2', context=context)

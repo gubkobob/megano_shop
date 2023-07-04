@@ -55,19 +55,12 @@ class Cart(object):
         """
         product_in_shop_ids = self.cart.keys()
         # получение объектов product_in_shop и добавление их в корзину
+
         products_in_shops = ProductInShop.objects.filter(id__in=product_in_shop_ids).all()
         for product_in_shop in products_in_shops:
             self.cart[str(product_in_shop.id)]['product_in_shop'] = product_in_shop
-            # self.cart[str(product_in_shop.id)]['product_in_shop']['id'] = product_in_shop.id
-            # self.cart[str(product_in_shop.id)]['product_in_shop']['product']['name'] = product_in_shop.product.name
-            # self.cart[str(product_in_shop.id)]['product_in_shop']['product']['image_main'] = product_in_shop.product.image_main
-            # self.cart[str(product_in_shop.id)]['product_in_shop']['product']['description'] = product_in_shop.product.description
-
-
 
         for item in self.cart.values():
-            # item['price'] = Decimal(item['price'])
-            # item['total_price'] = item['price'] * item['quantity']
             yield item
 
     def __len__(self):
@@ -130,7 +123,6 @@ class CartDB(object):
         Удаление обьект склада из корзины.
         """
         self.cart.filter(product_in_shop_id=product_in_shop.id).delete()
-        # self.save()
 
     def __iter__(self):
         """
@@ -162,6 +154,6 @@ def change_products_in_cart_db_from_cart(cart_db: CartDB, cart: Cart):
     for product in cart:
         cart_db.add(product_in_shop=product["product_in_shop"], quantity=product["quantity"], update_quantity=False)
     cart_db.save()
-    print("PRODUCTS ADDED")
+
 
 

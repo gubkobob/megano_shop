@@ -85,8 +85,8 @@ TEMPLATES = [
             'globals': {
             },
             'context_processors': [
-                'app_cart.context_processors.comparison',
                 'app_cart.context_processors.cart',
+                'app_cart.context_processors.comparison',
             ]
 
         },
