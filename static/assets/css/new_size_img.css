@@ -26,3 +26,7 @@
     justify-content: space-between;
     height: 165px;
 }
+
+.toggle .toggle-text_checked {
+    display: inherit;
+}
