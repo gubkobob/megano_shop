@@ -56,16 +56,16 @@ class ComparisonServicesMixin:
         """
 
         product = Product.objects.get(products_in_shop=product_id)
-        # product = ProductInShop.objects.get(id=product_id)
-        # product = ProductInShop.objects.values().filter(id=product_id)
-        # print(ProductInShop.objects.values().filter(id=product_id))
-        # print(product.products_in_shop.values('price').filter(id=product_id))
+        price_product = ProductInShop.objects.filter(id=product_id).values('price')[0]
+        _price = 0
+        for price in price_product:
+            _price += int(price_product[price])
 
         if product not in self.comparison:
             self.comparison[product_id] = {
                 'product_id': product_id,
                 'product_name': product.name,
-                # 'product_price': product.products_in_shop.values('price').filter(id=product_id),
+                'product_price': _price,
                 'product_image': str(product.image_main.url) if product.image_main else '',
                 'specification': list(product.specification.get().
                                       subspecification.values('name_subspecification', 'text_subspecification'))

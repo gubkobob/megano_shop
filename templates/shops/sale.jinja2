@@ -5,51 +5,115 @@
 
 {% block body %}
 
-<div class="Middle Middle_top">
-    <div class="Middle-top">
-        <div class="wrap">
-            <div class="Middle-header">
+    {% for contex in context %}
+        <div>{{ contex }} </div>
+        {#        <div> {{ context }}</div>#}
+        {#        {% for contee in contex %}#}
+        {#            <div> {{ contex }} {{ contee }}</div>#}
+        {#        {% endfor %}#}
 
-                <ul class="breadcrumbs Middle-breadcrumbs">
-                    <li class="breadcrumbs-item"><a href="index.html">Главная</a>
-                    </li>
-                    <li class="breadcrumbs-item breadcrumbs-item_current"><span>Блог</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="Section">
-        <div class="wrap">
-            <div class="Cards Cards_blog">
-                <div class="Card"><a class="Card-picture" href="#"><img src="assets/img/content/sale/product.png"
-                                                                        alt="product.png"/></a>
-                    <div class="Card-date">
-                        <strong class="Card-date-number">24
-                        </strong><span class="Card-date-month">nov</span>
-                    </div>
-                    <div class="Card-pin">
-                    </div>
-                    <div class="Card-content">
-                        <strong class="Card-title"><a href="#">Basic Time Management Advanced Course</a>
-                        </strong>
-                        <div class="Card-description">Lorem ipsum dolor sit amet consectetuer adipiscing elit sed diam
-                            nonummy nibh euismod tincid unt ut laoreet dolore
-                        </div>
-                    </div>
+    {% endfor %}
+
+
+    <div class="Middle Middle_top">
+        <div class="Middle-top">
+            <div class="wrap">
+                <div class="Middle-header">
+
+                    <ul class="breadcrumbs Middle-breadcrumbs">
+                        <li class="breadcrumbs-item"><a href="index.html">Главная</a>
+                        </li>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>Скидки</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+
+        <div class="Section">
+
+            <div class="wrap">
+
+                <div class="Cards Cards_blog">
+                    {% for obj in context %}
+                        {#                        {% if obj.category_product != obj.category_product %}#}
+                        {##}
+                        {#                        {% endif %}#}
+
+
+                        <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=obj.product_id) }}"><img
+                                src="{{ obj.product_image }}"
+                                alt="product.png"/></a>
+                            <div class="Card-date">
+                                <strong class="Card-date-number">
+                                    {% if obj.datetime_start.day %}{{ obj.datetime_start.day }}{% endif %}
+                                </strong><span class="Card-date-month">{% if obj.datetime_start.month %}month
+                                {{ obj.datetime_start.month }}
+                                </span>{% endif %}
+                            </div>
+                            {% if obj.datetime_start.day != obj.datetime_end.day %}
+                                {% if obj.datetime_start.month != obj.datetime_end.month %}
+                                    <div class="Card-date Card-date_to">
+                                        <strong class="Card-date-number">{% if obj.datetime_end.day %}
+                                            {{ obj.datetime_end.day }}
+                                        {% endif %}
+                                        </strong><span class="Card-date-month">{% if obj.datetime_end.month %} month
+                                        {{ obj.datetime_end.month }}</span>
+                                    {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            {#                            <div class="Card-pin">#}
+                            {#                            </div>#}
+                            <div class="Card-content">
+                                <strong class="Card-title"><a href="#">
+                                    {% if obj.category_product %}
+                                        {{ obj.category_product }}
+                                    {% endif %}  </a>
+                                </strong>
+                                <div class="Card-description"><div>{% if obj.product_name %}{{ obj.product_name }} </div>
+                                    <div>{% if obj.product_type_discount %}Тип скидки: {{ obj.product_type_discount }}
+                                    {% endif %}</div>
+                                    <div>{% if obj.product_price %}цена без скидки: {{ obj.product_price }}</div>
+                                       <div>{% if obj.product_discount_price %}Цена со скидкой: {{ obj.product_discount_price }}</div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-</div>
-<div class="Pagination">
-    <div class="Pagination-ins"><a class="Pagination-element Pagination-element_prev" href="#"><img
-            src="assets/img/icons/prevPagination.svg" alt="prevPagination.svg"/></a><a
-            class="Pagination-element Pagination-element_current" href="#"><span class="Pagination-text">1</span></a><a
-            class="Pagination-element" href="#"><span class="Pagination-text">2</span></a><a class="Pagination-element"
-                                                                                             href="#"><span
-            class="Pagination-text">3</span></a><a class="Pagination-element Pagination-element_prev" href="#"><img
-            src="assets/img/icons/nextPagination.svg" alt="nextPagination.svg"/></a>
+    <div class="Pagination">
+        <div class="Pagination-ins">
+            {% if catalog_page_obj.has_previous() %}
+                <a class="Pagination-element Pagination-element_prev"
+                   href="?page_catalog={{ catalog_page_obj.previous_page_number() }}"><img
+                        src="{{ static ('assets/img/icons/prevPagination.svg') }}"
+                        alt="prevPagination.svg"/></a>
+                <a class="Pagination-element"
+                   href="?page_catalog={{ catalog_page_obj.previous_page_number() }}">{{ catalog_page_obj.previous_page_number() }}<span
+                        class="Pagination-text"></span></a>
+            {% endif %}
+            <a class="Pagination-element Pagination-element_current"
+               href="?page_catalog={{ catalog_page_obj.number }}"><span
+                    class="Pagination-text">{{ catalog_page_obj.number }}</span></a>
+            {% if catalog_page_obj.has_next() %}
+                <a class="Pagination-element"
+                   href="?page_catalog={{ catalog_page_obj.next_page_number() }}"><span
+                        class="Pagination-text">{{ catalog_page_obj.next_page_number() }}</span></a>
+                <a class="Pagination-element Pagination-element_prev"
+                   href="?page_catalog={{ catalog_page_obj.next_page_number() }}"><img
+                        src="{{ static ('assets/img/icons/nextPagination.svg') }}"
+                        alt="nextPagination.svg"/></a>
+            {% endif %}
+        </div>
     </div>
-</div>
 {% endblock %}

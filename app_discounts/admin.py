@@ -17,6 +17,8 @@ class DiscountPriceInline(admin.TabularInline):
 class DiscountAdmin(admin.ModelAdmin):
     """Админ панель модель Specifications"""
     list_display = [
+        'id',
+        'product_id',
         'product',
         'type_discount',
         'start_discount',
