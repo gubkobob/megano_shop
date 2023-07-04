@@ -17,6 +17,14 @@ class SettingsModel(models.Model):
                                               null=True, blank=True, verbose_name='Избранные категории')
     cache_time = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(86400)],
                                      null=True, blank=True, verbose_name='Время обновления кэша')
+    price_express_delivery = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(1000)],
+                                                 null=True, blank=True, verbose_name='Стоимость экспресс доставки')
+    price_ordinary_delivery = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(400)],
+                                                  null=True, blank=True, verbose_name='Стоимость обычной доставки')
+    min_total_price_order = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4000)],
+                                                null=True, blank=True, verbose_name='Минимальная сумма заказа')
+
+
 
     class Meta:
         verbose_name = 'Настройки и сброс всего кэша'

@@ -126,6 +126,18 @@ class ProductInShopAdmin(admin.ModelAdmin):
                     )
                     if created == False:
                         log.warning(f'Импорт выполнен частично. Товар {product_in_shop} был импортирован ранее.')
+                    else:
+                        if row['image']!=None:
+                            product_id = product_in_shop.id
+                            for img in row['image'].split(";"):
+                                print(img)
+                                product_in_shop_image, created = ProductInShopImage.objects.get_or_create(
+                                        product_in_shop_id=product_id,
+                                        image=img
+                                )
+                                if created == False:
+                                    log.warning(f'Ошибка импорта картинки {product_in_shop_image} ')
+
             except Exception as error_import:
                 self.message_user(request, 'Импорт Завершён с ошибкой')
                 log.error(f'Импорт Завершен с ошибкой: {error_import}')
