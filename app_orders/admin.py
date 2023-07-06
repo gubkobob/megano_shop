@@ -18,11 +18,11 @@ class OrderAdmin(admin.ModelAdmin):
     """
     inlines = [OrderItemInline]
     list_display = "id", "user", "full_name", "phone_number", "email", "city", "address", \
-                   "buying_type", "payment", "comment", "created_at", "status"
+                   "delivery", "payment", "comment", "created_at", "status"
     list_display_links = "id", "user", "full_name"
-    search_fields = "id", "user", "full_name", "phone_number", "email", "city", "address", "buying_type", \
+    search_fields = "id", "user", "full_name", "phone_number", "email", "city", "address", "delivery", \
                     "payment", "created_at", "status"
-    list_filter = "id", "user", "full_name", "city", "buying_type", "payment", "status"
+    list_filter = "id", "user", "full_name", "city", "delivery", "payment", "status"
 
 
 

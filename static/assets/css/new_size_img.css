@@ -30,3 +30,8 @@
 .toggle .toggle-text_checked {
     display: inherit;
 }
+
+label .delivery_size {
+    font-size: 12px;
+    margin-bottom: 0px;
+}

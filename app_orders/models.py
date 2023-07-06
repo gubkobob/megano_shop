@@ -41,7 +41,7 @@ class Order(models.Model):
     email = models.EmailField(max_length=50, verbose_name="E-mail")
     city = models.CharField(max_length=100, null=True, blank=True, verbose_name="Город")
     address = models.CharField(max_length=1000, null=True, blank=True, verbose_name="Адрес доставки")
-    buying_type = models.CharField(max_length=100, choices=DELIVERY_METHOD_CHOICES,
+    delivery = models.CharField(max_length=100, choices=DELIVERY_METHOD_CHOICES,
                                    default=DELIVERY_TYPE_ORDINARY, verbose_name="Способ доставки")
     payment = models.CharField(max_length=100, choices=PAYMENT_METHOD_CHOICES,
                                default=PAYMENT_METHOD_ONLINE, verbose_name="Способ Оплаты")

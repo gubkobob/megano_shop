@@ -82,21 +82,32 @@
                                 <h2 class="Section-title">Шаг 2. Способ доставки
                                 </h2>
                             </header>
+                            {% for item_settings in settings_price %}
                             <div class="form-group">
                                 <div>
-                                    <label for="id_buying_type" class="toggle">
-                                        <input type="radio" id="id_buying_type" value="ordinary" name="buying_type" checked="checked" {% if form.buying_type.is_bound %} value="{{ form.buying_type }}"{% endif %}/>
-                                        <span class="toggle-box"></span><span class="toggle-text toggle-text_checked">{{form.buying_type[0]}}</span>
+                                    <label for="id_delivery" class="toggle">
+                                        <input type="radio" id="delivery" value="ordinary" name="delivery" checked="checked" {% if form.delivery.is_bound %} value="{{ form.delivery }}"{% endif %}/>
+                                        <span class="toggle-box"></span><span class="toggle-text toggle-text_checked">{{form.delivery[0]}}</span>
+
+                                        <p class="delivery_size">БЕСПЛАТНО***
+                                           <br>********************************************************
+                                            <br>Стоимость доставки {{item_settings.price_ordinary_delivery}} рублей*
+                                           <br>*1)Если стоимость заказа меньше {{item_settings.min_total_price_order}} рублей
+                                           <br>ИЛИ
+                                           <br>*2)В корзине есть товары от разных продавцов.
+                                           <br>********************************************************
+                                        </p>
                                     </label>
                                 </div>
                                 <div>
-
-                                    <label for="id_buying_type" class="toggle">
-                                        <input type="radio" id="id_buying_type" value="express" name="buying_type" {% if form.buying_type.is_bound %} value="{{ form.buying_type }}"{% endif %}/>
-                                        <span class="toggle-box"></span><span class="toggle-text toggle-text_checked">{{form.buying_type[1]}}</span>
+                                    <label for="id_delivery" class="toggle">
+                                        <input type="radio" id="id_delivery" value="express" name="delivery" {% if form.delivery.is_bound %} value="{{ form.delivery }}"{% endif %}/>
+                                        <span class="toggle-box"></span><span class="toggle-text toggle-text_checked">{{form.delivery[1]}}</span>
+                                        <p class="delivery_size">Стоимость доставки {{item_settings.price_express_delivery}} рублей.</p>
                                     </label>
                                 </div>
                             </div>
+                            {% endfor %}
                             <div class="form-group">
                                 <label class="form-label" for="id_city">Город
                                 </label>

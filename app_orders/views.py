@@ -6,6 +6,7 @@ from decimal import Decimal
 
 from app_cart.cart import CartDB
 from app_users.models import User
+from  app_administrator.models import SettingsModel
 
 from .services import reset_phone_format
 from .models import OrderItem
@@ -17,9 +18,12 @@ class CheckoutOrderView(View):
     def get(self, request, *args, **kwargs):
         # cart = CartDB(request)
         form = OrderForm(request.POST or None)
+        settings_price = SettingsModel.objects.all()
+
         context = {
             # 'cart': cart,
-            'form': form
+            'form': form,
+            'settings_price': settings_price
         }
         return render(request, 'app_orders/order_1.jinja2', context=context)
 
@@ -39,7 +43,7 @@ class CreateOrderView(CreateView):
                 new_order.email = form.cleaned_data['email']
                 new_order.city = form.cleaned_data['city']
                 new_order.address = form.cleaned_data['address']
-                new_order.buying_type = form.cleaned_data['buying_type']
+                new_order.delivery = form.cleaned_data['delivery']
                 new_order.payment = form.cleaned_data['payment']
                 new_order.comment = form.cleaned_data['comment']
                 new_order.status = form.cleaned_data['status']
@@ -59,6 +63,8 @@ class CreateOrderView(CreateView):
                 order_items = OrderItem.objects.filter(order_id=new_order.id)
 
                 get_total_price = sum(Decimal(item.price) * item.quantity for item in order_items)
+
+
 
                 context = {
                     'form': new_order,
