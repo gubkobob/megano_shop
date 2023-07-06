@@ -1,40 +1,39 @@
 from django.db import transaction
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
-from django.views.generic import View
-from django.contrib import messages
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.views.generic import View, CreateView
+from decimal import Decimal
 
-from app_cart.cart import Cart
+from app_cart.cart import CartDB
 from app_users.models import User
-from app_catalog.models import ProductInShop
 
-from .models import Order
+from .services import reset_phone_format
+from .models import OrderItem
 from .forms import OrderForm
 
 
 class CheckoutOrderView(View):
 
     def get(self, request, *args, **kwargs):
-        cart = Cart(request)
+        # cart = CartDB(request)
         form = OrderForm(request.POST or None)
         context = {
-            'cart': cart,
+            # 'cart': cart,
             'form': form
         }
-        return render(request, 'app_orders/order_test.jinja2', context)
+        return render(request, 'app_orders/order_1.jinja2', context=context)
 
 
-class CreateOrderView(View):
+class CreateOrderView(CreateView):
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
-        print('1')
         if request.method == 'POST':
             form = OrderForm(request.POST)
-            print('3')
+            cart = CartDB(request)
+            user = User.objects.get(username=request.user.username)
             if form.is_valid():
-                print('form valid')
-                new_order = form.save()
+                new_order = form.save(commit=False)
                 new_order.full_name = form.cleaned_data['full_name']
                 new_order.phone_number = form.cleaned_data['phone_number']
                 new_order.email = form.cleaned_data['email']
@@ -43,15 +42,30 @@ class CreateOrderView(View):
                 new_order.buying_type = form.cleaned_data['buying_type']
                 new_order.payment = form.cleaned_data['payment']
                 new_order.comment = form.cleaned_data['comment']
-                print('5')
+                new_order.status = form.cleaned_data['status']
+                reset_phone_format(new_order)
+                new_order.user = user
                 new_order.save()
-                print('6')
-                Cart(request).clear()
+                for item in cart:
+                    OrderItem.objects.create(order_id=new_order.id,
+                                             product_in_shop=item.product_in_shop,
+                                             price=item.price,
+                                             quantity=item.quantity)
                 new_order.save()
-                messages.add_message(request, messages.INFO, "Заказ оформлен. Корзина пуста.")
-                return HttpResponseRedirect('/')
-            print('form NOT valid')
+                user.orders.add(new_order)
+                for item in cart:
+                    cart.remove(product_in_shop=item.product_in_shop)
+
+                order_items = OrderItem.objects.filter(order_id=new_order.id)
+
+                get_total_price = sum(Decimal(item.price) * item.quantity for item in order_items)
+
+                context = {
+                    'form': new_order,
+                    'order_items': order_items,
+                    'get_total_price': get_total_price
+                }
+
+                return render(request, 'app_orders/order_2.jinja2', context=context)
+                # return HttpResponseRedirect('/')
             return HttpResponseRedirect('/order/checkout/')
-
-
-

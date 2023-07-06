@@ -1,6 +1,14 @@
 from django.contrib import admin
 
-from .models import Order
+from .models import Order, OrderItem
+
+
+class OrderItemInline(admin.TabularInline):
+    """
+    Админ панель модели Товары в заказе
+    """
+    model = OrderItem
+    raw_id_fields = ['product_in_shop']
 
 
 @admin.register(Order)
@@ -8,10 +16,13 @@ class OrderAdmin(admin.ModelAdmin):
     """
     Админ панель модели Заказов
     """
-    list_display = "id", "full_name", "phone_number", "email", "city", "address", \
+    inlines = [OrderItemInline]
+    list_display = "id", "user", "full_name", "phone_number", "email", "city", "address", \
                    "buying_type", "payment", "comment", "created_at", "status"
-    list_display_links = "id", "full_name"
-    search_fields = "id", "full_name", "phone_number", "email", "city", "address", "buying_type", \
+    list_display_links = "id", "user", "full_name"
+    search_fields = "id", "user", "full_name", "phone_number", "email", "city", "address", "buying_type", \
                     "payment", "created_at", "status"
-    list_filter = "id", "full_name", "city", "buying_type", "payment", "status"
+    list_filter = "id", "user", "full_name", "city", "buying_type", "payment", "status"
+
+
 

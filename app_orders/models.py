@@ -1,24 +1,26 @@
 from django.db import models
-from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 
 from app_users.models import User
-from app_cart.cart import Cart
+from app_cart.models import CartRegisteredUser
+from app_catalog.models import ProductInShop
 
 
 class Order(models.Model):
+    """
+    Модель заказа
+    """
     DELIVERY_TYPE_ORDINARY = 'ordinary'
     DELIVERY_TYPE_EXPRESS = 'express'
 
     PAYMENT_METHOD_ONLINE = 'online'
     PAYMENT_METHOD_SOMEONE = 'someone'
 
-    STATUS_PAID_FOR = 'paid for'
     STATUS_NOT_PAID = 'not paid'
+    STATUS_PAID_FOR = 'paid for'
 
     STATUS_ORDER_CHOICES = [
-        (STATUS_PAID_FOR, 'Оплачен'),
-        (STATUS_NOT_PAID, 'Не оплачен')
+        (STATUS_NOT_PAID, 'Не оплачен'),
+        (STATUS_PAID_FOR, 'Оплачен')
 
     ]
 
@@ -32,11 +34,11 @@ class Order(models.Model):
         (PAYMENT_METHOD_SOMEONE, 'Онлайн со случайного чужого счета')
     ]
 
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь", related_name='orders')
     full_name = models.CharField(max_length=255, verbose_name="Фамилия Имя Отчество")
     phone_number = models.CharField(max_length=20, blank=True,
-                                    help_text="Contact phone number", unique=True, verbose_name="Телефон")
-    email = models.EmailField(max_length=50, unique=True, verbose_name="E-mail")
+                                    help_text="Contact phone number", verbose_name="Телефон")
+    email = models.EmailField(max_length=50, verbose_name="E-mail")
     city = models.CharField(max_length=100, null=True, blank=True, verbose_name="Город")
     address = models.CharField(max_length=1000, null=True, blank=True, verbose_name="Адрес доставки")
     buying_type = models.CharField(max_length=100, choices=DELIVERY_METHOD_CHOICES,
@@ -54,3 +56,20 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
+
+
+class OrderItem(models.Model):
+    """
+    Модель товаров в заказе
+    """
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name='Заказ', related_name='items')
+    product_in_shop = models.ForeignKey(ProductInShop, on_delete=models.CASCADE, verbose_name='Товар',
+                                        related_name='order_items')
+    quantity = models.PositiveIntegerField(default=1, verbose_name='Количество товара')
+    price = models.DecimalField(default=1, max_digits=10, decimal_places=2, verbose_name='Цена товара')
+
+    def __str__(self):
+        return str(self.id)
+
+    def get_cost(self):
+        return self.price * self.quantity

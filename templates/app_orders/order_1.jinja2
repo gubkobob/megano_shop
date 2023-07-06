@@ -33,8 +33,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="Section-content">
                     <form class="form" action="{{ url ('apporders:create_order') }}" method="POST">
                         {% if not request.user.is_authenticated %}
@@ -149,109 +147,7 @@
                                 <a style="color:red;">{{ form.comment.errors}}</a>
                             </div>
                             <div class="Order-footer">
-                                <a class="btn btn_success Order-next" type="submit" href="#step4">Дальше</a>
-                            </div>
-                        </div>
-                        <div class="Order-block" id="step4">
-                            <header class="Section-header Section-header_sm">
-                                <h2 class="Section-title">Шаг 4. Подтверждение заказа
-                                </h2>
-                            </header>
-                            <!--+div.Order.-confirmation-->
-                            <div class="Order-infoBlock">
-                                <div class="Order-personal">
-                                    <div class="row">
-                                        <div class="row-block">
-                                            <div class="Order-info">
-                                                <div class="Order-infoType">ФИО:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.full_name.value() }}
-                                                </div>
-                                            </div>
-                                            <div class="Order-info">
-                                                <div class="Order-infoType">Телефон:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.phone_number.value() }}
-                                                </div>
-                                            </div>
-                                            <div class="Order-info">
-                                                <div class="Order-infoType">E-mail:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.email.value() }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row-block">
-                                            <div class="Order-info Order-info_delivery">
-                                                <div class="Order-infoType">Тип доставки:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.buying_type.value() }}
-                                                </div>
-                                            </div>
-                                            <div class="Order-info">
-                                                <div class="Order-infoType">Город:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.city.value() }}
-                                                </div>
-                                            </div>
-                                            <div class="Order-info">
-                                                <div class="Order-infoType">Адрес:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.address.value() }}
-                                                </div>
-                                            </div>
-                                            <div class="Order-info Order-info_pay">
-                                                <div class="Order-infoType">Оплата:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.payment.value() }}
-                                                </div>
-                                            </div>
-                                            <div class="Order-info Order-info_pay">
-                                                <div class="Order-infoType">Комментарий к заказу:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.comment.value() }}
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="Cart Cart_order">
-                                {% for item in cart %}
-                                    <div class="Cart-product">
-                                        <div class="Cart-block Cart-block_row">
-                                            <div class="Cart-block Cart-block_pict">
-                                            <a class="Cart-pict" href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
-                                                <img class="Cart-img" src="{{ item.product_in_shop.product.image_main.url }}"
-                                                alt="{{ item.product_in_shop.image_main }}" />
-                                            </a>
-                                            </div>
-                                            <div class="Cart-block Cart-block_info">
-                                                <a class="Cart-title" href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
-                                                    {{ item.product_in_shop.product.name }}</a>
-                                                <div class="Cart-desc">{{ item.product_in_shop.product.description }}</div>
-                                            </div>
-                                            <div class="Cart-block Cart-block_price">
-                                                <div class="Cart-price">{{ item.price }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="Cart-block Cart-block_row">
-                                            <div class="Cart-block Cart-block_amount">{{ item.quantity }} шт.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-                                    <div class="Cart-total">
-                                        <div class="Cart-block Cart-block_total">
-                                            <strong class="Cart-title">Итого:
-                                            </strong><span class="Cart-price">{{ cart.get_total_price() }}</span>
-                                        </div>
-                                        <div class="Cart-block">
-                                            <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <button class="btn btn_success" type="submit">Дальше</button>
                             </div>
                         </div>
                         {% endif %}
