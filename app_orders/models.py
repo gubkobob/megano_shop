@@ -1,9 +1,11 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
-from app_users.models import User
 from app_cart.models import CartRegisteredUser
 from app_catalog.models import ProductInShop
 
+
+User = get_user_model()
 
 class Order(models.Model):
     """
