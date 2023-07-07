@@ -1,11 +1,21 @@
 from time import sleep
+import random
 
 from celery import shared_task
 
+from app_orders.models import Order
+
+
 @shared_task
-def logika():
+def logika(order_id: int):
     """Sends an email when the feedback form has been submitted."""
-    glist = [1, 2, 3, 4, 5]
-    for id in glist:
-        print(id)
-    sleep(10)  # Simulate expensive operation(s) that freeze Django
+    order_obj = Order.objects.get(id=order_id)
+    randBits = bool(random.choice([True, False]))
+    sleep(5)
+    if randBits:
+        order_obj.status = 'paid for'
+        order_obj.save()
+        return {'status': True}
+    return {'status': False}
+
+

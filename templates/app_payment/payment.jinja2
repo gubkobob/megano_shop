@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block body %}
-
     <div class="Middle Middle_top">
         <div class="Middle-top">
             <div class="wrap">
@@ -27,11 +26,16 @@
                     {% csrf_token %}
                     <div class="Payment-card">
                         <div class="form-group">
+                             <label class="form-label">Итоговая сумма заказа {{order.payment}} руб.</label>
                             <label class="form-label">Номер карты
                             </label>
                             <input class="form-input Payment-bill" id="numero1" name="numero1" type="text" placeholder="9999 9999" data-mask="9999 9999" data-validate="require pay" />
                         </div>
                     </div>
+                    {% if order.payment == "someone"%}
+                        <div class="form-group"><a class="btn btn_success Payment-generate" href="#">
+                            Сгенирировать случайный счет</a></div>
+                    {% endif %}
                     <div class="Payment-pay"><button class="btn btn_primary" type="submit" name="pay"
                                                 value="#">Оплатить</button>
                     </div>

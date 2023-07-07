@@ -13,7 +13,7 @@ from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-app = Celery('config')
+app = Celery('config', backend='rpc://', broker='pyamqp://')
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
