@@ -1,1 +1,0 @@
-[{"model": "app_administrator.settingsmodel", "pk": 1, "fields": {"limited_edition_products": 16, "hot_offers": 3, "popular_products": 8, "products_banner": 3, "count_viewed": 20, "selected_categories": 3, "cache_time": 86400}}]
