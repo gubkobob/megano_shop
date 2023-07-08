@@ -183,7 +183,8 @@ USE_DJANGO_JQUERY = True
 LOGIN_REDIRECT_URL = reverse_lazy('app_users:profile')
 
 
-TEMPLATE_CONTEXT_PROCESSORS = ('app_catalog.context_processors.foos')
+TEMPLATE_CONTEXT_PROCESSORS = ('app_catalog.context_processors.foos',
+                               'django.contrib.messages.context_processors.messages')
 
 CART_SESSION_ID = 'cart'
 
@@ -222,3 +223,9 @@ LOGGING = {
     },
 }
 
+
+
+# Celery settings
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
