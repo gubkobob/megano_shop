@@ -6,6 +6,7 @@ from app_catalog.models import ProductInShop
 from .models import CartRegisteredUser
 from app_discounts.models import Discount
 
+
 class Cart(object):
 
     def __init__(self, request):
