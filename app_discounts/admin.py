@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import Discount, DiscountPrice
+from .models import (
+    Discount,
+    # Coupon
+)
 from django import forms
 
 
@@ -7,10 +10,6 @@ class DiscountAdminForm(forms.ModelForm):
     class Meta:
         model = Discount
         fields = '__all__'
-
-
-class DiscountPriceInline(admin.TabularInline):
-    model = DiscountPrice
 
 
 @admin.register(Discount)
@@ -23,6 +22,21 @@ class DiscountAdmin(admin.ModelAdmin):
         'type_discount',
         'start_discount',
         'end_discount',
+        'available',
     ]
     form = DiscountAdminForm
-    inlines = [DiscountPriceInline]
+
+
+# class CouponAdminForm(forms.ModelForm):
+#     class Meta:
+#         model = Coupon
+#         fields = '__all__'
+#
+#
+# @admin.register(Coupon)
+# class CouponAdmin(admin.ModelAdmin):
+#     list_display = ['code', 'valid_form', 'valid_to', 'discount', 'active']
+#     list_filter = ['active', 'valid_form', 'valid_to']
+#     search_fields = ['code']
+#     form = CouponAdminForm
+

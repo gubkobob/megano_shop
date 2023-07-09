@@ -13,5 +13,6 @@ def cart(request):
         cart = Cart(request)
     return {'cart': cart}
 
+
 def comparison(request):
     return {'comparison': ComparisonServicesMixin(request)}

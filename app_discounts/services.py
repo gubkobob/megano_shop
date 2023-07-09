@@ -1,11 +1,8 @@
 """
 Сервисы для работы со скидками
 """
-import datetime
-from django.utils import timezone
 from app_catalog.models import ProductInShop, Product
-from .models import Discount, DiscountPrice
-
+from .models import Discount
 
 
 class DiscountsServicesMixin:
@@ -13,48 +10,40 @@ class DiscountsServicesMixin:
     Класс - примесь для использования сервисов для работы со скидками
     """
 
-
     def get_discounts_page(self):
         """
         функция получения страницы со скидками
         """
+
         context = {}
 
-        # - /СДЕЛАНО/ - фильтр добавить
+        # Запуск проверки на соотвествие скидки по времени
+        for _ in Discount.objects.values():
+            Discount.objects.get(id=_['id']).available_monitoring()
 
-        # - //Добавить айдишник// + //поправить шаблон на переход по айдишнику//
-        # - //Добавить картинки//
-        # - //Добавить цену со скидкой и без + вывод какая скидка.//
-        # - ПРИОРИТЕТ - Начать логику корзины + добавить логику цены со скидкой через *ЕСЛИ* / Совместить с 3 пунктом
-
-
-
-        # Вопрос правильности фильтра
-
-
-
-        #
-        for t in Discount.objects.filter(end_discount__day=timezone.now().day + 1).values():
-            context[t['id']] = {
-                'product_id': Discount.objects.get(product=t['product_id']).product_id,
-                'datetime_start': Discount.objects.get(product=t['product_id'], start_discount=t['start_discount']).start_discount,
-                'datetime_end': Discount.objects.get(product=t['product_id'], end_discount=t['end_discount']).end_discount,
-                'category_product': Product.objects.get(products_in_shop=t['product_id']).category,
-                'product_name': Product.objects.get(products_in_shop=t['product_id']),
-                'product_price': ProductInShop.objects.get(id=t['product_id']).price,
-                'product_discount_price':
-                    DiscountPrice.objects.get(discount=t['id']).get_price_product(),
-                'product_type_discount': Discount.objects.get(product=t['product_id']).type_discount,
-                'product_image': str(Product.objects.get(products_in_shop=t['product_id']).image_main.url)
-                if Product.objects.get(products_in_shop=t['product_id']).image_main else ''
+        # Сбор данных для отправки в шаблон
+        for product in Discount.objects.get_queryset().filter(available=True).select_related('product').order_by('start_discount'):
+            # print('product.product.id', product.product.id)
+            context[product.id] = {
+                'product_id': product.product.id,
+                'datetime_start': product.start_discount,
+                'datetime_end': product.end_discount,
+                'category_product': product.product.product.category,
+                'product_name': product.product.product.name,
+                'product_price': product.product.price,
+                'product_discount_price': product.get_price_product(),
+                'product_type_discount': product.type_discount,
+                'product_image': str(product.product.product.image_main.url)
+                if product.product.product.image_main else ''
             }
 
         return list(_context_ for _context_ in context.values())
 
-    def get_discounts(self):
+    def get_discounts(self, product_id):
         """
         функция получения скидок на товары
         """
+        Discount.get_price_product(self=product_id)
 
     def get_total_discount(self):
         """
