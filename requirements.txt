@@ -8,3 +8,4 @@ Jinja2==3.1.2
 MarkupSafe==2.1.2
 Pillow==9.5.0
 sqlparse==0.4.4
+celery==5.3.0
