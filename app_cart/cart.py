@@ -4,6 +4,7 @@ from django.forms import model_to_dict
 from django.http import HttpRequest
 from app_catalog.models import ProductInShop
 from .models import CartRegisteredUser
+from app_discounts.models import Discount
 
 
 class Cart(object):
@@ -24,6 +25,7 @@ class Cart(object):
         """
         Добавить обьект склада в корзину или обновить его количество.
         """
+
         product_in_shop_id = str(product_in_shop.id)
         if product_in_shop_id not in self.cart:
             self.cart[product_in_shop_id] = {'quantity': 0,
@@ -55,7 +57,6 @@ class Cart(object):
         """
         product_in_shop_ids = self.cart.keys()
         # получение объектов product_in_shop и добавление их в корзину
-
         products_in_shops = ProductInShop.objects.filter(id__in=product_in_shop_ids).all()
         for product_in_shop in products_in_shops:
             self.cart[str(product_in_shop.id)]['product_in_shop'] = product_in_shop

@@ -88,6 +88,8 @@
                     </div>
                     <div class="Cards">
                         {% for product in productsinshops %}
+                            
+
                             <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=product.id) }} ">
                                           <img src="{{ product.product.image_main.url }}" alt="{{ product.product.image_main }}"/></a>
                                 <div class="Card-content Card-content_new">
