@@ -201,7 +201,7 @@
 
                                                     <div>
                                                         <strong class="Comment-title">{{comment.user.username}}
-                                                        </strong><span class="Comment-date">{{comment.updated }}</span>
+                                                        </strong><span class="Comment-date">{{comment.updated.strftime("%Y-%m-%d %H:%M:%S") }}</span>
                                                     </div>
                                                  </header>
                                                 <div class="Comment-content">{{comment.comment}}</div>
