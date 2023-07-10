@@ -1,7 +1,8 @@
 from django.db import transaction
+from django.db.models import Sum, F
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.views.generic import View, CreateView
+from django.views.generic import View, CreateView, DetailView, ListView
 from decimal import Decimal
 
 from app_cart.cart import CartDB
@@ -9,7 +10,7 @@ from app_users.models import User
 from  app_administrator.models import SettingsModel
 
 from .services import reset_phone_format
-from .models import OrderItem
+from .models import OrderItem, Order
 from .forms import OrderForm
 
 
@@ -75,3 +76,20 @@ class CreateOrderView(CreateView):
                 return render(request, 'app_orders/order_2.jinja2', context=context)
                 # return HttpResponseRedirect('/')
             return HttpResponseRedirect('/order/checkout/')
+
+
+class OrderDetailView(DetailView):
+
+    template_name = "app_orders/oneorder.jinja2"
+    queryset = Order.objects.prefetch_related("items").annotate(avg_price=Sum(F("items__price") * F("items__quantity")))
+    context_object_name = "order"
+
+
+class OrdersListView(ListView):
+    template_name = "app_orders/historyorder.jinja2"
+    context_object_name = "orders"
+    def get_queryset(self):
+        queryset = Order.objects.filter(user_id=self.request.user.id).\
+            annotate(avg_price=Sum(F("items__price") * F("items__quantity"))).\
+            all()
+        return queryset
