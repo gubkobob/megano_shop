@@ -49,6 +49,12 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="ProductCard-info">
+                                <div class="ProductCard-cost">
+                                    <div class="ProductCard-title">Продавец: {{ product_in_shop.shop }}
+                                    </div>
+                                </div>
+                            </div>
                             {% if product_in_shop.available %}
                                     <form class="form" action="{{ url('app_cart:cart_add', product_in_shop_id=product_in_shop.id) }}"
                                           method="post">
