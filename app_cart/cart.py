@@ -31,9 +31,15 @@ class Cart(object):
             self.cart[product_in_shop_id] = {'quantity': 0,
                                      'price': str(product_in_shop.price)}
         if update_quantity:
-            self.cart[product_in_shop_id]['quantity'] = quantity
+            if quantity <= product_in_shop.quantity:
+                self.cart[product_in_shop_id]['quantity'] = quantity
+            else:
+                self.cart[product_in_shop_id]['quantity'] = product_in_shop.quantity
         else:
-            self.cart[product_in_shop_id]['quantity'] += quantity
+            if (self.cart[product_in_shop_id]['quantity'] + quantity) <= product_in_shop.quantity:
+                self.cart[product_in_shop_id]['quantity'] += quantity
+            else:
+                self.cart[product_in_shop_id]['quantity'] = product_in_shop.quantity
         self.save()
 
     def save(self):
@@ -108,9 +114,15 @@ class CartDB(object):
                                          quantity=0,
                                          price=product_in_shop.price)
         if update_quantity:
-            product.quantity = quantity
+            if quantity <= product_in_shop.quantity:
+                product.quantity = quantity
+            else:
+                product.quantity = product_in_shop.quantity
         else:
-            product.quantity += quantity
+            if (product.quantity + quantity) <= product_in_shop.quantity:
+                product.quantity += quantity
+            else:
+                product.quantity = product_in_shop.quantity
         product.save()
 
 
