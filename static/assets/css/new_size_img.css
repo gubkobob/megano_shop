@@ -35,3 +35,7 @@ label .delivery_size {
     font-size: 12px;
     margin-bottom: 0px;
 }
+
+.ProductCard-shop_logo {
+    width: 70px
+}
