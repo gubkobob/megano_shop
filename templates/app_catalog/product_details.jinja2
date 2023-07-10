@@ -49,12 +49,20 @@
                                     </li>
                                 </ul>
                             </div>
+                            {% if product_in_shop.shop.image %}
                             <div class="ProductCard-info">
                                 <div class="ProductCard-cost">
                                     <img class="ProductCard-shop_logo" src="{{ product_in_shop.shop.image.url }}"
                                          alt="{{ product_in_shop.shop.image }}" />
                                 </div>
                             </div>
+                            {% else %}
+                            <div class="ProductCard-info">
+                                <div class="ProductCard-cost">
+                                    <div class="ProductCard-title">Продавец: {{ product_in_shop.shop }}</div>
+                                </div>
+                            </div>
+                            {% endif %}
                             {% if product_in_shop.available %}
                                     <form class="form" action="{{ url('app_cart:cart_add', product_in_shop_id=product_in_shop.id) }}"
                                           method="post">
