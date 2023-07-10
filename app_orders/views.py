@@ -7,7 +7,8 @@ from decimal import Decimal
 
 from app_cart.cart import CartDB
 from app_users.models import User
-from  app_administrator.models import SettingsModel
+from app_administrator.models import SettingsModel
+from app_catalog.models import ProductInShop
 
 from .services import reset_phone_format
 from .models import OrderItem, Order
@@ -36,6 +37,7 @@ class CreateOrderView(CreateView):
         if request.method == 'POST':
             form = OrderForm(request.POST)
             cart = CartDB(request)
+            product_in_shop = ProductInShop.objects.all()
             user = User.objects.get(username=request.user.username)
             if form.is_valid():
                 new_order = form.save(commit=False)
@@ -50,13 +52,18 @@ class CreateOrderView(CreateView):
                 new_order.status = form.cleaned_data['status']
                 reset_phone_format(new_order)
                 new_order.user = user
-                new_order.save()
                 for item in cart:
+                    if item.quantity > item.product_in_shop.quantity:
+                        return HttpResponseRedirect('/cart/')
+                    else:
+                        new_order.save()
                     OrderItem.objects.create(order_id=new_order.id,
                                              product_in_shop=item.product_in_shop,
                                              price=item.price,
                                              quantity=item.quantity)
-                new_order.save()
+
+                    new_order.save()
+
                 user.orders.add(new_order)
                 for item in cart:
                     cart.remove(product_in_shop=item.product_in_shop)
@@ -64,8 +71,6 @@ class CreateOrderView(CreateView):
                 order_items = OrderItem.objects.filter(order_id=new_order.id)
 
                 get_total_price = sum(Decimal(item.price) * item.quantity for item in order_items)
-
-
 
                 context = {
                     'form': new_order,
