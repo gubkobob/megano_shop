@@ -6,6 +6,7 @@ from app_catalog.models import ProductInShop
 from .models import CartRegisteredUser
 from app_discounts.models import Discount
 
+
 class Cart(object):
 
     def __init__(self, request):
@@ -32,9 +33,15 @@ class Cart(object):
                                              'price_discount': Discount.objects.get(product_id=product_in_shop.id).get_price_product()
                                              if Discount.objects.filter(product_id=product_in_shop.id).exists() else '0'}
         if update_quantity:
-            self.cart[product_in_shop_id]['quantity'] = quantity
+            if quantity <= product_in_shop.quantity:
+                self.cart[product_in_shop_id]['quantity'] = quantity
+            else:
+                self.cart[product_in_shop_id]['quantity'] = product_in_shop.quantity
         else:
-            self.cart[product_in_shop_id]['quantity'] += quantity
+            if (self.cart[product_in_shop_id]['quantity'] + quantity) <= product_in_shop.quantity:
+                self.cart[product_in_shop_id]['quantity'] += quantity
+            else:
+                self.cart[product_in_shop_id]['quantity'] = product_in_shop.quantity
         self.save()
 
     def save(self):
@@ -111,9 +118,15 @@ class CartDB(object):
                                          price_discount=Discount.objects.get(product_id=product_in_shop.id).get_price_product()
                                          if Discount.objects.filter(product_id=product_in_shop.id).exists() else '0')
         if update_quantity:
-            product.quantity = quantity
+            if quantity <= product_in_shop.quantity:
+                product.quantity = quantity
+            else:
+                product.quantity = product_in_shop.quantity
         else:
-            product.quantity += quantity
+            if (product.quantity + quantity) <= product_in_shop.quantity:
+                product.quantity += quantity
+            else:
+                product.quantity = product_in_shop.quantity
         product.save()
 
 
