@@ -30,11 +30,6 @@ class ProductServicesMixin:
         функция добавления товара к списку просмотренных
         """
 
-    def get_viewed_products_history(self):
-        """
-        функция получения списка просмотренных товаров
-        """
-
     def get_list_comments_on_products(self) -> list[str]:
         """
         функция получения списка комментариев к продукту
@@ -80,7 +75,7 @@ def sort_catalog(obj: QueryDict) -> dict:
         }
     :rtype: dict
     """
-    print(obj.get("parameter"))
+    # print(obj.get("parameter"))
     if obj.get("parameter"):
         parameter = obj.get("parameter")
         flag = obj.get("flag")

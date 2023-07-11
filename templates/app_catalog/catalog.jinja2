@@ -1,4 +1,6 @@
 {% extends 'base.jinja2' %}
+{#{% macro jinja2_macros %}#}
+
 
 {% block title %}
     Каталог
@@ -88,7 +90,11 @@
                     </div>
                     <div class="Cards">
                         {% for product in productsinshops %}
-                            
+{#                            {{ product.product_discount.get_price_product }}#}
+{#                            {{ get_price_goods(product.id) }}#}
+{#                            {% macro get_price_goods(product_id=product.id) %}#}
+{#                            {{ obj.args }}11#}
+{#                            {% endmacro %}#}
 
                             <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=product.id) }} ">
                                           <img src="{{ product.product.image_main.url }}" alt="{{ product.product.image_main }}"/></a>

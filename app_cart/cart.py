@@ -28,7 +28,9 @@ class Cart(object):
         product_in_shop_id = str(product_in_shop.id)
         if product_in_shop_id not in self.cart:
             self.cart[product_in_shop_id] = {'quantity': 0,
-                                     'price': str(product_in_shop.price)}
+                                             'price': str(product_in_shop.price),
+                                             'price_discount': Discount.objects.get(product_id=product_in_shop.id).get_price_product()
+                                             if Discount.objects.filter(product_id=product_in_shop.id).exists() else '0'}
         if update_quantity:
             self.cart[product_in_shop_id]['quantity'] = quantity
         else:
@@ -105,7 +107,9 @@ class CartDB(object):
             product = CartRegisteredUser(user_id=self.user.id,
                                          product_in_shop_id=product_in_shop.id,
                                          quantity=0,
-                                         price=product_in_shop.price)
+                                         price=product_in_shop.price,
+                                         price_discount=Discount.objects.get(product_id=product_in_shop.id).get_price_product()
+                                         if Discount.objects.filter(product_id=product_in_shop.id).exists() else '0')
         if update_quantity:
             product.quantity = quantity
         else:
@@ -146,7 +150,10 @@ class CartDB(object):
         """
         total_price = 0
         for product in self.cart:
-            total_price += product.price * product.quantity
+            if product.price_discount:
+                total_price += product.price_discount * product.quantity
+            else:
+                total_price += product.price * product.quantity
         return total_price
 
 
