@@ -16,8 +16,6 @@ def post_save_cache_categories(sender, **kwargs):
 
 @receiver(signal=post_delete, sender=Category)
 def post_delete_cache_categories(sender, **kwargs):
-
-    print(time_cache)
     cache.delete('category')
 
 
@@ -40,7 +38,6 @@ def post_save_cache_products(sender, **kwargs):
 
 @receiver(signal=post_delete, sender=Product)
 def post_delete_cache_products(sender, **kwargs):
-    print(time_cache)
     cache.delete('product')
 
 

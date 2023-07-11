@@ -177,6 +177,13 @@ CACHES = {
     }
 }
 
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': os.path.join(BASE_DIR, 'category_cache'),
+#     }
+# }
+
 USE_DJANGO_JQUERY = True
 
 
