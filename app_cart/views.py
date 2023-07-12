@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from app_cart.cart import Cart, change_products_in_cart_db_from_cart, CartDB
-from app_cart.forms import CartAddProductInShopForm
+from app_cart.forms import CartAddProductInShopForm, CouponApplyForm
 from app_cart.services import ComparisonServicesMixin
 from app_catalog.models import ProductInShop
+from django.views.decorators.http import require_POST
+from django.utils import timezone
+from app_discounts.models import Coupon
 
 
 def add_in_comparison(request, product_id):
@@ -78,3 +81,21 @@ def cart_detail(request):
                 initial={'quantity': item['quantity'], 'update': True})
     context = {"cart": cart, "form": form}
     return render(request, 'cart/cart.jinja2', context=context)
+
+
+
+@require_POST
+def coupon_apply(request):
+    now = timezone.now()
+    form = CouponApplyForm(request.POST)
+    if form.is_valid():
+        code = form.cleaned_data['code']
+        try:
+            coupon = Coupon.objects.get(code__iexact=code,
+                                        valid_from__lte=now,
+                                        valid_to__gte=now,
+                                        active=True)
+            request.session['coupon_id'] = coupon.id
+        except Coupon.DoesNotExists:
+            request.session['coupon_id'] = None
+    return redirect('cart:cart_detail')

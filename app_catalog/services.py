@@ -7,6 +7,7 @@ from django.http.request import QueryDict
 
 from app_cart.services import CartServicesMixin
 from .models import ProductInShop
+from app_discounts.models import Discount
 
 
 
@@ -81,6 +82,7 @@ def sort_catalog(obj: QueryDict) -> dict:
         flag = obj.get("flag")
         sort = 'base' if parameter != '-product__created' else 'price_high'
         return {'productsinshops': catalog_obj_order_by(parameter, flag),
+                # 'discount': Discount.objects.all(),
                 'sort': sort}
     # if obj.get('page_tag'):
     #     print(obj.get('page_tag'))
@@ -89,6 +91,7 @@ def sort_catalog(obj: QueryDict) -> dict:
         cart = CartServicesMixin()
         cart.add_product_to_cart(pk)
     return {'productsinshops': ProductInShop.objects.all(),
+            # 'discount': Discount.objects.all(),
             'sort': 'base'}
 
 def filter_catalog(post) -> ProductInShop:

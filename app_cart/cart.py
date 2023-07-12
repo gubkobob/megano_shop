@@ -5,7 +5,7 @@ from django.http import HttpRequest
 from app_catalog.models import ProductInShop
 from .models import CartRegisteredUser
 from app_discounts.models import Discount
-
+from app_discounts.models import Coupon
 
 class Cart(object):
 
@@ -19,6 +19,9 @@ class Cart(object):
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+        #
+        # # сохранение текущего примененного купона
+        # self.coupon_id = self.session.get('coupon_id')
 
 
     def add(self, product_in_shop, quantity=1, update_quantity=False):

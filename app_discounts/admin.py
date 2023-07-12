@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     Discount,
-    # Coupon
+    Coupon
 )
 from django import forms
 
@@ -27,16 +27,16 @@ class DiscountAdmin(admin.ModelAdmin):
     form = DiscountAdminForm
 
 
-# class CouponAdminForm(forms.ModelForm):
-#     class Meta:
-#         model = Coupon
-#         fields = '__all__'
-#
-#
-# @admin.register(Coupon)
-# class CouponAdmin(admin.ModelAdmin):
-#     list_display = ['code', 'valid_form', 'valid_to', 'discount', 'active']
-#     list_filter = ['active', 'valid_form', 'valid_to']
-#     search_fields = ['code']
-#     form = CouponAdminForm
+class CouponAdminForm(forms.ModelForm):
+    class Meta:
+        model = Coupon
+        fields = '__all__'
+
+
+@admin.register(Coupon)
+class CouponAdmin(admin.ModelAdmin):
+    list_display = ['code', 'valid_from', 'valid_to', 'discount', 'active']
+    list_filter = ['active', 'valid_from', 'valid_to']
+    search_fields = ['code']
+    form = CouponAdminForm
 

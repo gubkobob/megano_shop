@@ -25,6 +25,8 @@ class CategoryView(ListView):
         request = self.request.GET
         result = sort_catalog(request)
         catalog_obj = result.get('productsinshops')
+        # print(catalog_obj)
+        # catalog_obj = result.get('discount')
         context['sort'] = result.get('sort')
         maxprice = ProductInShop.objects.aggregate(Max('price'))
         popular_tags = ProductInShop.objects.order_by('product__subcategory')[:4]
@@ -33,13 +35,7 @@ class CategoryView(ListView):
         # price_discount = ((Discount.objects.get(product_id=x.id).get_price_product()
         #                              if Discount.objects.filter(product_id=x.id).exists() else '0')
         #                              for x in self.get_queryset())
-        # # for x in self.get_queryset():
-        # #     # print(x.id)
-        # #     price_discount = Discount.objects.get(product_id=x.id).get_price_product() \
-        # #         if Discount.objects.filter(product_id=x.id).exists() else '0'
-        # #     print(price_discount)
-        # # # print(self.get_queryset())
-        # # #
+
         # print(price_discount)
         # context['price_discount'] = price_discount
         # print(self.args)
