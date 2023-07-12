@@ -5,6 +5,11 @@
 {% endblock %}
 
 {% block body%}
+{% if get_messages(request) %}
+    {% for message in get_messages(request) %}
+    {{ message }}
+    {% endfor %}
+{% endif %}
     <header class="Header">
         <div class="Header-slider">
             <div class="Slider Slider_main">

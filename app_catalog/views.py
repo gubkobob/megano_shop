@@ -32,13 +32,9 @@ class CategoryView(ListView):
         popular_tags = ProductInShop.objects.order_by('product__subcategory')[:4]
         context['maxprice'] = maxprice.get("price__max")
         context['popular_tags'] = popular_tags
-        # price_discount = ((Discount.objects.get(product_id=x.id).get_price_product()
-        #                              if Discount.objects.filter(product_id=x.id).exists() else '0')
-        #                              for x in self.get_queryset())
+        # for pin in catalog_obj:
+        #     print(pin.product_discount.first().get_price_product())
 
-        # print(price_discount)
-        # context['price_discount'] = price_discount
-        # print(self.args)
 
         # Paginator
         catalog_page_obj = paginator(obj=catalog_obj, request=request)
