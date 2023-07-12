@@ -25,10 +25,12 @@ class PayView(ListView):
         order_id = int(self.request.GET.get("order"))
         if request.method == "POST":
             numb = int("".join(request.POST.get("numero1").split(" ")))
-            data1 = {'number': numb}
-            response = logika.delay(order_id)
-            context = {'message': "Необходимо дождаться очереди оплаты"}
-            return redirect('/', context=context)
+            logika.delay(order_id)
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 "Оплата поставлена в очередь, статус оплаты можете посмотреть в Личном кабинете")
+            # context = {'message': "Необходимо дождаться очереди оплаты"}
+            return redirect('/')
 
 
 
