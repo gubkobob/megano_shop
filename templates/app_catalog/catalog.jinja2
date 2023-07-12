@@ -1,4 +1,6 @@
 {% extends 'base.jinja2' %}
+{#{% macro jinja2_macros %}#}
+
 
 {% block title %}
     Каталог
@@ -88,8 +90,6 @@
                     </div>
                     <div class="Cards">
                         {% for product in productsinshops %}
-                            
-
                             <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=product.id) }} ">
                                           <img src="{{ product.product.image_main.url }}" alt="{{ product.product.image_main }}"/></a>
                                 <div class="Card-content Card-content_new">
@@ -116,11 +116,6 @@
                                                         alt="comparison.svg"/></a>
 
                                             {% endif %}
-{#                                            <a class="Card-comparison"#}
-{#                                               href="{{ url ('app_cart:add_in_comparison', product_id=product.id ) }}"><img#}
-{#                                                    src="{{ static ('assets/img/icons/card/comparison.svg') }}"#}
-{#                                                    width="20px"#}
-{#                                                    alt="comparison.svg"/></a>#}
                                         </div>
                                     </div>
                                 </div>

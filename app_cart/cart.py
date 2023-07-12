@@ -5,7 +5,7 @@ from django.http import HttpRequest
 from app_catalog.models import ProductInShop
 from .models import CartRegisteredUser
 from app_discounts.models import Discount
-
+from app_discounts.models import Coupon
 
 class Cart(object):
 
@@ -19,6 +19,9 @@ class Cart(object):
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+        #
+        # # сохранение текущего примененного купона
+        # self.coupon_id = self.session.get('coupon_id')
 
 
     def add(self, product_in_shop, quantity=1, update_quantity=False):
@@ -29,7 +32,9 @@ class Cart(object):
         product_in_shop_id = str(product_in_shop.id)
         if product_in_shop_id not in self.cart:
             self.cart[product_in_shop_id] = {'quantity': 0,
-                                     'price': str(product_in_shop.price)}
+                                             'price': str(product_in_shop.price),
+                                             'price_discount': Discount.objects.get(product_id=product_in_shop.id).get_price_product()
+                                             if Discount.objects.filter(product_id=product_in_shop.id).exists() else '0'}
         if update_quantity:
             if quantity <= product_in_shop.quantity:
                 self.cart[product_in_shop_id]['quantity'] = quantity
@@ -112,7 +117,9 @@ class CartDB(object):
             product = CartRegisteredUser(user_id=self.user.id,
                                          product_in_shop_id=product_in_shop.id,
                                          quantity=0,
-                                         price=product_in_shop.price)
+                                         price=product_in_shop.price,
+                                         price_discount=Discount.objects.get(product_id=product_in_shop.id).get_price_product()
+                                         if Discount.objects.filter(product_id=product_in_shop.id).exists() else '0')
         if update_quantity:
             if quantity <= product_in_shop.quantity:
                 product.quantity = quantity
@@ -159,7 +166,10 @@ class CartDB(object):
         """
         total_price = 0
         for product in self.cart:
-            total_price += product.price * product.quantity
+            if product.price_discount:
+                total_price += product.price_discount * product.quantity
+            else:
+                total_price += product.price * product.quantity
         return total_price
 
 

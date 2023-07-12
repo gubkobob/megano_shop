@@ -1,7 +1,6 @@
 """
 Сервисы для работы со скидками
 """
-from app_catalog.models import ProductInShop, Product
 from .models import Discount
 
 
@@ -23,7 +22,6 @@ class DiscountsServicesMixin:
 
         # Сбор данных для отправки в шаблон
         for product in Discount.objects.get_queryset().filter(available=True).select_related('product').order_by('start_discount'):
-            # print('product.product.id', product.product.id)
             context[product.id] = {
                 'product_id': product.product.id,
                 'datetime_start': product.start_discount,

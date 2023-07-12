@@ -11,7 +11,8 @@ class CartRegisteredUser(models.Model):
     product_in_shop = models.ForeignKey(ProductInShop, on_delete=models.CASCADE, verbose_name=_('Товары'))
     quantity = models.PositiveIntegerField(default=0, verbose_name=_('Количество товара'))
     price = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name='Цена товара')
-
+    price_discount = models.DecimalField(default=0, max_digits=10, decimal_places=2, null=True, blank=True,
+                                         verbose_name='Цена товара со скидкой')
 
 
     class Meta:
