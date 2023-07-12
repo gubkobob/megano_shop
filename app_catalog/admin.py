@@ -94,11 +94,18 @@ class ProductInShopImageInline(admin.TabularInline):
 @admin.register(ProductInShop)
 class ProductInShopAdmin(admin.ModelAdmin):
     """Админ панель модели Товары в магазине"""
+    actions = ['clear_cache']
     change_list_template = 'admin/products_in_shop_change_list.html'
     inlines = [ProductInShopImageInline]
     list_display = "id", "product", "shop", "quantity", "price", "available", "limited_product"
     list_display_links = "id", "product", "shop", "quantity", "price", "available", "limited_product"
     list_filter = "id", "product", "shop", "quantity", "price", "available", "limited_product"
+
+
+    def products_in_shop_cache_clear(self, request: HttpRequest):
+        cache.delete('product_in_shop')
+        messages.add_message(request, messages.INFO, 'Product In Shop cache cleared')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     def import_csv(self, request: HttpRequest) -> HttpResponse:
         if request.method == 'GET':
@@ -160,9 +167,9 @@ class ProductInShopAdmin(admin.ModelAdmin):
                 self.import_csv,
                 name='import_products_in_shop_csv',
             ),
+            path('clear_cache', self.admin_site.admin_view(self.products_in_shop_cache_clear)),
         ]
         return new_urls + urls
-
 
 @admin.register(Shop)
 class ShopAdmin(admin.ModelAdmin):

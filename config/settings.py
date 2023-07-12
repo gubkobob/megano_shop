@@ -177,6 +177,13 @@ CACHES = {
     }
 }
 
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': os.path.join(BASE_DIR, 'category_cache'),
+#     }
+# }
+
 USE_DJANGO_JQUERY = True
 
 
@@ -188,12 +195,8 @@ TEMPLATE_CONTEXT_PROCESSORS = ('app_catalog.context_processors.foos',
 
 CART_SESSION_ID = 'cart'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'mail@gmail.com'
-EMAIL_HOST_PASSWORD = 'password'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 LOGFILE_NAME = BASE_DIR / 'log.txt'
 LOGFILE_SIZE = 1 * 1024 * 1024
