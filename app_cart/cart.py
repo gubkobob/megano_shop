@@ -1,3 +1,4 @@
+from copy import deepcopy
 from decimal import Decimal
 from django.conf import settings
 from django.forms import model_to_dict
@@ -66,13 +67,10 @@ class Cart(object):
         """
         Перебор элементов в корзине и получение обьекта склада из базы данных.
         """
-        product_in_shop_ids = self.cart.keys()
-        # получение объектов product_in_shop и добавление их в корзину
-        products_in_shops = ProductInShop.objects.filter(id__in=product_in_shop_ids).all()
-        for product_in_shop in products_in_shops:
-            self.cart[str(product_in_shop.id)]['product_in_shop'] = product_in_shop
-
-        for item in self.cart.values():
+        # копия для того, чтобы не изменялся обьект корзины, т.к. обьекты типа ProductInShop в сессиях django хранить нельзя
+        cart_copy = deepcopy(self.cart)
+        for idx, item in cart_copy.items():
+            item['product_in_shop'] = ProductInShop.objects.filter(id=idx).first()
             yield item
 
     def __len__(self):
