@@ -74,6 +74,7 @@ def cart_detail(request):
         for item in cart:
             form['update_quantity_form'] = CartAddProductInShopForm(
                 initial={'quantity': item.quantity, 'update': True})
+            form['coupon_apply_form'] = CouponApplyForm()
     else:
         cart = Cart(request)
         for item in cart:
@@ -82,7 +83,6 @@ def cart_detail(request):
             form['coupon_apply_form'] = CouponApplyForm()
     context = {"cart": cart, "form": form}
     return render(request, 'cart/cart.jinja2', context=context)
-
 
 
 @require_POST
@@ -97,6 +97,6 @@ def coupon_apply(request):
                                         valid_to__gte=now,
                                         active=True)
             request.session['coupon_id'] = coupon.id
-        except Coupon.DoesNotExists:
+        except Coupon.DoesNotExist:
             request.session['coupon_id'] = None
-    return redirect('cart:cart_detail')
+    return redirect('app_cart:cart_detail')

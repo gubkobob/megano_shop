@@ -37,10 +37,12 @@
                                 <h2 class="ProductCard-title">{{ product_in_shop.product.name }}
                                 </h2>
                                 <div class="ProductCard-info">
+
                                     <div class="ProductCard-cost">
                                         {% if discount.get_price_product() %}
-                                            <div class="ProductCard-price">Цена: <s>{{ product_in_shop.price }}</s>
-                                            <br>                   {{ discount.get_price_product() }}</br></div>
+                                            <div class="ProductCard-price">Цена без скидки: <s>{{ product_in_shop.price }}</s>
+                                           <div> Цена со скидкой: {{ discount.get_price_product() }}</div>
+                                            </div>
                                         {% else %}
                                             <div class="ProductCard-price">Цена: {{ product_in_shop.price }}</div>
                                         {% endif %}

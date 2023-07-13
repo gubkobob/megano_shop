@@ -83,8 +83,9 @@ class Cart(object):
         """
         Подсчет стоимости обьектов склада в корзине.
         """
-        return sum(Decimal(item['price']) * item['quantity'] for item in
-                   self.cart.values())
+        return sum(Decimal(item['price_discount']) if item['price_discount']
+                   else Decimal(item['price']) * item['quantity']
+                   for item in self.cart.values())
 
     def clear(self):
         # удаление корзины из сессии
@@ -200,7 +201,7 @@ class CartDB(object):
         return Decimal('0')
 
     def get_total_price_after_discount(self):
-        return self.get_total_price() - self.get_discount()
+        return round(self.get_total_price() - self.get_discount(), 2)
 
 def change_products_in_cart_db_from_cart(cart_db: CartDB, cart: Cart):
     for product in cart:
