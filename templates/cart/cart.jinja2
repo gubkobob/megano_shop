@@ -68,12 +68,29 @@
                     {% endfor %}
 
                     <div class="Cart-total">
+
                         <div class="Cart-block Cart-block_total">
-                            <strong class="Cart-title">Итого:
+                            <div> 2<div><strong class="Cart-title">Итого:
                             </strong><span class="Cart-price">{{ cart.get_total_price() }}</span>
+                            </div>
+                            <div>
+                                <div>Промокод: {{ cart.coupon.code }} </div>
+                                <div> {{ cart.coupon }}</div>
+                                <div>Цена с купоном: ${{ cart.get_total_price_after_discount() }} </div>
+                            </div>
+1
+                            </div>
+
+
+                            <div>
+                                <form action="{{ url("app_cart:coupon_apply") }}" method="post">
+                                    {{ form.coupon_apply_form }}
+                                    <input type="submit" value="Apply">
+                                    {% csrf_token %}
+                                </form>
+                            </div>
                         </div>
-                        <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url("apporders:checkout_order")}}">Оформить заказ</a>
-                        </div>
+                        <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url("apporders:checkout_order")}}">Оформить заказ</a> </div>
                     </div>
             </div>
         </div>

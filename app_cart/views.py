@@ -79,6 +79,7 @@ def cart_detail(request):
         for item in cart:
             form['update_quantity_form'] = CartAddProductInShopForm(
                 initial={'quantity': item['quantity'], 'update': True})
+            form['coupon_apply_form'] = CouponApplyForm()
     context = {"cart": cart, "form": form}
     return render(request, 'cart/cart.jinja2', context=context)
 
