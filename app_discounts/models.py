@@ -39,13 +39,13 @@ class Discount(models.Model):
 
     def get_price_product(self):
         if self.type_discount == 'процент':
-            return float(self.product.price) - (float(self.product.price) * (self.percent / 100))
+            return round(float(self.product.price) - (float(self.product.price) * (self.percent / 100)), 2)
 
         elif self.type_discount == 'количество':
-            return self.product.price - self.quantity
+            return round(self.product.price - self.quantity, 2)
 
         elif self.type_discount == 'процент и количество':
-            return (float(self.product.price) - (float(self.product.price) * (self.percent / 100))) - self.quantity
+            return round((float(self.product.price) - (float(self.product.price) * (self.percent / 100))) - self.quantity, 2)
 
     # Отдельные
     # - получить все скидки на указанный список товаров или на один товар;
@@ -76,7 +76,7 @@ class Discount(models.Model):
         elif self.type_discount == 'количество':
             self.percent = 0
             if self.quantity >= self.product.price:
-                self.quantity = self.product.price // 20
+                self.quantity = round(self.product.price / 20, 2)
 
         elif self.type_discount == 'процент и количество':
 
@@ -84,7 +84,7 @@ class Discount(models.Model):
                 self.percent = 10
 
             if self.quantity >= self.product.price:
-                self.quantity = self.product.price // 40
+                self.quantity = round(self.product.price / 40, 2)
 
         return super(Discount, self).save(force_insert, force_update, using, update_fields)
 
@@ -101,60 +101,3 @@ class Coupon(models.Model):
 
     def __str__(self):
         return self.code
-#
-# class DiscountPrice(models.Model):
-#     discount = models.ForeignKey(Discount, on_delete=models.CASCADE, verbose_name='скидка',
-#                                 related_name='discount_price')
-#     percent = models.IntegerField(blank=True, null=True, verbose_name=_('процентная скидка'))
-#     quantity = models.IntegerField(blank=True, null=True, verbose_name=_('количественная скидка'))
-#
-#     def get_price_product(self):
-#         if self.discount.type_discount == 'процент':
-#             return float(self.discount.product.price) - (float(self.discount.product.price) * ((self.percent) / 100))
-#
-#         elif self.discount.type_discount == 'количество':
-#             return self.discount.product.price - self.quantity
-#
-#         elif self.discount.type_discount == 'процент и количество':
-#             return (float(self.discount.product.price) - (float(self.discount.product.price) * ((self.percent) / 100))) - self.quantity
-#
-#     def get_percent(self):
-#         return self.percent
-#
-#     def get_quantity(self):
-#         return self.percent
-#
-#     class Meta:
-#         verbose_name = 'Значение скидки'
-#         verbose_name_plural = 'Значения скидок'
-#
-#     def save(
-#         self, force_insert=False, force_update=False, using=None, update_fields=None
-#     ):
-#         super(DiscountPrice, self).save(
-#             force_insert=False, force_update=False, using=None, update_fields=None
-#         )
-#
-#         if self.discount.type_discount == 'процент':
-#             self.quantity = 0
-#             if self.percent > 30:
-#                 self.percent = 30
-#
-#         elif self.discount.type_discount == 'количество':
-#             self.percent = 0
-#             if self.quantity >= self.discount.product.price:
-#                 self.quantity = self.discount.product.price // 20
-#
-#         elif self.discount.type_discount == 'процент и количество':
-#
-#             if self.percent > 30:
-#                 self.percent = 10
-#
-#             if self.quantity >= self.discount.product.price:
-#                 self.quantity = self.discount.product.price // 40
-#
-#         return super(DiscountPrice, self).save(force_insert, force_update, using, update_fields)
-#
-#
-#     def __str__(self):
-#         return str(self.discount)

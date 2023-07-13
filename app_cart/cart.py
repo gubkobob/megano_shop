@@ -20,9 +20,9 @@ class Cart(object):
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
-        #
-        # # сохранение текущего примененного купона
-        # self.coupon_id = self.session.get('coupon_id')
+
+        # сохранение текущего примененного купона
+        self.coupon_id = self.session.get('coupon_id')
 
 
     def add(self, product_in_shop, quantity=1, update_quantity=False):
@@ -83,8 +83,9 @@ class Cart(object):
         """
         Подсчет стоимости обьектов склада в корзине.
         """
-        return sum(Decimal(item['price']) * item['quantity'] for item in
-                   self.cart.values())
+        return sum(Decimal(item['price_discount']) if item['price_discount']
+                   else Decimal(item['price']) * item['quantity']
+                   for item in self.cart.values())
 
     def clear(self):
         # удаление корзины из сессии
@@ -94,6 +95,20 @@ class Cart(object):
     def to_dict(self):
         return {key: value for (key, value) in self.cart.items()}
 
+    @property
+    def coupon(self):
+        if self.coupon_id:
+            return Coupon.objects.get(id=self.coupon_id)
+        return None
+
+    def get_discount(self):
+        if self.coupon:
+            return (self.coupon.discount / Decimal('100')) * self.get_total_price()
+        return Decimal('0')
+
+    def get_total_price_after_discount(self):
+        return self.get_total_price() - self.get_discount()
+
 
 class CartDB(object):
 
@@ -101,9 +116,13 @@ class CartDB(object):
         """
         Инициализируем корзину
         """
+        self.session = request.session
         self.user = request.user
         cart = CartRegisteredUser.objects.filter(user_id=self.user.id).all()
         self.cart = cart
+
+        # сохранение текущего примененного купона
+        self.coupon_id = self.session.get('coupon_id')
 
 
     def add(self, product_in_shop, quantity=1, update_quantity=False):
@@ -170,6 +189,19 @@ class CartDB(object):
                 total_price += product.price * product.quantity
         return total_price
 
+    @property
+    def coupon(self):
+        if self.coupon_id:
+            return Coupon.objects.get(id=self.coupon_id)
+        return None
+
+    def get_discount(self):
+        if self.coupon:
+            return (self.coupon.discount / Decimal('100')) * self.get_total_price()
+        return Decimal('0')
+
+    def get_total_price_after_discount(self):
+        return round(self.get_total_price() - self.get_discount(), 2)
 
 def change_products_in_cart_db_from_cart(cart_db: CartDB, cart: Cart):
     for product in cart:

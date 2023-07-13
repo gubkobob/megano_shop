@@ -93,7 +93,11 @@
                     <a class="CartBlock-block" href={{ url("app_cart:cart_detail") }}><img class="CartBlock-img"
                                      src="{{ static ('assets/img/icons/cart.svg') }}" alt="cart.svg">
                         <span class="CartBlock-amount">{{ cart|length }}</span></a>
-                    <div class="CartBlock-block"><span class="CartBlock-price">{{ cart.get_total_price() }}</span>
+                    <div class="CartBlock-block"><span class="CartBlock-price">{% if cart.get_total_price_after_discount() %}
+                    {{ cart.get_total_price_after_discount() }}
+                        {% else %}
+                        {{ cart.get_total_price() }}
+                    {% endif %}  </span>
 
 
                     </div>
