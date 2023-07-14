@@ -86,7 +86,7 @@
                             <div class="form-group">
                                 <div>
                                     <label for="id_delivery" class="toggle">
-                                        <input type="radio" id="delivery" value="ordinary" name="delivery" checked="checked" {% if form.delivery.is_bound %} value="{{ form.delivery }}"{% endif %}/>
+                                        <input type="radio" id="delivery" value="Обычная доставка" name="delivery" checked="checked" {% if form.delivery.is_bound %} value="{{ form.delivery }}"{% endif %}/>
                                         <span class="toggle-box"></span><span class="toggle-text toggle-text_checked">{{form.delivery[0]}}</span>
 
                                         <p class="delivery_size">БЕСПЛАТНО***
@@ -101,7 +101,7 @@
                                 </div>
                                 <div>
                                     <label for="id_delivery" class="toggle">
-                                        <input type="radio" id="id_delivery" value="express" name="delivery" {% if form.delivery.is_bound %} value="{{ form.delivery }}"{% endif %}/>
+                                        <input type="radio" id="id_delivery" value="Экспресс доставка" name="delivery" {% if form.delivery.is_bound %} value="{{ form.delivery }}"{% endif %}/>
                                         <span class="toggle-box"></span><span class="toggle-text toggle-text_checked">{{form.delivery[1]}}</span>
                                         <p class="delivery_size">Стоимость доставки {{item_settings.price_express_delivery}} рублей.</p>
                                     </label>
@@ -132,20 +132,20 @@
                             </header>
                                 <div>
                                     <label for="id_payment" class="toggle">
-                                        <input type="radio" name="payment" id="id_payment" value="online" checked="checked" {% if form.payment.is_bound %} value="{{ form.payment }}"{% endif %}/>
+                                        <input type="radio" name="payment" id="id_payment" value="Онлайн картой" checked="checked" {% if form.payment.is_bound %} value="{{ form.payment }}"{% endif %}/>
                                         <span class="toggle-box" ></span><span class="toggle-text toggle-text_checked">{{form.payment[0]}}</span>
                                     </label>
                                 </div>
                                 <div>
                                     <label for="id_payment" class="toggle">
-                                        <input type="radio" name="payment" id="id_payment" value="someone" {% if form.payment.is_bound %} value="{{ form.payment }}"{% endif %}/>
+                                        <input type="radio" name="payment" id="id_payment" value="Онлайн со случайного чужого счета" {% if form.payment.is_bound %} value="{{ form.payment }}"{% endif %}/>
                                         <span class="toggle-box" ></span><span class="toggle-text toggle-text_checked">{{form.payment[1]}}</span>
                                     </label>
                                 </div>
                                 {% for item in form.status %}
                                 <div>
                                     <label for="id_status" class="toggle">
-                                        <input type="radio" name="status" id="id_status" value="not paid" checked="checked" {% if item.is_bound %} value="{{ item }}"{% endif %}/>
+                                        <input type="radio" name="status" id="id_status" value="Не оплачен" checked="checked" {% if item.is_bound %} value="{{ item }}"{% endif %}/>
 
                                     </label>
                                 </div>

@@ -15,18 +15,18 @@ class Order(models.Model):
     """
 
     STATUS_ORDER_CHOICES = [
-        ('not paid', 'Не оплачен'),
-        ('paid for', 'Оплачен')
+        (_('Не оплачен'), 'Не оплачен'),
+        (_('Оплачен'), 'Оплачен')
     ]
 
     DELIVERY_METHOD_CHOICES = [
-        ('ordinary', 'Обычная доставка'),
-        ('express', 'Экспресс доставка')
+        (_('Обычная доставка'), 'Обычная доставка'),
+        (_('Экспресс доставка'), 'Экспресс доставка')
     ]
 
     PAYMENT_METHOD_CHOICES = [
-        ('online', 'Онлайн картой'),
-        ('someone', 'Онлайн со случайного чужого счета')
+        (_('Онлайн картой'), 'Онлайн картой'),
+        (_('Онлайн со случайного чужого счета'), 'Онлайн со случайного чужого счета')
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("Пользователь"), related_name='orders')
@@ -37,12 +37,12 @@ class Order(models.Model):
     city = models.CharField(max_length=100, null=True, blank=True, verbose_name=_("Город"))
     address = models.CharField(max_length=1000, null=True, blank=True, verbose_name=_("Адрес доставки"))
     delivery = models.CharField(max_length=100, choices=DELIVERY_METHOD_CHOICES,
-                                default=_('ordinary'), verbose_name=_("Способ доставки"))
+                                default=_('Обычная доставка'), verbose_name=_("Способ доставки"))
     payment = models.CharField(max_length=100, choices=PAYMENT_METHOD_CHOICES,
-                               default=_('online'), verbose_name=_("Способ Оплаты"))
+                               default=_('Онлайн картой'), verbose_name=_("Способ Оплаты"))
     comment = models.TextField(null=True, blank=True, verbose_name=_("Комментарий к заказу"))
     created_at = models.DateTimeField(auto_now=True, verbose_name=_("Дата создания заказа"))
-    status = models.CharField(max_length=25, choices=STATUS_ORDER_CHOICES, default=_('not paid'),
+    status = models.CharField(max_length=25, choices=STATUS_ORDER_CHOICES, default=_('Не оплачен'),
                               verbose_name=_("Статус заказа"))
 
     def __str__(self):

@@ -9,7 +9,7 @@ from decimal import Decimal
 from django.contrib.auth import get_user_model
 
 from app_cart.cart import CartDB
-# from app_users.models import User
+from app_users.models import User
 from config import settings
 
 from app_administrator.models import SettingsModel
@@ -20,18 +20,18 @@ from .models import OrderItem, Order
 from .forms import OrderForm
 
 
-User = get_user_model()
+# User = get_user_model()
 
 
 class CheckoutOrderView(View):
 
     def get(self, request, *args, **kwargs):
-        cart = CartDB(request)
+        # cart = CartDB(request)
         form = OrderForm(request.POST or None)
         settings_price = SettingsModel.objects.all()
 
         context = {
-            'cart': cart,
+            # 'cart': cart,
             'form': form,
             'settings_price': settings_price
         }
@@ -155,6 +155,7 @@ class CreateOrderView(CreateView):
                                              )
 
                     new_order.save()
+                user.orders.add(new_order)
 
                 for item in cart:
                     cart.remove(product_in_shop=item.product_in_shop)
@@ -166,7 +167,7 @@ class CreateOrderView(CreateView):
 
 
                 #считаю стоимость доставки
-                if new_order.delivery == 'express':
+                if new_order.delivery == 'Экспресс доставка':
                     get_total_price = get_total_price + getattr(SettingsModel.objects.first(), 'price_express_delivery')
                 elif (get_total_price < getattr(SettingsModel.objects.first(), 'min_total_price_order')) or \
                         (len(self.count_shop) > 1):

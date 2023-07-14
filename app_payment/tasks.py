@@ -13,7 +13,7 @@ def logika(order_id: int):
     randBits = bool(random.choice([True, False]))
     sleep(5)
     if randBits:
-        order_obj.status = 'paid for'
+        order_obj.status = 'Оплачен'
         order_obj.save()
         return {'status': True}
     return {'status': False}
