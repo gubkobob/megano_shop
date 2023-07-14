@@ -148,11 +148,18 @@ class CreateOrderView(CreateView):
                         if not item.product_in_shop.shop in self.count_shop:
                             self.count_shop.append(item.product_in_shop.shop)
 
-                    OrderItem.objects.create(order_id=new_order.id,
-                                             product_in_shop=item.product_in_shop,
-                                             price=item.price,
-                                             quantity=item.quantity,
-                                             )
+                    if item.price_discount:
+                        OrderItem.objects.create(order_id=new_order.id,
+                                                 product_in_shop=item.product_in_shop,
+                                                 price=item.price_discount,
+                                                 quantity=item.quantity,
+                                                 )
+                    else:
+                        OrderItem.objects.create(order_id=new_order.id,
+                                                 product_in_shop=item.product_in_shop,
+                                                 price=item.price,
+                                                 quantity=item.quantity,
+                                                 )
 
                     new_order.save()
                 user.orders.add(new_order)
@@ -165,8 +172,6 @@ class CreateOrderView(CreateView):
                 get_total_price = sum(Decimal(item.price) * item.quantity for item in order_items)
                 get_total_price_delivery = get_total_price
 
-
-                #считаю стоимость доставки
                 if new_order.delivery == 'Экспресс доставка':
                     get_total_price = get_total_price + getattr(SettingsModel.objects.first(), 'price_express_delivery')
                 elif (get_total_price < getattr(SettingsModel.objects.first(), 'min_total_price_order')) or \
