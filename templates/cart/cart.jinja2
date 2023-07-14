@@ -28,15 +28,13 @@
                                     </div>
                                 </div>
                                 <div class="Cart-block Cart-block_price">
-                                    <div class="Cart-price"> {% if item.price_discount %}
-                                        <s> {{ item.price }} </s>
-                                        {{ item.price_discount }}
-
+                                    <div class="Cart-price">
+                                    {% if item.price_discount %}
+                                         <div class="Card-cost"><span class="Card-priceOld"><s>{{ item.price }}</s></span></div>
+                                         <div class="Card-cost"><span class="Card-price">{{ item.price_discount }}</span></div>
                                     {% else %}
-                                        {{ item.price }}
+                                        <div class="Card-cost"><span class="Card-price">{{ item.price }}</span></div>
                                     {% endif %}
-                                        <div></div>
-
                                     </div>
                                 </div>
                             </div>

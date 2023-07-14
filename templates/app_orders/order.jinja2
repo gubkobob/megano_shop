@@ -19,13 +19,13 @@
                         <div class="Section-columnContent">
                             <div class="NavigateProfile">
                                 <ul class="menu menu_vt">
-                                    <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="#step1">Шаг 1. Параметры пользователя</a>
+                                    <li class="menu-item_ACTIVE menu-item "><a class="menu-link Order-next" href="#step1">Шаг 1. Параметры пользователя</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="#step2">Шаг 2. Способ доставки</a>
+                                    <li class="menu-item"><a class="menu-link Order-next" href="#step2">Шаг 2. Способ доставки</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="#step3">Шаг 3. Способ оплаты</a>
+                                    <li class="menu-item"><a class="menu-link Order-next" href="#step3">Шаг 3. Способ оплаты</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="#step4">Шаг 4. Подтверждение заказа</a>
+                                    <li class="menu-item"><a class="menu-link Order-next" href="#step4">Шаг 4. Подтверждение заказа</a>
                                     </li>
 
                                 </ul>
@@ -37,6 +37,7 @@
 
                 <div class="Section-content">
                     <form class="form" action="{{ url ('apporders:create_order') }}" method="POST">
+                        {% csrf_token %}
                         {% if not request.user.is_authenticated %}
                         <div class="row-block">
                             <div class="form-group"><a class="btn btn_muted Order-btnReg" href="{{url ('app_users:register')}}">Я еще не зарегистрирован</a>
@@ -45,8 +46,7 @@
                             </div>
                         </div>
                         {% else %}
-                        {% csrf_token %}
-                        <div class="Order-block Order-block_OPEN" id="step1">
+                        <div class=" Order-block_OPEN Order-block" id="step1">
                             <header class="Section-header Section-header_sm">
                                 <h2 class="Section-title">Шаг 1. Параметры пользователя
                                 </h2>
@@ -159,6 +159,7 @@
                                         {% if form.is_bound %} value="{{ form.comment.value() }}"{% endif %}></textarea>
                                 <a style="color:red;">{{ form.comment.errors}}</a>
                             </div>
+                            <button onclick="location.href='#step4'">Дальшееее</button>
                             <div class="Order-footer">
                                 <a class="btn btn_success Order-next" type="submit" href="#step4">Дальше</a>
                             </div>
@@ -254,14 +255,18 @@
                                     </div>
                                     {% endfor %}
                                     <div class="Cart-total">
-                                        <div class="Cart-block Cart-block_total">
-                                            <strong class="Cart-title">Итого:
-                                            </strong><span class="Cart-price">{{ cart.get_total_price() }}</span>
-                                        </div>
-                                        <div class="Cart-block">
-                                            <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>
-                                        </div>
+                                    <div class="Cart-block Cart-block_total">
+                                        <strong class="Cart-title">Стоимость доставки:
+                                        </strong><span class="Cart-price">{{ get_total_price_delivery }}</span>
                                     </div>
+                                    <div class="Cart-block Cart-block_total">
+                                        <strong class="Cart-title">Итоговая сумма заказа:
+                                        </strong><span class="Cart-price">{{ get_total_price }}</span>
+                                    </div>
+                                    <div class="Cart-block">
+                                        <a class="btn btn_primary btn_lg" href='/payment?order={{form.id}}'>Оплатить</a>
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>

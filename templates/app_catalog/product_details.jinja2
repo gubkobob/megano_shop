@@ -31,7 +31,6 @@
                                 {% endif %}
                             </div>
                         </div>
-                        {%for discount in product_in_shop.product_discount.all() %}
                         <div class="ProductCard-desc">
                             <div class="ProductCard-header">
                                 <h2 class="ProductCard-title">{{ product_in_shop.product.name }}
@@ -39,12 +38,15 @@
                                 <div class="ProductCard-info">
 
                                     <div class="ProductCard-cost">
-                                        {% if discount.get_price_product() %}
-                                            <div class="ProductCard-price">Цена без скидки: <s>{{ product_in_shop.price }}</s>
-                                           <div> Цена со скидкой: {{ discount.get_price_product() }}</div>
-                                            </div>
+                                        {% if product_in_shop.product_discount.all() %}
+                                            {% for discount in product_in_shop.product_discount.all() %}
+                                                {% if discount.get_price_product() %}
+                                                    <div class="Card-cost"><span class="Card-priceOld"><s>{{product_in_shop.price}}</s> </span></div>
+                                                    <div class="Card-cost"><span class="Card-price">{{discount.get_price_product()}} </span></div>
+                                                {% endif %}
+                                            {% endfor %}
                                         {% else %}
-                                            <div class="ProductCard-price">Цена: {{ product_in_shop.price }}</div>
+                                             <div class="Card-cost"><span class="Card-price">{{product_in_shop.price}} </span></div>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -114,7 +116,6 @@
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
                     <div class="Tabs Tabs_default">
                         <div class="Tabs-links">
                             <a class="Tabs-link_ACTIVE Tabs-link" href="#description"><span>Описание</span></a>

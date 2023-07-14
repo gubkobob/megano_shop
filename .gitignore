@@ -145,7 +145,6 @@ data/
 *.sqlite3
 /category_cache/
 /import_csv_files/
-/fixtures_old/
 
 log.txt
 
