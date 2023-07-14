@@ -59,7 +59,15 @@
                                 <strong class="Card-title"><a href="{{ url ('appcatalog:product_details', pk=one_product_limited.id) }}">{{one_product_limited.product.name}}</a></strong>
                                 <div class="Card-description">
                                     <div class="Card-cost">
-                                        <span class="Card-priceOld">$115.00</span><span class="Card-price">{{one_product_limited.price}}</span>
+                                       {% if one_product_limited.product_discount.all() %}
+                                            {% for discount in one_product_limited.product_discount.all() %}
+                                                {% if discount.get_price_product() %}
+                                                <span class="Card-priceOld">{{one_product_limited.price}}</span><span class="Card-price"> {{discount.get_price_product()}}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                             <div class="Card-cost"><span class="Card-price">{{one_product_limited.price}} </span></div>
+                                        {% endif %}
                                     </div>
                                     <div class="Card-category">{{one_product_limited.product.category}} / {{one_product_limited.product.subcategory}}</div>
                                 </div>
@@ -115,7 +123,16 @@
                                 <strong class="Card-title" ><a href="{{ url ('appcatalog:product_details', pk=top_product.id) }}">{{top_product.product.name}}</a>
                                 </strong>
                                 <div class="Card-description">
-                                    <div class="Card-cost"><span class="Card-price">{{top_product.price}}</span></div>
+                                    {% if top_product.product_discount.all() %}
+                                        {% for discount in top_product.product_discount.all() %}
+                                        {% if discount.get_price_product() %}
+                                            <div class="Card-cost"><span class="Card-priceOld"><s>{{top_product.price}}</s> </span></div>
+                                            <div class="Card-cost"><span class="Card-price">{{discount.get_price_product()}} </span></div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                         <div class="Card-cost"><span class="Card-price">{{top_product.price}} </span></div>
+                                    {% endif %}
                                     <div class="Card-category">{{top_product.product.category}}/{{top_product.product.subcategory}}
                                     </div>
                                     <div class="Card-hover">
@@ -160,8 +177,16 @@
                                             <strong class="Card-title"><a href="{{ url ('appcatalog:product_details', pk=product_limit.id) }}">{{product_limit.product.name}}</a>
                                             </strong>
                                             <div class="Card-description">
-                                                <div class="Card-cost"><span class="Card-price">{{product_limit.price}}</span>
-                                                </div>
+                                                {% if product_limit.product_discount.all() %}
+                                                    {% for discount in product_limit.product_discount.all() %}
+                                                    {% if discount.get_price_product() %}
+                                                        <div class="Card-cost"><span class="Card-priceOld"><s>{{product_limit.price}}</s> </span></div>
+                                                        <div class="Card-cost"><span class="Card-price">{{discount.get_price_product()}} </span></div>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                     <div class="Card-cost"><span class="Card-price">{{product_limit.price}} </span></div>
+                                                {% endif %}
                                                 <div class="Card-category">{{product_limit.product.category}}/{{product_limit.product.subcategory}}
                                                 </div>
                                                 <div class="Card-hover">
