@@ -177,12 +177,6 @@ CACHES = {
     }
 }
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-#         'LOCATION': os.path.join(BASE_DIR, 'category_cache'),
-#     }
-# }
 
 USE_DJANGO_JQUERY = True
 
@@ -194,7 +188,6 @@ TEMPLATE_CONTEXT_PROCESSORS = ('app_catalog.context_processors.foos',
                                'django.contrib.messages.context_processors.messages')
 
 CART_SESSION_ID = 'cart'
-ORDER_SESSION_ID = 'order'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

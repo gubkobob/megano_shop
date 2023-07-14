@@ -10,17 +10,15 @@ from django.contrib.auth import get_user_model
 
 from app_cart.cart import CartDB
 from app_users.models import User
-from config import settings
 
 from app_administrator.models import SettingsModel
-from app_catalog.models import ProductInShop
 
 from .services import reset_phone_format
 from .models import OrderItem, Order
 from .forms import OrderForm
 
 
-# User = get_user_model()
+User = get_user_model()
 
 
 class CheckoutOrderView(View):
@@ -37,85 +35,6 @@ class CheckoutOrderView(View):
         }
         return render(request, 'app_orders/order_1.jinja2', context=context)
 
-
-# class CreateOrderView(View):
-#
-#     form_class = OrderForm
-#
-#     template_name = "app_orders/order.jinja2"
-#
-#     wizard_data = {}
-#
-#
-#     def get(self, request, *args, **kwargs):
-#         initial = {
-#             'wizard_data': request.session.get('wizard_data', None),
-#         }
-#         form = self.form_class(initial=initial)
-#         return render(request, self.template_name, {'form': form})
-#
-#     def post(self, request, *args, **kwargs):
-#         form = self.form_class(request.POST)
-#         print(request.POST)
-#         print('POST запрос')
-#         if request.method == 'POST':
-#             print('прошел запрос POST')
-#             user = User.objects.get(username=request.user.username)
-#             if form.is_valid():
-#                 print('форма валидна')
-#                 # new_order = form.save(commit=False)
-#                 print(form.cleaned_data['full_name'])
-#                 self.wizard_data['full_name'] = form.cleaned_data['full_name']
-#                 self.wizard_data['phone_number'] = form.cleaned_data['phone_number']
-#                 self.wizard_data['email'] = form.cleaned_data['email']
-#                 self.wizard_data['city'] = form.cleaned_data['city']
-#                 self.wizard_data['address'] = form.cleaned_data['address']
-#                 self.wizard_data['delivery'] = form.cleaned_data['delivery']
-#                 self.wizard_data['payment'] = form.cleaned_data['payment']
-#                 self.wizard_data['comment'] = form.cleaned_data['comment']
-#                 self.wizard_data['status'] = form.cleaned_data['status']
-#                 # reset_phone_format(request.session)
-#                 request.session['wizard_data'] = self.wizard_data
-#                 request.session.modified = True
-#
-#                 print(self.wizard_data['full_name'])
-#                 print(self.wizard_data['phone_number'])
-#                 print(self.wizard_data['address'])
-#                 print(self.wizard_data['status'])
-#
-#                 # for item in cart:
-#                 #     if item.quantity > item.product_in_shop.quantity:
-#                 #         return HttpResponseRedirect('/cart/')
-#                 #     else:
-#                 #         request.session.modified = True
-#                     # OrderItem.objects.create(order_id=new_order.id,
-#                     #                          product_in_shop=item.product_in_shop,
-#                     #                          price=item.price,
-#                     #                          quantity=item.quantity)
-#
-#                 # request.session.modified = True
-#
-#
-#                 # for item in cart:
-#                 #     cart.remove(product_in_shop=item.product_in_shop)
-#
-#                 # order_items = OrderItem.objects.filter(order_id=new_order.id)
-#
-#                 # get_total_price = sum(Decimal(item.price) * item.quantity for item in order_items)
-#
-#                 cart = CartDB(request)
-#                 context = {
-#                     'form': self.wizard_data,
-#                     'cart': cart
-#                     # 'order_items': order_items,
-#                     # 'get_total_price': get_total_price
-#                 }
-#                 print('данные сохранены')
-#                 # return HttpResponseRedirect('../create/#step4')
-#                 return HttpResponseRedirect('../')
-#                 # return render(request, 'app_orders/order_2.jinja2', context)
-#             return HttpResponseRedirect('/order/checkout/')
-#
 
 class CreateOrderView(CreateView):
     count_shop = []
