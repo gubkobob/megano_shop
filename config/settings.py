@@ -194,6 +194,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ('app_catalog.context_processors.foos',
                                'django.contrib.messages.context_processors.messages')
 
 CART_SESSION_ID = 'cart'
+ORDER_SESSION_ID = 'order'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
