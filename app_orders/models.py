@@ -15,8 +15,8 @@ class Order(models.Model):
     """
 
     STATUS_ORDER_CHOICES = [
-        ('not paid', 'Не оплачен'),
-        ('paid for', 'Оплачен')
+        (_('Не оплачен'), 'Не оплачен'),
+        (_('Оплачен'), 'Оплачен')
     ]
 
     DELIVERY_METHOD_CHOICES = [

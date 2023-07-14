@@ -12,9 +12,9 @@ User = get_user_model()
 class Discount(models.Model):
 
     types = [
-        ('процент', 'процент'),
-        ('количество', 'количество'),
-        ('процент и количество', 'процент и количество'),
+        (_('процент'), 'процент'),
+        (_('количество'), 'количество'),
+        (_('процент и количество'), 'процент и количество'),
     ]
 
     product = models.ForeignKey(ProductInShop, on_delete=models.CASCADE, verbose_name='Продукт',
