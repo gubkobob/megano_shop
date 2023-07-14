@@ -50,7 +50,7 @@
                                             <button class="Amount-remove" type="button">
                                             </button>
                                             <input class="Amount-input form-input" name="quantity" type="text"
-                                                   value={{ item.quantity }}/>
+                                                   value={{ item.quantity }}>
                                             {{ form.update_quantity_form.update }}
                                             <button class="Amount-add" type="button">
                                             </button>
@@ -99,7 +99,7 @@
                                             <div>
                                                 <form action="{{ url("app_cart:coupon_apply") }}" method="post">
                                                     {{ form.coupon_apply_form }}
-                                                    <input type="submit" value="Apply">
+                                                    <input type="submit" value="Применить">
                                                     {% csrf_token %}
                                                 </form>
                                             </div>
@@ -121,7 +121,7 @@
                                             <div>
                                                 <form action="{{ url("app_cart:coupon_apply") }}" method="post">
                                                     {{ form.coupon_apply_form }}
-                                                    <input type="submit" value="Apply">
+                                                    <input type="submit" value="Применить">
                                                     {% csrf_token %}
                                                 </form>
                                             </div>

@@ -51,7 +51,9 @@
                             <strong class="Section-columnTitle">ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ </strong>
                         </header>
                         <div class="Card">
+
                         {% for one_product_limited in limited_offers %}
+
                             <a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=one_product_limited.id) }}">
                                 <img class="Card-picture_size-img" src="{{ one_product_limited.product.image_main.url }}"alt="{{ one_product_limited.product.image_main }}"/>
                             </a>
