@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 from app_cart.forms import CartAddProductInShopForm
 from .models import ProductInShop, Comments, Specifications, Subspecifications
-from .services import sort_catalog, paginator, filter_catalog
+from .services import sort_catalog, paginator, filter_catalog, get_maxprice
 
 
 class CategoryView(ListView):
@@ -19,7 +19,8 @@ class CategoryView(ListView):
         request = self.request.GET
         result = sort_catalog(request)
         catalog_obj = result.get('productsinshops')
-        context['sort'] = result.get('sort')
+        context['sort_price'] = result.get('sort_price')
+        context['sort_popular'] = result.get('sort_popular')
         maxprice = ProductInShop.objects.aggregate(Max('price'))
         popular_tags = ProductInShop.objects.order_by('product__subcategory')[:4]
         context['maxprice'] = maxprice.get("price__max")
@@ -43,6 +44,7 @@ class CategoryView(ListView):
                                       context={
                                           'productsinshops': catalog_page_obj.object_list,
                                           'catalog_page_obj': catalog_page_obj,
+                                          'maxprice': get_maxprice(catalog_obj),
                                       }
                           )
 

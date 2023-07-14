@@ -159,6 +159,7 @@
             <div class="Header-search">
                 <div class="search">
                     <form class="form form_search" action="#" method="post">
+                        {% csrf_token %}
                         <input class="search-input" id="query" name="query" type="text"
                                placeholder="NVIDIA GeForce RTX 3060">
                         <button class="search-button" type="submit" name="search" id="search"><img

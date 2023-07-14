@@ -38,15 +38,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="toggle">
-                                        <input type="checkbox" name="stock" id="stock"/><span class="toggle-box"></span><span
+                                        <input type="checkbox" name="stock" id="stock" value="on"/><span class="toggle-box"></span><span
                                             class="toggle-text">Только товары в наличии</span>
-                                    </label>
-                                </div>
-                                <div class="form-group">
-                                    <label class="toggle">
-                                        <input type="checkbox" name="free_delivery" id="free_delivery"/><span
-                                            class="toggle-box"></span><span
-                                            class="toggle-text">С бесплатной доставкой</span>
                                     </label>
                                 </div>
                                 <div class="form-group">
@@ -67,7 +60,7 @@
                         <div class="Section-columnContent">
                             <div class="buttons">
                             {% for test in popular_tags %}
-                                <a class="btn btn_default btn_sm" href="?page_tag=Видео">{{test.product.subcategory}}</a>
+                                <a class="btn btn_default btn_sm" href="?parameter=subcategory&flag={{test.product.subcategory}}">{{test.product.subcategory}}</a>
                             {% endfor %}
                             </div>
                         </div>
@@ -78,10 +71,14 @@
                         <div class="Sort-title">Сортировать по:
                         </div>
                             <div class="Sort-variants">
-                                <a class="Sort-sortBy Sort-sortBy_dec" href="/catalog/?parameter=popular">Популярности</a>
+                                {% if sort_popular == 'popular_high' %}
+                                    <a class="Sort-sortBy Sort-sortBy_inc" href="/catalog/?parameter=popular">Популярности</a>
+                                {% else %}
+                                    <a class="Sort-sortBy Sort-sortBy_dec" href="?parameter=-popular">Популярности</a>
+                                {% endif %}
                                 <a class="Sort-sortBy" href="/catalog/?parameter=price">Цене</a>
                                 <a class="Sort-sortBy" href="/catalog/?parameter=comments">Отзывам</a>
-                                {% if sort == 'price_high' %}
+                                {% if sort_price == 'price_high' %}
                                     <a class="Sort-sortBy Sort-sortBy_inc" href="/catalog/?parameter=product__created">Новизне</a>
                                 {% else %}
                                     <a class="Sort-sortBy Sort-sortBy_dec" href="?parameter=-product__created">Новизне</a>
