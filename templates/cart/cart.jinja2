@@ -1,7 +1,7 @@
 {% extends 'base.jinja2' %}
 
 {% block title %}
-   Cart
+    Cart
 {% endblock %}
 
 {% block body %}
@@ -9,73 +9,130 @@
     <div class="Middle Middle_top">
         <div class="Section">
             <div class="wrap">
-                    {% for item in cart %}
-                    <form action="{{ url('app_cart:cart_add', product_in_shop_id=item.product_in_shop.id) }}" method="post">
-                                            {% csrf_token %}
-                    <div class="Cart-product">
-                        <div class="Cart-block Cart-block_row">
-                            <div class="Cart-block Cart-block_pict"><a class="Cart-pict"
-                                href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
-                                <img class="Cart-img" src="{{ item.product_in_shop.product.image_main.url }}" alt="{{ item.product_in_shop.image_main }}" />
-                            </a>
-                            </div>
-                            <div class="Cart-block Cart-block_info"><a class="Cart-title"
-                                href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
-                                {{ item.product_in_shop.product.name }}</a>
-                                <div class="Cart-desc">{{ item.product_in_shop.product.description }}
+                {% for item in cart %}
+                    <form action="{{ url('app_cart:cart_add', product_in_shop_id=item.product_in_shop.id) }}"
+                          method="post">
+                        {% csrf_token %}
+                        <div class="Cart-product">
+                            <div class="Cart-block Cart-block_row">
+                                <div class="Cart-block Cart-block_pict"><a class="Cart-pict"
+                                                                           href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
+                                    <img class="Cart-img" src="{{ item.product_in_shop.product.image_main.url }}"
+                                         alt="{{ item.product_in_shop.image_main }}"/>
+                                </a>
                                 </div>
-                            </div>
-                            <div class="Cart-block Cart-block_price">
-                                <div class="Cart-price"> {% if item.price_discount %}
-                                    <s> {{ item.price }} </s>
-                                    {{ item.price_discount }}
+                                <div class="Cart-block Cart-block_info"><a class="Cart-title"
+                                                                           href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
+                                    {{ item.product_in_shop.product.name }}</a>
+                                    <div class="Cart-desc">{{ item.product_in_shop.product.description }}
+                                    </div>
+                                </div>
+                                <div class="Cart-block Cart-block_price">
+                                    <div class="Cart-price"> {% if item.price_discount %}
+                                        <s> {{ item.price }} </s>
+                                        {{ item.price_discount }}
 
                                     {% else %}
-                                    {{ item.price }}
-                                {% endif %}
-                                    <div></div>
+                                        {{ item.price }}
+                                    {% endif %}
+                                        <div></div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Cart-block Cart-block_row">
-                            <div class="Cart-block Cart-block_seller">
-                                <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
-                            </div>
-                            <div class="Cart-block Cart-block_amount">
-                                <div class="Cart-amount">
-                                    <div class="Amount">
-                                        <button class="Amount-remove" type="button">
-                                        </button>
-                                        <input class="Amount-input form-input" name="quantity" type="text"
-                                               value={{ item.quantity }} />
-                                            {{ form.update_quantity_form.update }}
-                                        <button class="Amount-add" type="button" >
-                                        </button>
                                     </div>
                                 </div>
                             </div>
+                            <div class="Cart-block Cart-block_row">
+                                <div class="Cart-block Cart-block_seller">
+                                    <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
+                                </div>
+                                <div class="Cart-block Cart-block_amount">
+                                    <div class="Cart-amount">
+                                        <div class="Amount">
+                                            <button class="Amount-remove" type="button">
+                                            </button>
+                                            <input class="Amount-input form-input" name="quantity" type="text"
+                                                   value={{ item.quantity }}/>
+                                            {{ form.update_quantity_form.update }}
+                                            <button class="Amount-add" type="button">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
 
-                               <input class="Amount-input form-input" type="submit" value="Update">
+                                <input class="Amount-input form-input" type="submit" value="Update">
 
-                            <div class="Cart-block Cart-block_delete"><a class="Cart-delete"
-                                 href="{{ url('app_cart:cart_remove', product_in_shop_id=item.product_in_shop.id) }}">
-                                <img src={{ static("assets/img/icons/card/delete.svg") }} alt="delete.svg" /></a>
+                                <div class="Cart-block Cart-block_delete"><a class="Cart-delete"
+                                                                             href="{{ url('app_cart:cart_remove', product_in_shop_id=item.product_in_shop.id) }}">
+                                    <img src={{ static("assets/img/icons/card/delete.svg") }} alt="delete.svg"/></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </form>
-                    {% endfor %}
-
+                {% endfor %}
                     <div class="Cart-total">
                         <div class="Cart-block Cart-block_total">
-                            <strong class="Cart-title">Итого:
-                            </strong><span class="Cart-price">{{ cart.get_total_price() }}</span>
+                            <div>
+                                {% if cart.coupon.discount %}
+                                    <div>
+                                        <strong class="Cart-title">Итого:</strong>
+                                        <span class="Cart-price">
+                                        {% if cart.get_total_price_after_discount() %}
+                                            <table>
+                                                 <tr>
+                                                     <th><s>{{ cart.get_total_price() }}</s></th>
+                                                 </tr>
+                                                 <tr>
+                                                     <th>{{ cart.get_total_price_after_discount() }}</th>
+                                                 </tr>
+                                            </table>
+                                        {% else %}
+                                            {{ cart.get_total_price() }}
+                                        {% endif %}
+                                        </span>
+                                        {% if request.user.is_authenticated %}
+                                            <div>
+                                                <div>{% if cart.coupon.code %}
+                                                    Промокод: {{ cart.coupon.code }} ({{ cart.coupon.discount }}%)
+                                                {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <form action="{{ url("app_cart:coupon_apply") }}" method="post">
+                                                    {{ form.coupon_apply_form }}
+                                                    <input type="submit" value="Apply">
+                                                    {% csrf_token %}
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+
+                                {% else %}
+                                    <div><strong class="Cart-title">Итого:</strong>
+                                        <span class="Cart-price">{{ cart.get_total_price() }}</span>
+                                        {% if request.user.is_authenticated %}
+                                            <div>
+                                                <div>{% if cart.coupon.code %}
+                                                    Промокод: {{ cart.coupon.code }} ({{ cart.coupon.discount }}%)
+                                                {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <form action="{{ url("app_cart:coupon_apply") }}" method="post">
+                                                    {{ form.coupon_apply_form }}
+                                                    <input type="submit" value="Apply">
+                                                    {% csrf_token %}
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    </div>
                         </div>
-                        <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url("apporders:checkout_order")}}">Оформить заказ</a>
-                        </div>
+                            {% endif %}
                     </div>
-            </div>
+                </div>
+            <div class="Cart-block"><a class="btn btn_success btn_lg"
+                                       href="{{ url("apporders:checkout_order") }}">Оформить заказ</a></div>
         </div>
     </div>
 

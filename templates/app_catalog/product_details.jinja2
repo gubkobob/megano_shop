@@ -31,15 +31,21 @@
                                 {% endif %}
                             </div>
                         </div>
-
+                        {%for discount in product_in_shop.product_discount.all() %}
                         <div class="ProductCard-desc">
                             <div class="ProductCard-header">
                                 <h2 class="ProductCard-title">{{ product_in_shop.product.name }}
                                 </h2>
                                 <div class="ProductCard-info">
+
                                     <div class="ProductCard-cost">
-                                        <div class="ProductCard-price">Цена: {{ product_in_shop.price }}
-                                        </div>
+                                        {% if discount.get_price_product() %}
+                                            <div class="ProductCard-price">Цена без скидки: <s>{{ product_in_shop.price }}</s>
+                                           <div> Цена со скидкой: {{ discount.get_price_product() }}</div>
+                                            </div>
+                                        {% else %}
+                                            <div class="ProductCard-price">Цена: {{ product_in_shop.price }}</div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -108,6 +114,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                     <div class="Tabs Tabs_default">
                         <div class="Tabs-links">
                             <a class="Tabs-link_ACTIVE Tabs-link" href="#description"><span>Описание</span></a>
