@@ -35,7 +35,7 @@ class Cart(object):
             self.cart[product_in_shop_id] = {'quantity': 0,
                                              'price': str(product_in_shop.price),
                                              'price_discount': float(Discount.objects.get(product_id=product_in_shop.id).get_price_product())
-                                             if Discount.objects.filter(product_id=product_in_shop.id).exists() else '0'
+                                             if Discount.objects.filter(product_id=product_in_shop.id).exists() else 0
                                              }
         if update_quantity:
             if quantity <= product_in_shop.quantity:
