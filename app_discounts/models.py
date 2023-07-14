@@ -12,9 +12,9 @@ User = get_user_model()
 class Discount(models.Model):
 
     types = [
-        ('процент', 'процент'),
-        ('количество', 'количество'),
-        ('процент и количество', 'процент и количество'),
+        (_('процент'), 'процент'),
+        (_('количество'), 'количество'),
+        (_('процент и количество'), 'процент и количество'),
     ]
 
     product = models.ForeignKey(ProductInShop, on_delete=models.CASCADE, verbose_name='Продукт',
@@ -46,12 +46,6 @@ class Discount(models.Model):
 
         elif self.type_discount == 'процент и количество':
             return round((float(self.product.price) - (float(self.product.price) * (self.percent / 100))) - self.quantity, 2)
-
-    # Отдельные
-    # - получить все скидки на указанный список товаров или на один товар;
-    # - получить приоритетную скидку на указанный список товаров или на один товар;
-    # - получить скидку на корзину;
-    # - рассчитать цену со скидкой на товар с дополнительным необязательным параметром ― цена товара.
 
     def available_monitoring(self):
         if self.end_discount.date() < timezone.now().date():
@@ -93,11 +87,15 @@ class Discount(models.Model):
 
 
 class Coupon(models.Model):
-    code = models.CharField(max_length=50, unique=True)
+    code = models.CharField(max_length=50, unique=True, verbose_name='Промокод')
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
     discount = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
     active = models.BooleanField()
+
+    class Meta:
+        verbose_name = 'Промокод'
+        verbose_name_plural = 'Промокоды'
 
     def __str__(self):
         return self.code

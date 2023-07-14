@@ -53,7 +53,10 @@ class ShopServicesMixin:
     """
 
 def catalog_obj_order_by(parameter: str, flag: str = None) -> ProductInShop:
-    print(parameter)
+    if parameter == 'popular':
+        return ProductInShop.objects.annotate(num_parametr=Count('order_items')).order_by('-num_parametr')
+    if parameter == '-popular':
+        return ProductInShop.objects.annotate(num_parametr=Count('order_items')).order_by('num_parametr')
     if parameter == 'comments':
         return ProductInShop.objects.annotate(num_parametr=Count('comments')).order_by('-num_parametr')
     if parameter == 'subcategory':
@@ -80,9 +83,11 @@ def sort_catalog(obj: QueryDict) -> dict:
     if obj.get("parameter"):
         parameter = obj.get("parameter")
         flag = obj.get("flag")
-        sort = 'base' if parameter != '-product__created' else 'price_high'
+        sort_price = 'base' if parameter != '-product__created' else 'price_high'
+        sort_popular = 'base' if parameter != '-popular' else 'popular_high'
         return {'productsinshops': catalog_obj_order_by(parameter, flag),
-                'sort': sort}
+                'sort_price': sort_price,
+                'sort_popular': sort_popular}
     # if obj.get('page_tag'):
     #     print(obj.get('page_tag'))
     if obj.get('add_card'):
@@ -90,18 +95,27 @@ def sort_catalog(obj: QueryDict) -> dict:
         cart = CartServicesMixin()
         cart.add_product_to_cart(pk)
     return {'productsinshops': ProductInShop.objects.all(),
-            'sort': 'base'}
+            'sort_price': 'base',
+            'sort_popular': 'base'}
 
 def filter_catalog(post) -> ProductInShop:
+    if post.get('query'):
+        return ProductInShop.objects.filter(product__name=post.get('query'))
     price_filter = post.get('price').split(';')
     min_price_filter = int(price_filter[0])
     max_price_filter = int(price_filter[1])
     if post.get('stock') == 'on':
-        print('good')
-    if post.get('free_delivery') == 'on':
-        print('free delivery')
-    pis = ProductInShop.objects.filter(price__gte=min_price_filter, price__lte=max_price_filter)
-    return pis
+        return ProductInShop.objects.filter(quantity__gt=0)
+    if post.get('name_product'):
+        return ProductInShop.objects.filter(product__name=post.get('name_product'))
+    return ProductInShop.objects.filter(price__gte=min_price_filter, price__lte=max_price_filter)
+
+def get_maxprice(pid: list, maxprice=0) -> ProductInShop:
+
+    for product in pid:
+        if product.price > maxprice:
+            maxprice = product.price
+    return maxprice
 
 
 def paginator(obj, request):
