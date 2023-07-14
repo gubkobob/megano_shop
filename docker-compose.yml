@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  rabbitmq:
+    image: rabbitmq
+    restart: always
+
+  app:
+    restart: always
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    ports:
+      - "8000:8000"
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+  celery:
+    restart: always
+    build:
+      context: .
+    command: ["celery", "-A", "config",  "worker", "-l", "info", "-P", "eventlet"]
