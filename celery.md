@@ -1,6 +1,6 @@
-#Запуск сельдерей
+##Запуск сельдерей
 
-celery -A config  worker -l info -P eventlet
+>celery -A config  worker -l info -P eventlet
 
 
 
@@ -9,11 +9,11 @@ celery -A config  worker -l info -P eventlet
 >1. ***brew install rabbitmq***
 >2. ***export PATH=$PATH:/usr/local/sbin***
 >>###  Start server (Mac)
->>> ***sudo rabbitmq-server -detached***   
-_(-флаг отсоединения указывает, что сервер должен работать в фоновом режиме)_ 
->>>> Переходим по_ _http://localhost:15672_ _вводим логин и пароль_
->>>>> ***_Username: guest_***
->>>>>> ***_Password: guest_***
+>>>1. ***sudo rabbitmq-server -detached***   
+_(-detached указывает, что сервер должен работать в фоновом режиме)_ 
+>>>2. Переходим по_ _http://localhost:15672_ _вводим логин и пароль_
+>>>3. ***_Username: guest_***
+>>>4. ***_Password: guest_***
 >
 >>### To stop server
 >>>sudo rabbitmqctl stop
