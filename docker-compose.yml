@@ -2,11 +2,14 @@ version: "3.9"
 
 services:
   rabbitmq:
-    image: rabbitmq:3-management
+    hostname: rabbit
+    image: 'rabbitmq:3-management'
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASSWORD=guest
     ports:
-      - 5672:5672
-      - 15672:15672
-    restart: always
+      - "15672:15672"
+      - "5672:5672"
 
   app:
     restart: always
@@ -21,6 +24,4 @@ services:
     restart: always
     build:
       context: .
-    command: ["celery", "-A", "config",  "worker", "-l", "info"]
-    depends_on:
-      - rabbitmq
+    command: ["celery", "-A", "config",  "worker", "-l", "info", "-P", "eventlet"]
