@@ -24,12 +24,10 @@ def main_page(request: HttpRequest):
     products_banners = get_product_banner()
     product_day = OneProduct().product_day()
     products_limited = get_products_limited(product_day)
-    products = Product.objects.all()
 
     return render(request, 'app_main_page/main.jinja2', {
         'top_products': top_products,
         'products_limited': products_limited,
         'products_banners': products_banners,
-        'limited_offers': product_day,
-        'products': products
+        'limited_offers': product_day
     })
