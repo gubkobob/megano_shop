@@ -108,8 +108,8 @@
                                             </div>
                                         </div>
                                         <div class="Cart-block Cart-block_price">
-                                            <div class="Cart-price">{{ item.price }}
-                                            </div>
+                                             <span class="Card-priceOld"><s>{{ item.product_in_shop.price }}</s></span>
+                                             <span class="Cart-price">{{ item.price }}</span></strong>
                                         </div>
                                     </div>
                                     <div class="Cart-block Cart-block_row">
@@ -122,13 +122,13 @@
                                 {% endfor %}
                                 <div class="Cart-total">
                                     <div class="Cart-block Cart-block_total">
-                                        <strong class="Cart-title">Общая сумма заказа:<span class="Cart-price">{{ order.avg_price|floatformat }}</span>
+                                        <strong class="Cart-title">Общая сумма заказа с учётом всех скидок:<span class="Cart-price">{{ order.avg_price|round(2) }}</span>
                                         </strong>
                                         <div></div>
                                         <strong class="Cart-title">Стоимость доставки:<span class="Cart-price">{{ order.delivery_cost }}</span>
                                         </strong>
                                         <div></div>
-                                        <strong class="Cart-title">Итоговая сумма заказа с доставкой:<span class="Cart-price">{{ (order.delivery_cost + order.avg_price)|floatformat }}</span>
+                                        <strong class="Cart-title">Итоговая сумма заказа с доставкой:<span class="Cart-price">{{ (order.delivery_cost + order.avg_price)|round(2) }}</span>
                                         </strong>
                                     {% if order.status=="Не оплачен" %}
                                     </div>

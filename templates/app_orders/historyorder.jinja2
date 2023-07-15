@@ -58,7 +58,7 @@
                                         <div class="Order-info">
                                             <div class="Order-infoType">Общая сумма заказа:
                                             </div>
-                                            <div class="Order-infoContent"><span class="Order-price">{{ (order.avg_price- order.delivery_cost)|floatformat }}</span>
+                                            <div class="Order-infoContent"><span class="Order-price">{{ order.avg_price|round(2) }}</span>
                                             </div>
                                         </div>
                                         <div class="Order-info">
@@ -70,7 +70,7 @@
                                         <div class="Order-info">
                                             <div class="Order-infoType">Итоговая сумма заказа с доставкой:
                                             </div>
-                                            <div class="Order-infoContent"><span class="Order-price">{{ order.avg_price|floatformat }}</span>
+                                            <div class="Order-infoContent"><span class="Order-price">{{ (order.avg_price + order.delivery_cost)|round(2) }}</span>
                                             </div>
                                         </div>
                                         <div class="Order-info Order-info_status">

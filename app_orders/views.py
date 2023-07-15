@@ -79,14 +79,14 @@ class CreateOrderView(CreateView):
                                                  quantity=item.quantity,
                                                  )
 
+                    cart.remove(product_in_shop=item.product_in_shop)
+
                     new_order.save()
                 user.orders.add(new_order)
 
-                for item in cart:
-                    cart.remove(product_in_shop=item.product_in_shop)
-
                 order_items = OrderItem.objects.filter(order_id=new_order.id)
 
+                get_total_price_before = sum(Decimal(item.product_in_shop.price) * item.quantity for item in order_items)
                 get_total_price = sum(Decimal(item.price) * item.quantity for item in order_items)
 
                 if new_order.delivery == 'Экспресс доставка':
@@ -101,6 +101,7 @@ class CreateOrderView(CreateView):
                     'form': new_order,
                     'order_items': order_items,
                     'get_total_price': get_total_price,
+                    'get_total_price_before': get_total_price_before,
                 }
 
                 return render(request, 'app_orders/order_2.jinja2', context=context)

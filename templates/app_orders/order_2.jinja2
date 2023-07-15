@@ -94,15 +94,6 @@
                                             <div class="Order-infoContent">{{ form.comment }}
                                             </div>
                                         </div>
-                                        {% if form.discount != 0 %}
-                                            <div class="Order-info Order-info_pay">
-                                                <div class="Order-infoType">Размер скидки по купону:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.discount }}%
-                                                </div>
-                                            </div>
-                                        {% endif %}
-
                                     </div>
                                 </div>
                             </div>
@@ -121,8 +112,12 @@
                                                 {{ item.product_in_shop.product.name }}</a>
                                             <div class="Cart-desc">{{ item.product_in_shop.product.description }}</div>
                                         </div>
+
                                         <div class="Cart-block Cart-block_price">
-                                            <div class="Cart-price">{{ item.price }}
+                                            <div class="Card-priceOld">{{ item.product_in_shop.price }}
+
+                                            </div>
+                                            <div class="Cart-price">{{ item.price / (100 - item.order.discount) * 100 }}
 
                                             </div>
                                         </div>
@@ -133,22 +128,38 @@
                                     </div>
                                 </div>
                                     <div class="Cart-block Cart-block_total">
-                                        <strong class="Cart-title">Итого:
-                                        </strong><span class="Cart-price">{{ item.get_cost() }}</span>
+                                        <strong class="Cart-title">Итого:</strong>
+                                        <span class="Cart-price">{{ item.price / (100 - item.order.discount) * 100 * item.quantity }}</span>
                                     </div>
                                 {% endfor %}
+
                                 <div class="Cart-total">
                                     <div class="Cart-block Cart-block_total">
-                                        <strong class="Cart-title">Общая сумма заказа:
-                                        </strong><span class="Cart-price">{{ get_total_price - form.delivery_cost }}</span>
+
+                                    {% if form.discount != 0 %}
+                                    <div>
+                                        <strong class="Cart-title">Скидка {{form.discount}}% по купону "{{form.coupon}}"</strong>
                                     </div>
-                                    <div class="Cart-block Cart-block_total">
+                                    <div>
+                                        <strong class="Cart-title">Сумма заказа:
+                                             <span class="Card-priceOld"><s>{{ get_total_price / (100 - form.discount) * 100 }}</s></span>
+                                             <span class="Cart-price">{{ get_total_price }}</span></strong>
+                                    </div>
+
+                                    {% else %}
+                                    <div>
+                                        <strong class="Cart-title">Сумма заказа:
+                                             <span class="Cart-price">{{ get_total_price }}</span></strong>
+                                    </div>
+                                    {% endif %}
+                                    <div>
                                         <strong class="Cart-title">Стоимость доставки:
                                         </strong><span class="Cart-price">{{ form.delivery_cost }}</span>
                                     </div>
-                                    <div class="Cart-block Cart-block_total">
+                                    <div>
                                         <strong class="Cart-title">Итоговая сумма заказа с доставкой:
-                                        </strong><span class="Cart-price">{{ get_total_price }}</span>
+                                        </strong><span class="Cart-price">{{ get_total_price + form.delivery_cost }}</span>
+                                    </div>
                                     </div>
                                     <div class="Cart-block">
                                         <a class="btn btn_primary btn_lg" href='/payment?order={{form.id}}'>Оплатить</a>
