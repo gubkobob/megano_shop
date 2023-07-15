@@ -192,10 +192,6 @@ CART_SESSION_ID = 'cart'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
-LOGFILE_NAME = BASE_DIR / 'log.txt'
-LOGFILE_SIZE = 1 * 1024 * 1024
-LOGFILE_COUNT = 3
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -205,17 +201,17 @@ LOGGING = {
         },
     },
     'handlers': {
-        'logfile': {
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOGFILE_NAME,
-            'maxBytes': LOGFILE_SIZE,
-            'backupCount': LOGFILE_COUNT,
-            'formatter': 'verbose',
-        },
+        'import_products': {
+                    'class': 'logging.handlers.RotatingFileHandler',
+                    'filename': BASE_DIR / 'import_log.txt',  # имя лог.файла
+                    'maxBytes': 1024 * 1024 * 1,  # 1 MB
+                    'backupCount': 3,  # 3 файла
+                    'formatter': 'verbose',
+        }
     },
     'root': {
-        'handlers': ['logfile'],
-        'level': 'DEBUG',
+        'handlers': ['import_products'],
+        'level': 'INFO',
         'propagate': True
     },
 }

@@ -1,5 +1,3 @@
-import json
-
 from django.db import transaction
 from django.db.models import Sum, F
 from django.shortcuts import render
@@ -9,7 +7,6 @@ from decimal import Decimal
 from django.contrib.auth import get_user_model
 
 from app_cart.cart import CartDB
-from app_users.models import User
 
 from app_administrator.models import SettingsModel
 
@@ -24,12 +21,10 @@ User = get_user_model()
 class CheckoutOrderView(View):
 
     def get(self, request, *args, **kwargs):
-        # cart = CartDB(request)
         form = OrderForm(request.POST or None)
         settings_price = SettingsModel.objects.all()
 
         context = {
-            # 'cart': cart,
             'form': form,
             'settings_price': settings_price
         }

@@ -101,7 +101,6 @@ class ProductInShopAdmin(admin.ModelAdmin):
     list_display_links = "id", "product", "shop", "quantity", "price", "available", "limited_product"
     list_filter = "id", "product", "shop", "quantity", "price", "available", "limited_product"
 
-
     def products_in_shop_cache_clear(self, request: HttpRequest):
         cache.delete('product_in_shop')
         messages.add_message(request, messages.INFO, 'Product In Shop cache cleared')
@@ -170,6 +169,7 @@ class ProductInShopAdmin(admin.ModelAdmin):
             path('clear_cache', self.admin_site.admin_view(self.products_in_shop_cache_clear)),
         ]
         return new_urls + urls
+
 
 @admin.register(Shop)
 class ShopAdmin(admin.ModelAdmin):
