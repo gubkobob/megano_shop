@@ -53,6 +53,9 @@ class CreateOrderView(CreateView):
                 new_order.comment = form.cleaned_data['comment']
                 new_order.status = form.cleaned_data['status']
                 new_order.user = user
+                if cart.coupon:
+                    new_order.coupon = cart.coupon
+                    new_order.discount = cart.coupon.discount
 
                 for item in cart:
                     if item.quantity > item.product_in_shop.quantity:
@@ -65,13 +68,14 @@ class CreateOrderView(CreateView):
                     if item.price_discount:
                         OrderItem.objects.create(order_id=new_order.id,
                                                  product_in_shop=item.product_in_shop,
-                                                 price=item.price_discount,
+                                                 price=item.price_discount -
+                                                       (item.price_discount * new_order.discount / 100),
                                                  quantity=item.quantity,
                                                  )
                     else:
                         OrderItem.objects.create(order_id=new_order.id,
                                                  product_in_shop=item.product_in_shop,
-                                                 price=item.price,
+                                                 price=item.price - (item.price * new_order.discount / 100),
                                                  quantity=item.quantity,
                                                  )
 
@@ -90,7 +94,8 @@ class CreateOrderView(CreateView):
                     get_total_price = get_total_price + getattr(SettingsModel.objects.first(), 'price_express_delivery')
                 elif (get_total_price < getattr(SettingsModel.objects.first(), 'min_total_price_order')) or \
                         (len(self.count_shop) > 1):
-                    get_total_price = get_total_price + getattr(SettingsModel.objects.first(), 'price_ordinary_delivery')
+                    get_total_price = get_total_price + getattr(SettingsModel.objects.first(),
+                                                                'price_ordinary_delivery')
 
                 context = {
                     'form': new_order,

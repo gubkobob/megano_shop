@@ -94,6 +94,14 @@
                                             <div class="Order-infoContent">{{ form.comment }}
                                             </div>
                                         </div>
+                                        {% if form.discount != 0 %}
+                                            <div class="Order-info Order-info_pay">
+                                                <div class="Order-infoType">Размер скидки по купону:
+                                                </div>
+                                                <div class="Order-infoContent">{{ form.discount }}%
+                                                </div>
+                                            </div>
+                                        {% endif %}
 
                                     </div>
                                 </div>

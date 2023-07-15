@@ -58,7 +58,7 @@
                                         <div class="Order-info">
                                             <div class="Order-infoType">Общая стоимость:
                                             </div>
-                                            <div class="Order-infoContent"><span class="Order-price">{{ order.avg_price}}</span>
+                                            <div class="Order-infoContent"><span class="Order-price">{{ order.avg_price|floatformat }}</span>
                                             </div>
                                         </div>
                                         <div class="Order-info Order-info_status">

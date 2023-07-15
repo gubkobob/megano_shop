@@ -1,9 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from decimal import Decimal
 
 from app_cart.models import CartRegisteredUser
 from app_catalog.models import ProductInShop
+from app_discounts.models import Coupon, Discount
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 User = get_user_model()
@@ -44,6 +47,8 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now=True, verbose_name=_("Дата создания заказа"))
     status = models.CharField(max_length=25, choices=STATUS_ORDER_CHOICES, default=_('Не оплачен'),
                               verbose_name=_("Статус заказа"))
+    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
+    discount = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     def __str__(self):
         return str(self.id)

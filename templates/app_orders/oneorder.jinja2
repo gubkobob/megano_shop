@@ -122,7 +122,7 @@
                                 {% endfor %}
                                 <div class="Cart-total">
                                     <div class="Cart-block Cart-block_total">
-                                        <strong class="Cart-title">Итого:<span class="Cart-price">{{ order.avg_price }}</span>
+                                        <strong class="Cart-title">Итого:<span class="Cart-price">{{ order.avg_price|floatformat }}</span>
                                         </strong>
                                     {% if order.status=="Не оплачен" %}
                                     </div>
