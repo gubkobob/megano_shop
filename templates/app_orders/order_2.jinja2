@@ -139,11 +139,15 @@
                                 {% endfor %}
                                 <div class="Cart-total">
                                     <div class="Cart-block Cart-block_total">
+                                        <strong class="Cart-title">Общая сумма заказа:
+                                        </strong><span class="Cart-price">{{ get_total_price - form.delivery_cost }}</span>
+                                    </div>
+                                    <div class="Cart-block Cart-block_total">
                                         <strong class="Cart-title">Стоимость доставки:
                                         </strong><span class="Cart-price">{{ form.delivery_cost }}</span>
                                     </div>
                                     <div class="Cart-block Cart-block_total">
-                                        <strong class="Cart-title">Итоговая сумма заказа:
+                                        <strong class="Cart-title">Итоговая сумма заказа с доставкой:
                                         </strong><span class="Cart-price">{{ get_total_price }}</span>
                                     </div>
                                     <div class="Cart-block">
