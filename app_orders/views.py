@@ -97,11 +97,13 @@ class CreateOrderView(CreateView):
                     get_total_price = get_total_price + getattr(SettingsModel.objects.first(),
                                                                 'price_ordinary_delivery')
 
+                new_order.delivery_cost = get_total_price - get_total_price_delivery
+                new_order.save()
+
                 context = {
                     'form': new_order,
                     'order_items': order_items,
                     'get_total_price': get_total_price,
-                    'get_total_price_delivery': get_total_price - get_total_price_delivery
                 }
 
                 return render(request, 'app_orders/order_2.jinja2', context=context)

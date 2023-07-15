@@ -41,6 +41,7 @@ class Order(models.Model):
     address = models.CharField(max_length=1000, null=True, blank=True, verbose_name=_("Адрес доставки"))
     delivery = models.CharField(max_length=100, choices=DELIVERY_METHOD_CHOICES,
                                 default=_('Обычная доставка'), verbose_name=_("Способ доставки"))
+    delivery_cost = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name='Стоимость доставки')
     payment = models.CharField(max_length=100, choices=PAYMENT_METHOD_CHOICES,
                                default=_('Онлайн картой'), verbose_name=_("Способ Оплаты"))
     comment = models.TextField(null=True, blank=True, verbose_name=_("Комментарий к заказу"))
@@ -73,3 +74,4 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
