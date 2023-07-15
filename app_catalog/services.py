@@ -2,7 +2,7 @@
 Сервисы для работы с каталогом, товарами, магазинами
 """
 from django.core.paginator import Paginator
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.http.request import QueryDict
 
 from app_cart.services import CartServicesMixin
@@ -52,11 +52,14 @@ class ShopServicesMixin:
     Класс - примесь для использования сервисов для работы с магазинами
     """
 
+
+
+
 def catalog_obj_order_by(parameter: str, flag: str = None) -> ProductInShop:
     if parameter == 'popular':
-        return ProductInShop.objects.annotate(num_parametr=Count('order_items')).order_by('-num_parametr')
+        return ProductInShop.objects.annotate(num_parametr=Sum('order_items__quantity')).order_by('-num_parametr')
     if parameter == '-popular':
-        return ProductInShop.objects.annotate(num_parametr=Count('order_items')).order_by('num_parametr')
+        return ProductInShop.objects.annotate(num_parametr=Sum('order_items__quantity')).order_by('num_parametr')
     if parameter == 'comments':
         return ProductInShop.objects.annotate(num_parametr=Count('comments')).order_by('-num_parametr')
     if parameter == 'subcategory':
