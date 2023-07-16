@@ -1,16 +1,16 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
-
 from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.views.generic import DetailView, ListView
+
 from .models import Discount
 from .services import DiscountsServicesMixin
 
 
 class DiscountView(ListView):
     model = Discount
-    template_name = 'shops/sale.jinja2'
+    template_name = "shops/sale.jinja2"
     paginate_by = 3
-    context_object_name = 'discounts'
+    context_object_name = "discounts"
 
     def get_context_data(self, **kwargs):
         discount = DiscountsServicesMixin()

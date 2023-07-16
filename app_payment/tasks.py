@@ -1,9 +1,8 @@
-from time import sleep
 import random
-
-from celery import shared_task
+from time import sleep
 
 from app_orders.models import Order
+from celery import shared_task
 
 
 @shared_task
@@ -13,9 +12,7 @@ def logika(order_id: int):
     randBits = bool(random.choice([True, False]))
     sleep(5)
     if randBits:
-        order_obj.status = 'paid for'
+        order_obj.status = "paid for"
         order_obj.save()
-        return {'status': True}
-    return {'status': False}
-
-
+        return {"status": True}
+    return {"status": False}

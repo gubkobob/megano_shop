@@ -5,4 +5,4 @@ from django.utils.translation import gettext_lazy as _
 class AppBannersConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "app_banners"
-    verbose_name = _('Баннеры')
+    verbose_name = _("Баннеры")

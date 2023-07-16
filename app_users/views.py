@@ -1,12 +1,19 @@
 from _decimal import Decimal
-
-from django.contrib.auth import authenticate, login
+from app_orders.models import Order, OrderItem
+from app_users.forms import (
+    MyUserChangeForm,
+    MyUserCreationForm,
+    UserForgotPasswordForm,
+    UserSetNewPasswordForm,
+)
+from app_users.services import reset_phone_format
 from django.contrib import messages
+from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.views import (
-    LogoutView,
     LoginView,
-    PasswordResetView,
+    LogoutView,
     PasswordResetConfirmView,
+    PasswordResetView,
 )
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpRequest, HttpResponse
@@ -14,16 +21,6 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django_jinja.views.generic import CreateView
-from django.contrib.auth import get_user_model
-
-from app_orders.models import Order, OrderItem
-from app_users.forms import (
-    MyUserCreationForm,
-    MyUserChangeForm,
-    UserForgotPasswordForm,
-    UserSetNewPasswordForm,
-)
-from app_users.services import reset_phone_format
 
 User = get_user_model()
 
@@ -116,10 +113,14 @@ class AccountView(View):
     """
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        last_order = Order.objects.filter(user_id=request.user.id).order_by("created_at").last()
+        last_order = (
+            Order.objects.filter(user_id=request.user.id).order_by("created_at").last()
+        )
         if last_order:
             last_order_items = OrderItem.objects.filter(order_id=last_order.id)
-            get_total_price = sum(Decimal(item.price) * item.quantity for item in last_order_items)
+            get_total_price = sum(
+                Decimal(item.price) * item.quantity for item in last_order_items
+            )
         else:
             last_order = None
             get_total_price = 0
