@@ -1,6 +1,7 @@
 from app_catalog.models import ProductInShop
 from config import settings
 
+
 class ComparisonServicesMixin:
     """
     Класс - примесь для использования сервисов для работы с сравнение товаров

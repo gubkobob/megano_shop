@@ -1,4 +1,3 @@
-from app_users.services import get_10_digits_from_phone_number
 from django import forms
 
 from .models import Order

@@ -1,5 +1,4 @@
-from app_catalog.models import Product, ProductInShop
-from django.db.models import Min
+from app_catalog.models import ProductInShop
 from django.http import HttpRequest
 from django.shortcuts import render
 from django.views import View

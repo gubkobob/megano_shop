@@ -56,7 +56,7 @@ class CreateOrderView(CreateView):
                         return HttpResponseRedirect("/cart/")
                     else:
                         new_order.save()
-                        if not item.product_in_shop.shop in self.count_shop:
+                        if item.product_in_shop.shop not in self.count_shop:
                             self.count_shop.append(item.product_in_shop.shop)
 
                     if item.price_discount:

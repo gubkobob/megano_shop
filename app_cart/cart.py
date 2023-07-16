@@ -1,8 +1,10 @@
 from copy import deepcopy
 from decimal import Decimal
+
 from app_catalog.models import ProductInShop
 from app_discounts.models import Coupon, Discount
 from django.conf import settings
+
 from .models import CartRegisteredUser
 
 

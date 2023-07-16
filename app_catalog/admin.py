@@ -177,12 +177,12 @@ class ProductInShopAdmin(admin.ModelAdmin):
                         available=row["available"],
                         limited_product=row["limited_product"],
                     )
-                    if created == False:
+                    if not created:
                         log.warning(
                             f"Импорт выполнен частично. Товар {product_in_shop} был импортирован ранее."
                         )
                     else:
-                        if row["image"] != None:
+                        if row["image"]:
                             product_id = product_in_shop.id
                             for img in row["image"].split(";"):
                                 print(img)
@@ -192,7 +192,7 @@ class ProductInShopAdmin(admin.ModelAdmin):
                                 ) = ProductInShopImage.objects.get_or_create(
                                     product_in_shop_id=product_id, image=img
                                 )
-                                if created == False:
+                                if not created:
                                     log.warning(
                                         f"Ошибка импорта картинки {product_in_shop_image} "
                                     )
@@ -201,7 +201,7 @@ class ProductInShopAdmin(admin.ModelAdmin):
                 self.message_user(request, "Импорт Завершён с ошибкой")
                 log.error(f"Импорт Завершен с ошибкой: {error_import}")
             else:
-                log.info(f"Импорт Выполнен")
+                log.info("Импорт Выполнен")
                 self.message_user(request, "Импорт Выполнен")
             finally:
                 return redirect("..")

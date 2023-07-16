@@ -2,8 +2,8 @@ from app_orders.models import Order
 from app_payment.models import PayUserModel
 from app_payment.tasks import logika
 from django.contrib import messages
-from django.shortcuts import redirect, render
-from django.views.generic import ListView, TemplateView
+from django.shortcuts import redirect
+from django.views.generic import ListView
 
 
 class PayView(ListView):

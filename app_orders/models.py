@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from app_cart.models import CartRegisteredUser
 from app_catalog.models import ProductInShop
 from app_discounts.models import Coupon, Discount
