@@ -10,21 +10,13 @@ class DiscountView(ListView):
     model = Discount
     template_name = 'shops/sale.jinja2'
     paginate_by = 3
+    context_object_name = 'discounts'
 
     def get_context_data(self, **kwargs):
         discount = DiscountsServicesMixin()
-        # context = super().get_context_data(**kwargs)
-        request = self.request.GET
-        context = {}
-
+        context = super().get_context_data(**kwargs)
         result = discount.get_discounts_page()
-        # print(result[:])
-        context['context'] = result
-        paginator = Paginator(result, self.paginate_by)
-        page = self.request.GET.get('page')
-        # print(page)
-        file_exams = paginator.get_page(page)
-        # context['context'] = file_exams
-        # catalog_page_obj = paginator(obj=result, request=request)
-        # context['catalog_page_obj'] = catalog_page_obj
-        return context
+        return dict(context.items())
+
+    def get_queryset(self):
+        return Discount.objects.filter(available=True)
