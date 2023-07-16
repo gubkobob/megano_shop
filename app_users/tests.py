@@ -68,7 +68,7 @@ class MyLoginViewTestCase(TestCase):
 
 
 class ProfileAndAccountViewTestCase(TestCase):
-
+    @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.credentials = dict(username="test",
@@ -85,10 +85,18 @@ class ProfileAndAccountViewTestCase(TestCase):
 
     def setUp(self) -> None:
         self.client.login(username="ss@dd.ru", password="aaaa88*AAAA")
-
+        self.user = User.objects.filter(email="ss@dd.ru").first()
     def test_user_profile(self):
         response = self.client.get(
-            reverse("shopapp:profile")
+            reverse("app_users:profile")
         )
-        print(response)
-        # self.assertContains(response, self.product.name)
+        self.assertContains(response, self.user.email)
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_user_account(self):
+        response = self.client.get(
+            reverse("app_users:account")
+        )
+        self.assertContains(response, self.user.username)
+        self.assertEqual(response.status_code, 200)
