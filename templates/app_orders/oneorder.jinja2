@@ -49,6 +49,12 @@
                                             <div class="Order-infoContent">{{ order.email}}
                                             </div>
                                         </div>
+                                        <div class="Order-info">
+                                            <div class="Order-infoType">Комментарий:
+                                            </div>
+                                            <div class="Order-infoContent">{{ order.comment}}
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row-block">
                                         <div class="Order-info Order-info_delivery">
@@ -105,6 +111,9 @@
                                                        href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
                                             {{ item.product_in_shop.product.name }}</a>
                                             <div class="Cart-desc">{{ item.product_in_shop.product.description }}
+                                            <div></div>
+                                                <img class="ProductCard-shop_logo" src="{{ item.product_in_shop.shop.image.url }}"
+                                                    alt="{{ item.product_in_shop.shop.image }}" />
                                             </div>
                                         </div>
                                         <div class="Cart-block Cart-block_price">

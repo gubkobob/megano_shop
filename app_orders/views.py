@@ -2,7 +2,7 @@ from django.db import transaction
 from django.db.models import Sum, F
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.views.generic import View, CreateView, DetailView, ListView
+from django.views.generic import View, DetailView, ListView
 from decimal import Decimal
 from django.contrib.auth import get_user_model
 
@@ -18,7 +18,10 @@ from .forms import OrderForm
 User = get_user_model()
 
 
-class CheckoutOrderView(View):
+class CreateOrderView(View):
+    count_shop = []
+    template_name = 'app_orders/order.jinja2'
+    form_class = OrderForm
 
     def get(self, request, *args, **kwargs):
         form = OrderForm(request.POST or None)
@@ -28,18 +31,18 @@ class CheckoutOrderView(View):
             'form': form,
             'settings_price': settings_price
         }
-        return render(request, 'app_orders/order_1.jinja2', context=context)
 
-
-class CreateOrderView(CreateView):
-    count_shop = []
+        return render(request, self.template_name, context=context)
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
+        print('0')
+        settings_price = SettingsModel.objects.all()
+
         if request.method == 'POST':
             form = OrderForm(request.POST)
             cart = CartDB(request)
-            user = User.objects.get(username=request.user.username)
+            user = request.user
             if form.is_valid():
                 new_order = form.save(commit=False)
                 new_order.full_name = form.cleaned_data['full_name']
@@ -53,6 +56,7 @@ class CreateOrderView(CreateView):
                 new_order.comment = form.cleaned_data['comment']
                 new_order.status = form.cleaned_data['status']
                 new_order.user = user
+                new_order.save()
                 if cart.coupon:
                     new_order.coupon = cart.coupon
                     new_order.discount = cart.coupon.discount
@@ -102,10 +106,10 @@ class CreateOrderView(CreateView):
                     'order_items': order_items,
                     'get_total_price': get_total_price,
                     'get_total_price_before': get_total_price_before,
+                    'settings_price': settings_price
                 }
-
-                return render(request, 'app_orders/order_2.jinja2', context=context)
-            return HttpResponseRedirect('/order/checkout/')
+                return render(request, 'app_payment/payment.jinja2', context=context)
+            return render(request, self.template_name)
 
 
 class OrderDetailView(DetailView):
