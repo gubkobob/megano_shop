@@ -150,11 +150,23 @@
                                     {% endif %}
                                 </div>
                             {% endif %}
-                        {% endif %}
                     </div>
                 </div>
                 <div class="Cart-block"><a class="btn btn_success btn_lg"
                                            href="{{ url("apporders:create_order") }}">Оформить заказ</a></div>
+                {% else %}
+                <div class="Cart-zero">
+                    <img class="Cart-zero_img" src="{{ static ('assets/img/icons/cart-zero.jpg') }}" alt="cart-zero">
+                    <div>
+                        <h3 class="Cart-zero_title">Ваша корзина пуста</h3>
+                        <p class="Cart-zero_descr">Перейдите в
+                            <a class="Cart-zero_link" href="{{ url('appcatalog:catalog') }}">каталог</a>
+                            и добавьте товары или перейдите в
+                            <a class="Cart-zero_link" href={{ url("apporders:orders_history") }}>список ваших заказов.</a>
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
