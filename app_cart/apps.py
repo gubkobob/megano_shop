@@ -5,4 +5,4 @@ from django.utils.translation import gettext_lazy as _
 class AppCartConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "app_cart"
-    verbose_name = _('Корзина')
+    verbose_name = _("Корзина")

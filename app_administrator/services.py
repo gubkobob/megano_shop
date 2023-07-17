@@ -17,4 +17,3 @@ class AdminSettingsServicesMixin:
         """
         функция изменения административных настроек
         """
-

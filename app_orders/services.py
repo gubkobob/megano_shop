@@ -1,6 +1,5 @@
 from .models import Order
 
-
 """
 Сервисы для работы с заказами
 """
