@@ -5,8 +5,8 @@ from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-# app = Celery('config', backend='rpc://', broker='amqp://guest:guest@rabbit:5672')
-app = Celery('config', backend='rpc://', broker='amqp://')
+app = Celery('config', backend='rpc://', broker='amqp://guest:guest@rabbit:5672')
+# app = Celery('config', backend='rpc://', broker='amqp://')
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
