@@ -32,7 +32,7 @@
                                             </div>
                                         </div>
                                         <div class="Order-info">
-                                            <div class="Order-infoType">Никнейм:
+                                            <div class="Order-infoType">Фамилия Имя Отчество:
                                             </div>
                                             <div class="Order-infoContent">{{ order.full_name }}
                                             </div>
@@ -47,6 +47,12 @@
                                             <div class="Order-infoType">E-mail:
                                             </div>
                                             <div class="Order-infoContent">{{ order.email}}
+                                            </div>
+                                        </div>
+                                        <div class="Order-info">
+                                            <div class="Order-infoType">Комментарий:
+                                            </div>
+                                            <div class="Order-infoContent">{{ order.comment}}
                                             </div>
                                         </div>
                                     </div>
@@ -105,11 +111,14 @@
                                                        href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
                                             {{ item.product_in_shop.product.name }}</a>
                                             <div class="Cart-desc">{{ item.product_in_shop.product.description }}
+                                            <div></div>
+                                                <img class="ProductCard-shop_logo" src="{{ item.product_in_shop.shop.image.url }}"
+                                                    alt="{{ item.product_in_shop.shop.image }}" />
                                             </div>
                                         </div>
                                         <div class="Cart-block Cart-block_price">
-                                            <div class="Cart-price">{{ item.price }}
-                                            </div>
+                                             <span class="Card-priceOld"><s>{{ item.product_in_shop.price }}</s></span>
+                                             <span class="Cart-price">{{ item.price }}</span></strong>
                                         </div>
                                     </div>
                                     <div class="Cart-block Cart-block_row">
@@ -122,7 +131,13 @@
                                 {% endfor %}
                                 <div class="Cart-total">
                                     <div class="Cart-block Cart-block_total">
-                                        <strong class="Cart-title">Итого:<span class="Cart-price">{{ order.avg_price }}</span>
+                                        <strong class="Cart-title">Сумма заказа:<span class="Cart-price">{{ order.avg_price|round(2) }}</span>
+                                        </strong>
+                                        <div></div>
+                                        <strong class="Cart-title">Стоимость доставки:<span class="Cart-price">{{ order.delivery_cost }}</span>
+                                        </strong>
+                                        <div></div>
+                                        <strong class="Cart-title">Итоговая сумма заказа с доставкой:<span class="Cart-price">{{ (order.delivery_cost + order.avg_price)|round(2) }}</span>
                                         </strong>
                                     {% if order.status=="Не оплачен" %}
                                     </div>

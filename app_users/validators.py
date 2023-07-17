@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
-
 phone_validator = RegexValidator(
     r"^\+\d\(\d{3}\)\d{3}\-\d{2}\-\d{2}$",
     "Телефон должен быть в формате +7(999)888-77-66",

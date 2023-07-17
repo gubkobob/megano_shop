@@ -2,8 +2,14 @@ version: "3.9"
 
 services:
   rabbitmq:
-    image: rabbitmq
-    restart: always
+    hostname: rabbit
+    image: 'rabbitmq:3-management'
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASSWORD=guest
+    ports:
+      - "15672:15672"
+      - "5672:5672"
 
   app:
     restart: always

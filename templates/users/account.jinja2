@@ -77,9 +77,21 @@
                                                     </div>
                                                 </div>
                                                 <div class="Order-info">
-                                                    <div class="Order-infoType">Общая стоимость:
+                                                    <div class="Order-infoType">Общая сумма заказа:
                                                     </div>
                                                     <div class="Order-infoContent">{{ last_order_total_price }}
+                                                    </div>
+                                                </div>
+                                                <div class="Order-info">
+                                                    <div class="Order-infoType">Стоимость доставки:
+                                                    </div>
+                                                    <div class="Order-infoContent">{{last_order.delivery_cost}}
+                                                    </div>
+                                                </div>
+                                                <div class="Order-info">
+                                                    <div class="Order-infoType">Итоговая сумма заказа с доставкой:
+                                                    </div>
+                                                    <div class="Order-infoContent">{{ (last_order_total_price + last_order.delivery_cost) }}
                                                     </div>
                                                 </div>
                                                 <div class="Order-info Order-info_status">

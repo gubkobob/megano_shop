@@ -1,16 +1,25 @@
 import logging
-from io import TextIOWrapper
 from csv import DictReader
+from io import TextIOWrapper
 
 from django.contrib import admin, messages
 from django.core.cache import cache
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render
 from django.urls import path
-from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
 
 from .forms import ProductCSVImportForm
-from .models import Category, SubCategory, Product, Shop, ProductInShopImage, Specifications, Subspecifications, \
-    ProductInShop, Comments
+from .models import (
+    Category,
+    Comments,
+    Product,
+    ProductInShop,
+    ProductInShopImage,
+    Shop,
+    Specifications,
+    SubCategory,
+    Subspecifications,
+)
 
 log = logging.getLogger(__name__)
 
@@ -20,22 +29,23 @@ class CategoryAdmin(admin.ModelAdmin):
     """
     Админ панель модели Категории товаров
     """
-    change_list_template = 'admin/cache_change_list.html'
+
+    change_list_template = "admin/cache_change_list.html"
     list_display = "id", "name", "slug"
     list_display_links = "id", "name", "slug"
-    search_fields = "name",
+    search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
-    actions = ['clear_cache']
+    actions = ["clear_cache"]
 
     def category_cache_clear(self, request: HttpRequest):
-        cache.delete('category')
-        messages.add_message(request, messages.INFO, 'Category cache cleared')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        cache.delete("category")
+        messages.add_message(request, messages.INFO, "Category cache cleared")
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            path('clear_cache', self.admin_site.admin_view(self.category_cache_clear)),
+            path("clear_cache", self.admin_site.admin_view(self.category_cache_clear)),
         ]
         return my_urls + urls
 
@@ -43,21 +53,24 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(SubCategory)
 class SubCategoryAdmin(admin.ModelAdmin):
     """Админ панель модели Подкатегории товаров"""
-    change_list_template = 'admin/cache_change_list.html'
+
+    change_list_template = "admin/cache_change_list.html"
     list_display = "id", "category", "name"
     list_display_links = "id", "category", "name"
-    search_fields = "name",
-    actions = ['clear_cache']
+    search_fields = ("name",)
+    actions = ["clear_cache"]
 
     def subcategory_cache_clear(self, request: HttpRequest):
-        cache.delete('subcategory')
-        messages.add_message(request, messages.INFO, 'Subcategory cache cleared')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        cache.delete("subcategory")
+        messages.add_message(request, messages.INFO, "Subcategory cache cleared")
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            path('clear_cache', self.admin_site.admin_view(self.subcategory_cache_clear)),
+            path(
+                "clear_cache", self.admin_site.admin_view(self.subcategory_cache_clear)
+            ),
         ]
         return my_urls + urls
 
@@ -65,28 +78,30 @@ class SubCategoryAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     """Админ панель модели Товары"""
-    change_list_template = 'admin/cache_change_list.html'
+
+    change_list_template = "admin/cache_change_list.html"
     list_display = "id", "image_main", "name", "created", "updated", "description"
-    list_display_links = "name",
+    list_display_links = ("name",)
     list_filter = "created", "updated"
-    search_fields = "name",
-    actions = ['clear_cache']
+    search_fields = ("name",)
+    actions = ["clear_cache"]
 
     def product_cache_clear(self, request: HttpRequest):
-        cache.delete('product')
-        messages.add_message(request, messages.INFO, 'Product cache cleared')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        cache.delete("product")
+        messages.add_message(request, messages.INFO, "Product cache cleared")
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            path('clear_cache', self.admin_site.admin_view(self.product_cache_clear)),
+            path("clear_cache", self.admin_site.admin_view(self.product_cache_clear)),
         ]
         return my_urls + urls
 
 
 class ProductInShopImageInline(admin.TabularInline):
     """Админ панель отображения Картинок товаров в самом товаре"""
+
     model = ProductInShopImage
     extra = 0
 
@@ -94,79 +109,115 @@ class ProductInShopImageInline(admin.TabularInline):
 @admin.register(ProductInShop)
 class ProductInShopAdmin(admin.ModelAdmin):
     """Админ панель модели Товары в магазине"""
-    actions = ['clear_cache']
-    change_list_template = 'admin/products_in_shop_change_list.html'
+
+    actions = ["clear_cache"]
+    change_list_template = "admin/products_in_shop_change_list.html"
     inlines = [ProductInShopImageInline]
-    list_display = "id", "product", "shop", "quantity", "price", "available", "limited_product"
-    list_display_links = "id", "product", "shop", "quantity", "price", "available", "limited_product"
-    list_filter = "id", "product", "shop", "quantity", "price", "available", "limited_product"
+    list_display = (
+        "id",
+        "product",
+        "shop",
+        "quantity",
+        "price",
+        "available",
+        "limited_product",
+    )
+    list_display_links = (
+        "id",
+        "product",
+        "shop",
+        "quantity",
+        "price",
+        "available",
+        "limited_product",
+    )
+    list_filter = (
+        "id",
+        "product",
+        "shop",
+        "quantity",
+        "price",
+        "available",
+        "limited_product",
+    )
 
     def products_in_shop_cache_clear(self, request: HttpRequest):
-        cache.delete('product_in_shop')
-        messages.add_message(request, messages.INFO, 'Product In Shop cache cleared')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        cache.delete("product_in_shop")
+        messages.add_message(request, messages.INFO, "Product In Shop cache cleared")
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
     def import_csv(self, request: HttpRequest) -> HttpResponse:
-        if request.method == 'GET':
+        if request.method == "GET":
             form = ProductCSVImportForm()
             context = {
-                'form': form,
+                "form": form,
             }
-            return render(request, 'admin/import_products_csv.html', context)
+            return render(request, "admin/import_products_csv.html", context)
         else:
             form = ProductCSVImportForm(request.POST, request.FILES)
             if not form.is_valid():
                 context = {
                     "form": form,
                 }
-                return render(request, 'admin/import_products_csv.html', context, status=400)
+                return render(
+                    request, "admin/import_products_csv.html", context, status=400
+                )
 
             csv_file = TextIOWrapper(
-                form.files['csv_file_product'].file,
+                form.files["csv_file_product"].file,
                 encoding=request.encoding,
             )
             try:
                 for row in DictReader(csv_file):
                     product_in_shop, created = ProductInShop.objects.get_or_create(
-                        product_id=Product.objects.get(name=row['product_name']).id,
-                        shop_id=Shop.objects.get(name=row['shop_name']).id,
-                        price=row['price'],
-                        quantity=row['quantity'],
-                        available=row['available'],
-                        limited_product=row['limited_product']
+                        product_id=Product.objects.get(name=row["product_name"]).id,
+                        shop_id=Shop.objects.get(name=row["shop_name"]).id,
+                        price=row["price"],
+                        quantity=row["quantity"],
+                        available=row["available"],
+                        limited_product=row["limited_product"],
                     )
-                    if created == False:
-                        log.warning(f'Импорт выполнен частично. Товар {product_in_shop} был импортирован ранее.')
+                    if not created:
+                        log.warning(
+                            f"Импорт выполнен частично. Товар {product_in_shop} был импортирован ранее."
+                        )
                     else:
-                        if row['image']!=None:
+                        if row["image"]:
                             product_id = product_in_shop.id
-                            for img in row['image'].split(";"):
+                            for img in row["image"].split(";"):
                                 print(img)
-                                product_in_shop_image, created = ProductInShopImage.objects.get_or_create(
-                                        product_in_shop_id=product_id,
-                                        image=img
+                                (
+                                    product_in_shop_image,
+                                    created,
+                                ) = ProductInShopImage.objects.get_or_create(
+                                    product_in_shop_id=product_id, image=img
                                 )
-                                if created == False:
-                                    log.warning(f'Ошибка импорта картинки {product_in_shop_image} ')
+                                if not created:
+                                    log.warning(
+                                        f"Ошибка импорта картинки {product_in_shop_image} "
+                                    )
 
             except Exception as error_import:
-                self.message_user(request, 'Импорт Завершён с ошибкой')
-                log.error(f'Импорт Завершен с ошибкой: {error_import}')
+                self.message_user(request, "Импорт Завершён с ошибкой")
+                log.error(f"Импорт Завершен с ошибкой: {error_import}")
             else:
-                log.info(f'Импорт Выполнен')
-                self.message_user(request, 'Импорт Выполнен')
+                log.info("Импорт Выполнен")
+                self.message_user(request, "Импорт Выполнен")
             finally:
-                return redirect('..')
+                return redirect("..")
 
     def get_urls(self):
         urls = super(ProductInShopAdmin, self).get_urls()
         new_urls = [
             path(
-                'import-products-in-shop-csv/',
+                "import-products-in-shop-csv/",
                 self.import_csv,
-                name='import_products_in_shop_csv',
+                name="import_products_in_shop_csv",
             ),
-            path('clear_cache', self.admin_site.admin_view(self.products_in_shop_cache_clear)),
+            path(
+                "clear_cache",
+                self.admin_site.admin_view(self.products_in_shop_cache_clear),
+            ),
         ]
         return new_urls + urls
 
@@ -174,14 +225,16 @@ class ProductInShopAdmin(admin.ModelAdmin):
 @admin.register(Shop)
 class ShopAdmin(admin.ModelAdmin):
     """Админ панель модели Shop"""
-    list_display = ['name', 'descriptions', 'address', 'phone', 'email', 'image']
+
+    list_display = ["name", "descriptions", "address", "phone", "email", "image"]
 
 
 @admin.register(Comments)
 class CommentsAdmin(admin.ModelAdmin):
     """Админ панель модели Comments"""
-    list_display = ['product_in_shop', 'comment', 'user', 'created', 'updated']
-    list_display_links = "comment",
+
+    list_display = ["product_in_shop", "comment", "user", "created", "updated"]
+    list_display_links = ("comment",)
 
 
 class SpecificationsInline(admin.TabularInline):
@@ -191,19 +244,25 @@ class SpecificationsInline(admin.TabularInline):
 @admin.register(Specifications)
 class SpecificationsAdmin(admin.ModelAdmin):
     """Админ панель модель Specifications"""
-    list_display = ['id', 'name_specification', 'product']
+
+    list_display = ["id", "name_specification", "product"]
     inlines = [SpecificationsInline]
 
 
 @admin.register(Subspecifications)
 class SubspecificationsAdmin(admin.ModelAdmin):
     """Админ панель модель Subspecifications"""
-    list_display = ['id', 'specification', 'text_subspecification']
+
+    list_display = ["id", "specification", "text_subspecification"]
     fieldsets = [
         (
             None,
             {
-                "fields": ['specification', "name_subspecification", 'text_subspecification'],
+                "fields": [
+                    "specification",
+                    "name_subspecification",
+                    "text_subspecification",
+                ],
             },
         ),
     ]

@@ -8,6 +8,7 @@
 ## Для Mac Загрузка 
 >1. ***brew install rabbitmq***
 >2. ***export PATH=$PATH:/usr/local/sbin***
+> 
 >>###  Start server (Mac)
 >>>1. ***sudo rabbitmq-server -detached***   
 _(-detached указывает, что сервер должен работать в фоновом режиме)_ 
@@ -36,3 +37,13 @@ _(-detached указывает, что сервер должен работат�
 >
 >>##Проверка состояния сервера
 >>> systemctl status rabbitmq-server​
+
+
+### Еще 1 вариант, если с предыдущими не получилось
+>>1. brew install rabbitmq
+>>2. export PATH=$PATH:/usr/local/sbin
+>>3. rabbitmq-server 
+>>4. python manage.py runserver
+>>5. Переходим по _http://localhost:15672_ вводим логин и пароль
+>>6. ***_Username: guest_***
+>>7. ***_Password: guest_***

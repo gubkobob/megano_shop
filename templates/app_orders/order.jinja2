@@ -8,8 +8,6 @@
 <div class="Middle Middle_top">
         <div class="Section Section_column Section_columnRight Section_columnWide Order">
             <div class="wrap">
-
-
                 <div class="Section-column">
                     <div class="Section-columnSection">
                         <header class="Section-header">
@@ -33,8 +31,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="Section-content">
                     <form class="form" action="{{ url ('apporders:create_order') }}" method="POST">
                         {% csrf_token %}
@@ -75,6 +71,7 @@
                                         <a style="color:red;">{{ form.email.errors}}</a>
                                     </div>
                                 </div>
+                                <form action="" method="post">
                             </div>
                             <div class="Order-footer"><a class="btn btn_success Order-next" href="#step2">Дальше</a>
                             </div>
@@ -88,24 +85,13 @@
                             <div class="form-group">
                                 <div>
                                     <label for="id_delivery" class="toggle">
-                                        <input type="radio" id="delivery" value="ordinary" name="delivery" checked="checked" {% if form.delivery.is_bound %} value="{{ form.delivery }}"{% endif %}/>
-                                        <span class="toggle-box"></span><span class="toggle-text toggle-text_checked">{{form.delivery[0]}}</span>
-
-                                        <p class="delivery_size">БЕСПЛАТНО***
+                                        {{form.delivery}}
                                            <br>********************************************************
-                                            <br>Стоимость доставки {{item_settings.price_ordinary_delivery}} рублей*
-                                           <br>*1)Если стоимость заказа меньше {{item_settings.min_total_price_order}} рублей
-                                           <br>ИЛИ
-                                           <br>*2)В корзине есть товары от разных продавцов.
+                                           <p class="delivery_size">Стоимость ОБЫЧНОЙ доставки составляет 0 рублей*
+                                           <br>*В случае если стоимость заказа меньше {{item_settings.min_total_price_order}} рублей или в заказе присутствуют товары от разных продавцов, стоимость доставки составит {{item_settings.price_ordinary_delivery}} рублей*
                                            <br>********************************************************
-                                        </p>
-                                    </label>
-                                </div>
-                                <div>
-                                    <label for="id_delivery" class="toggle">
-                                        <input type="radio" id="id_delivery" value="express" name="delivery" {% if form.delivery.is_bound %} value="{{ form.delivery }}"{% endif %}/>
-                                        <span class="toggle-box"></span><span class="toggle-text toggle-text_checked">{{form.delivery[1]}}</span>
-                                        <p class="delivery_size">Стоимость доставки {{item_settings.price_express_delivery}} рублей.</p>
+                                           <br>Стоимость ЭКСПРЕСС доставки {{item_settings.price_express_delivery}} рублей.
+                                           <br>********************************************************</p>
                                     </label>
                                 </div>
                             </div>
@@ -134,34 +120,60 @@
                             </header>
                                 <div>
                                     <label for="id_payment" class="toggle">
-                                        <input type="radio" name="payment" id="id_payment" value="online" checked="checked" {% if form.payment.is_bound %} value="{{ form.payment }}"{% endif %}/>
-                                        <span class="toggle-box" ></span><span class="toggle-text toggle-text_checked">{{form.payment[0]}}</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <label for="id_payment" class="toggle">
-                                        <input type="radio" name="payment" id="id_payment" value="someone" {% if form.payment.is_bound %} value="{{ form.payment }}"{% endif %}/>
-                                        <span class="toggle-box" ></span><span class="toggle-text toggle-text_checked">{{form.payment[1]}}</span>
+                                        {{form.payment}}
                                     </label>
                                 </div>
                                 {% for item in form.status %}
                                 <div>
                                     <label for="id_status" class="toggle">
-                                        <input type="radio" name="status" id="id_status" value="not paid" checked="checked" {% if item.is_bound %} value="{{ item }}"{% endif %}/>
-
+                                        <input type="radio" name="status" id="id_status" value="Не оплачен" checked="checked" {% if item.is_bound %} value="{{ item }}"{% endif %}/>
                                     </label>
                                 </div>
                                 {% endfor %}
                             <div class="form-group">
-                                <label class="form-label" for="address">Комментарий к заказу
+                                <label class="form-label" for="id_comment">Комментарий к заказу
                                 </label>
                                 <textarea class="form-textarea" id="id_comment" name="comment" placeholder="Комментарий к заказу"
                                         {% if form.is_bound %} value="{{ form.comment.value() }}"{% endif %}></textarea>
                                 <a style="color:red;">{{ form.comment.errors}}</a>
                             </div>
-                            <button onclick="location.href='#step4'">Дальшееее</button>
                             <div class="Order-footer">
-                                <a class="btn btn_success Order-next" type="submit" href="#step4">Дальше</a>
+                                <a class="btn btn_success Order-next" type="submit" href="#step4" onclick="getInputValue()">Дальше</a>
+
+                                <script>
+                                    function getInputValue(){
+                                        var inputVal = document.getElementById("id_full_name").value;
+                                        document.getElementById('fullname-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_phone_number").value;
+                                        document.getElementById('phone-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_email").value;
+                                        document.getElementById('email-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_delivery").value;
+                                        document.getElementById('delivery-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_city").value;
+                                        document.getElementById('city-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_address").value;
+                                        document.getElementById('address-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_payment").value;
+                                        document.getElementById('payment-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_comment").value;
+                                        document.getElementById('comment-user').innerHTML = inputVal
+                                    }
+                                </script>
                             </div>
                         </div>
                         <div class="Order-block" id="step4">
@@ -177,19 +189,25 @@
                                             <div class="Order-info">
                                                 <div class="Order-infoType">ФИО:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.full_name.value() }}
+                                                <div class="Order-infoContent" id="fullname-user">
                                                 </div>
                                             </div>
                                             <div class="Order-info">
                                                 <div class="Order-infoType">Телефон:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.phone_number.value() }}
+                                                <div class="Order-infoContent" id="phone-user">
                                                 </div>
                                             </div>
                                             <div class="Order-info">
                                                 <div class="Order-infoType">E-mail:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.email.value() }}
+                                                <div class="Order-infoContent" id="email-user">
+                                                </div>
+                                            </div>
+                                            <div class="Order-info Order-info_pay">
+                                                <div class="Order-infoType">Комментарий к заказу:
+                                                </div>
+                                                <div class="Order-infoContent" id="comment-user">
                                                 </div>
                                             </div>
                                         </div>
@@ -197,34 +215,27 @@
                                             <div class="Order-info Order-info_delivery">
                                                 <div class="Order-infoType">Тип доставки:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.delivery.value() }}
+                                                <div class="Order-infoContent" id="delivery-user">
                                                 </div>
                                             </div>
                                             <div class="Order-info">
                                                 <div class="Order-infoType">Город:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.city.value() }}
+                                                <div class="Order-infoContent" id="city-user">
                                                 </div>
                                             </div>
                                             <div class="Order-info">
                                                 <div class="Order-infoType">Адрес:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.address.value() }}
+                                                <div class="Order-infoContent" id="address-user">
                                                 </div>
                                             </div>
                                             <div class="Order-info Order-info_pay">
                                                 <div class="Order-infoType">Оплата:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.payment.value() }}
+                                                <div class="Order-infoContent" id="payment-user">
                                                 </div>
                                             </div>
-                                            <div class="Order-info Order-info_pay">
-                                                <div class="Order-infoType">Комментарий к заказу:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.comment.value() }}
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -241,11 +252,21 @@
                                             <div class="Cart-block Cart-block_info">
                                                 <a class="Cart-title" href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
                                                     {{ item.product_in_shop.product.name }}</a>
-                                                <div class="Cart-desc">{{ item.product_in_shop.product.description }}</div>
+                                                <div class="Cart-desc">{{ item.product_in_shop.product.description }}
+                                                <div></div>
+                                                <img class="ProductCard-shop_logo" src="{{ item.product_in_shop.shop.image.url }}"
+                                                    alt="{{ item.product_in_shop.shop.image }}" /></div>
                                             </div>
                                             <div class="Cart-block Cart-block_price">
+                                            {% if item.price_discount %}
+                                                <div class="Card-priceOld">{{ item.price }}
+                                                </div>
+                                                <div class="Cart-price">{{ item.price_discount }}
+                                                </div>
+                                            {% else %}
                                                 <div class="Cart-price">{{ item.price }}
                                                 </div>
+                                            {% endif %}
                                             </div>
                                         </div>
                                         <div class="Cart-block Cart-block_row">
@@ -256,15 +277,24 @@
                                     {% endfor %}
                                     <div class="Cart-total">
                                     <div class="Cart-block Cart-block_total">
-                                        <strong class="Cart-title">Стоимость доставки:
-                                        </strong><span class="Cart-price">{{ get_total_price_delivery }}</span>
+
+                                    {% if cart.coupon.code %}
+                                    <div>
+                                        <strong class="Cart-title">Итоговая сумма товаров со скидкой {{cart.coupon.discount}}% по купону "{{cart.coupon.code}}":
+                                             <span class="Card-priceOld"><s>{{ cart.get_total_price()|round(2) }}</s></span>
+                                             <span class="Cart-price">{{ cart.get_total_price_after_discount() }}</span></strong>
                                     </div>
-                                    <div class="Cart-block Cart-block_total">
-                                        <strong class="Cart-title">Итоговая сумма заказа:
-                                        </strong><span class="Cart-price">{{ get_total_price }}</span>
+
+                                    {% else %}
+                                    <div>
+                                        <strong class="Cart-title">Итоговая сумма товаров:
+                                             <span class="Cart-price">{{ cart.get_total_price_after_discount() }}</span></strong>
+                                    </div>
+                                    {% endif %}
                                     </div>
                                     <div class="Cart-block">
-                                        <a class="btn btn_primary btn_lg" href='/payment?order={{form.id}}'>Оплатить</a>
+                                    <a class="btn btn_primary btn_lg" href='/payment?order={{form.id}}'>Оплатить-старая кнопка</a>
+                                        <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>
                                     </div>
                                 </div>
                                 </div>

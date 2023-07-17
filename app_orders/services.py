@@ -1,20 +1,8 @@
 from .models import Order
 
-
 """
 Сервисы для работы с заказами
 """
-
-
-class OrderServicesMixin:
-    """
-    Класс - примесь для использования сервисов для работы заказами
-    """
-
-    def get_orders_history(self):
-        """
-        функция получкения истории заказов
-        """
 
 
 def get_10_digits_from_phone_number(phone_number_16_digits: str) -> str:
