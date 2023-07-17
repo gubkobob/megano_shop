@@ -5,7 +5,6 @@ from app_cart.cart import CartDB
 from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.db.models import F, Sum
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, View
 
@@ -59,12 +58,8 @@ class CreateOrderView(View):
                     new_order.discount = cart.coupon.discount
 
                 for item in cart:
-                    if item.quantity > item.product_in_shop.quantity:
-                        return HttpResponseRedirect("/cart/")
-                    else:
-                        new_order.save()
-                        if not item.product_in_shop.shop in self.count_shop:
-                            self.count_shop.append(item.product_in_shop.shop)
+                    if not item.product_in_shop.shop in self.count_shop:
+                        self.count_shop.append(item.product_in_shop.shop)
 
                     if item.price_discount:
                         OrderItem.objects.create(

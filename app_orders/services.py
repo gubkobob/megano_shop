@@ -5,17 +5,6 @@ from .models import Order
 """
 
 
-class OrderServicesMixin:
-    """
-    Класс - примесь для использования сервисов для работы заказами
-    """
-
-    def get_orders_history(self):
-        """
-        функция получкения истории заказов
-        """
-
-
 def get_10_digits_from_phone_number(phone_number_16_digits: str) -> str:
     """
     Функция берет номер телефона из формы вида +7(999)888-77-66

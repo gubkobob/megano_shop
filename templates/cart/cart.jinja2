@@ -72,6 +72,7 @@
                 <div class="Cart-total">
                     <div class="Cart-block Cart-block_total">
                         <div>
+                        {% if cart %}
                             {% if cart.coupon.discount %}
                                 <div>
                                     <strong class="Cart-title">Итого: </strong>
@@ -149,6 +150,7 @@
                                     {% endif %}
                                 </div>
                             {% endif %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="Cart-block"><a class="btn btn_success btn_lg"

@@ -32,7 +32,7 @@
                                             </div>
                                         </div>
                                         <div class="Order-info">
-                                            <div class="Order-infoType">Никнейм:
+                                            <div class="Order-infoType">Фамилия Имя Отчество:
                                             </div>
                                             <div class="Order-infoContent">{{ order.full_name }}
                                             </div>
@@ -131,7 +131,7 @@
                                 {% endfor %}
                                 <div class="Cart-total">
                                     <div class="Cart-block Cart-block_total">
-                                        <strong class="Cart-title">Общая сумма заказа с учётом всех скидок:<span class="Cart-price">{{ order.avg_price|round(2) }}</span>
+                                        <strong class="Cart-title">Сумма заказа:<span class="Cart-price">{{ order.avg_price|round(2) }}</span>
                                         </strong>
                                         <div></div>
                                         <strong class="Cart-title">Стоимость доставки:<span class="Cart-price">{{ order.delivery_cost }}</span>

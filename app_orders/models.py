@@ -1,6 +1,5 @@
-from app_cart.models import CartRegisteredUser
 from app_catalog.models import ProductInShop
-from app_discounts.models import Coupon, Discount
+from app_discounts.models import Coupon
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
