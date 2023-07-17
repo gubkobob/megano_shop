@@ -38,7 +38,9 @@ class CategoryView(ListView):
         if request.method == "POST":
             post = request.POST
             catalog_obj = filter_catalog(post)
-
+            print(catalog_obj)
+            if len(catalog_obj) == 0:
+                catalog_obj = ProductInShop.objects.all()
             # Paginator
             req = self.request.GET
             catalog_page_obj = paginator(obj=catalog_obj, request=req)
