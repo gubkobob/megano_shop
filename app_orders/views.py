@@ -5,7 +5,7 @@ from app_cart.cart import CartDB
 from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.db.models import F, Sum
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import DetailView, ListView, View
 
 from .forms import OrderForm
@@ -101,7 +101,8 @@ class CreateOrderView(View):
                     "get_total_price_before": get_total_price_before,
                     "settings_price": settings_price
                 }
-                return render(request, "app_payment/payment.jinja2", context=context)
+                return redirect("/payment?order={{new_order.id}}", context=context)
+                # return render(request, "app_payment/payment.jinja2", context=context)
             return render(request, self.template_name)
 
 
