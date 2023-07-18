@@ -3,6 +3,7 @@ from decimal import Decimal
 from app_administrator.models import SettingsModel
 from app_cart.cart import CartDB
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse, HttpRequest
 from django.db import transaction
 from django.db.models import F, Sum
 from django.shortcuts import render, redirect
@@ -16,11 +17,17 @@ User = get_user_model()
 
 
 class CreateOrderView(View):
+    """
+    Класс по созданию заказа
+    """
     count_shop = []
     template_name = "app_orders/order.jinja2"
     form_class = OrderForm
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """
+        Функция заполнения формы создания зхаказа
+        """
         form = OrderForm(request.POST or None)
         settings_price = SettingsModel.objects.all()
 
@@ -31,10 +38,10 @@ class CreateOrderView(View):
 
         return render(request, self.template_name, context=context)
 
-    @transaction.atomic
-    def post(self, request, *args, **kwargs):
-        settings_price = SettingsModel.objects.all()
-
+    def post(self, request: HttpRequest) -> HttpResponse:
+        """
+       Функция создания в БД заказа
+       """
         if request.method == "POST":
             form = OrderForm(request.POST)
             cart = CartDB(request)
@@ -79,7 +86,6 @@ class CreateOrderView(View):
                     cart.remove(product_in_shop=item.product_in_shop)
 
                     new_order.save()
-                user.orders.add(new_order)
 
                 order_items = OrderItem.objects.filter(order_id=new_order.id)
 
