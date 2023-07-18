@@ -14,8 +14,6 @@ def add_in_comparison(request, product_id):
     """
     comparison = ComparisonServicesMixin(request=request)
     comparison.add_to_in_comparison(product_id=product_id)
-    # messages.add_message(request, messages.INFO, 'Товар добавлен в сравнение')
-    # print(messages)
     return redirect("appcatalog:catalog")
 
 
@@ -98,6 +96,7 @@ def cart_detail(request):
 
 @require_POST
 def coupon_apply(request):
+    """Функция выполнение промокода"""
     now = timezone.now()
     form = CouponApplyForm(request.POST)
     if form.is_valid():
