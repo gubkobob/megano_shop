@@ -13,35 +13,10 @@ class DiscountsServicesMixin:
         """
         функция получения страницы со скидками
         """
-
-        context = {}
-
         # Запуск проверки на соотвествие скидки по времени
         for _ in Discount.objects.values():
-            Discount.objects.get(id=_["id"]).available_monitoring()
-
-        # Сбор данных для отправки в шаблон
-        for product in (
-            Discount.objects.get_queryset()
-            .filter(available=True)
-            .select_related("product")
-            .order_by("start_discount")
-        ):
-            context[product.id] = {
-                "product_id": product.product.id,
-                "datetime_start": product.start_discount,
-                "datetime_end": product.end_discount,
-                "category_product": product.product.product.category,
-                "product_name": product.product.product.name,
-                "product_price": product.product.price,
-                "product_discount_price": product.get_price_product(),
-                "product_type_discount": product.type_discount,
-                "product_image": str(product.product.product.image_main.url)
-                if product.product.product.image_main
-                else "",
-            }
-
-        return list(_context_ for _context_ in context.values())
+            Discount.objects.get(id=_['id']).available_monitoring()
+        return
 
     def get_discounts(self, product_id):
         """
