@@ -14,13 +14,19 @@
                           method="post">
                         {% csrf_token %}
                         <div class="Cart-product">
+                        <div>
+                                    <img class="ProductCard-shop_logo" src="{{ item.product_in_shop.shop.image.url }}"
+                                                    alt="{{ item.product_in_shop.shop.image }}" />
+                                                    </div>
                             <div class="Cart-block Cart-block_row">
                                 <div class="Cart-block Cart-block_pict"><a class="Cart-pict"
                                                                            href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
                                     <img class="Cart-img" src="{{ item.product_in_shop.product.image_main.url }}"
                                          alt="{{ item.product_in_shop.image_main }}"/>
                                 </a>
+
                                 </div>
+
                                 <div class="Cart-block Cart-block_info"><a class="Cart-title"
                                                                            href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
                                     {{ item.product_in_shop.product.name }}</a>

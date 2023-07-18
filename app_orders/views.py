@@ -83,7 +83,6 @@ class CreateOrderView(View):
 
                 order_items = OrderItem.objects.filter(order_id=new_order.id)
 
-                get_total_price_before = sum(Decimal(item.product_in_shop.price) * item.quantity for item in order_items)
                 get_total_price = sum(Decimal(item.price) * item.quantity for item in order_items)
 
                 if new_order.delivery == "Экспресс доставка":
@@ -93,16 +92,7 @@ class CreateOrderView(View):
                     new_order.delivery_cost = getattr(SettingsModel.objects.first(), "price_ordinary_delivery")
 
                 new_order.save()
-
-                context = {
-                    "form": new_order,
-                    "order_items": order_items,
-                    "get_total_price": get_total_price,
-                    "get_total_price_before": get_total_price_before,
-                    "settings_price": settings_price
-                }
-                return redirect("/payment?order={{new_order.id}}", context=context)
-                # return render(request, "app_payment/payment.jinja2", context=context)
+                return redirect(f"/payment/{new_order.id}")
             return render(request, self.template_name)
 
 

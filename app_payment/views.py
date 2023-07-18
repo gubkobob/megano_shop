@@ -12,17 +12,15 @@ class PayView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        order_id = int(self.request.GET.get("order"))
-        order_obj = Order.objects.get(id=order_id)
+        order_obj = Order.objects.get(id=int(self.kwargs.get("pk")))
         context["orderitems"] = order_obj.items.first()
         context["order"] = order_obj
         return context
 
-    def post(self, request):
-        order_id = int(self.request.GET.get("order"))
+    def post(self, request, pk=0):
         if request.method == "POST":
             numb = int("".join(request.POST.get("numero1").split(" ")))
-            logika.delay(order_id)
+            logika.delay(pk)
             messages.add_message(
                 request,
                 messages.SUCCESS,
