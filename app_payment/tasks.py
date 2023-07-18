@@ -22,11 +22,11 @@ def logika(order_id: int):
         pid.quantity = pid.quantity - many_product_order
         pid.save()
         print(pid.quantity)
-    randBits = bool(random.choice([False]))
+    randBits = bool(random.choice([True, False]))
     sleep(5)
     order_obj = Order.objects.get(id=order_id)
     if randBits:
-        order_obj.status = "paid for"
+        order_obj.status = "Оплачен"
         order_obj.save()
         return {"status": True}
     return {"status": False}
