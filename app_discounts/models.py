@@ -9,6 +9,7 @@ User = get_user_model()
 
 
 class Discount(models.Model):
+    """Модель Скидок"""
 
     types = [
         (_("процент"), "процент"),
@@ -58,6 +59,7 @@ class Discount(models.Model):
         verbose_name_plural = "Скидки"
 
     def get_price_product(self):
+        """Функция получения цены продукта с учетом скидки"""
         if self.type_discount == "процент":
             return round(
                 float(self.product.price)
@@ -79,6 +81,7 @@ class Discount(models.Model):
             )
 
     def available_monitoring(self):
+        """Функция проверки конца скидки по сегоднешней дате"""
         if self.end_discount.date() < timezone.now().date():
             self.available = False
             self.save()
@@ -89,6 +92,7 @@ class Discount(models.Model):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
+        """Функция сохранения """
         super(Discount, self).save(
             force_insert=False, force_update=False, using=None, update_fields=None
         )
@@ -120,6 +124,7 @@ class Discount(models.Model):
 
 
 class Coupon(models.Model):
+    """Модель Промокода"""
     code = models.CharField(max_length=50, unique=True, verbose_name="Промокод")
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()

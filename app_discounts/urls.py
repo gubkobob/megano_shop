@@ -6,5 +6,4 @@ app_name = "appdiscount"
 
 urlpatterns = [
     path("", DiscountView.as_view(), name="sale"),
-    # path('sale/<int:pk>/', ProductInShopDetailView.as_view(), name='sale_page')
 ]
