@@ -83,7 +83,6 @@ class CreateOrderView(View):
 
                 order_items = OrderItem.objects.filter(order_id=new_order.id)
 
-                get_total_price_before = sum(Decimal(item.product_in_shop.price) * item.quantity for item in order_items)
                 get_total_price = sum(Decimal(item.price) * item.quantity for item in order_items)
 
                 if new_order.delivery == "Экспресс доставка":
