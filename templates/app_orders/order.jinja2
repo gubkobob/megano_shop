@@ -126,7 +126,7 @@
                                 {% for item in form.status %}
                                 <div>
                                     <label for="id_status" class="toggle">
-                                        <input type="radio" name="status" id="id_status" value="Не оплачен" checked="checked" {% if item.is_bound %} value="{{ item }}"{% endif %}/>
+                                        <input type="radio" name="status" id="id_status" value="Not Paid" checked="checked" {% if item.is_bound %} value="{{ item }}"{% endif %}/>
                                     </label>
                                 </div>
                                 {% endfor %}

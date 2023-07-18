@@ -26,7 +26,7 @@ def logika(order_id: int):
     sleep(5)
     order_obj = Order.objects.get(id=order_id)
     if randBits:
-        order_obj.status = "Оплачен"
+        order_obj.status = "Paid"
         order_obj.save()
         return {"status": True}
     return {"status": False}
