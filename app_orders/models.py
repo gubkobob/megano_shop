@@ -14,8 +14,8 @@ class Order(models.Model):
     """
 
     STATUS_ORDER_CHOICES = [
-        ("Not Paid", "Не оплачен"),
-        ("Paid", "Оплачен")
+        ("Не оплачен", "Не оплачен"),
+        ("Оплачен", "Оплачен")
     ]
 
     DELIVERY_METHOD_CHOICES = [
@@ -72,7 +72,7 @@ class Order(models.Model):
     status = models.CharField(
         max_length=25,
         choices=STATUS_ORDER_CHOICES,
-        default=_("Not Paid"),
+        default=_("Не оплачен"),
         verbose_name=_("Статус заказа"),
     )
     coupon = models.ForeignKey(

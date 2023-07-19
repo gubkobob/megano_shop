@@ -15,6 +15,7 @@ def logika(order_id: int):
     :return:
         status: Статус оплаты (True/False)
     :rtype: dict    """
+    print(order_id)
     order_items = OrderItem.objects.filter(order=order_id)
     for order_item in order_items:
         many_product_order = order_item.quantity
@@ -26,7 +27,7 @@ def logika(order_id: int):
     sleep(5)
     order_obj = Order.objects.get(id=order_id)
     if randBits:
-        order_obj.status = "Paid"
+        order_obj.status = "Оплачен"
         order_obj.save()
         return {"status": True}
     return {"status": False}
