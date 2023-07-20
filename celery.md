@@ -1,6 +1,8 @@
 ##Запуск сельдерей
 
 >celery -A config  worker -l info -P eventlet
+> celery worker --app=config --loglevel=info
+> docker-compose up --build -d
 
 
 
