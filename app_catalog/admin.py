@@ -38,11 +38,17 @@ class CategoryAdmin(admin.ModelAdmin):
     actions = ["clear_cache"]
 
     def category_cache_clear(self, request: HttpRequest):
+        """
+        функция создания кнопки удаления cache в админке category
+        """
         cache.delete("category")
         messages.add_message(request, messages.INFO, "Category cache cleared")
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
     def get_urls(self):
+        """
+        функция создания кнопки удаления cache в админке category
+        """
         urls = super().get_urls()
         my_urls = [
             path("clear_cache", self.admin_site.admin_view(self.category_cache_clear)),
@@ -61,11 +67,17 @@ class SubCategoryAdmin(admin.ModelAdmin):
     actions = ["clear_cache"]
 
     def subcategory_cache_clear(self, request: HttpRequest):
+        """
+        функция удаления cache в админке subcategory
+        """
         cache.delete("subcategory")
         messages.add_message(request, messages.INFO, "Subcategory cache cleared")
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
     def get_urls(self):
+        """
+        функция создания кнопки удаления cache в админке subcategory
+        """
         urls = super().get_urls()
         my_urls = [
             path(
@@ -87,11 +99,17 @@ class ProductAdmin(admin.ModelAdmin):
     actions = ["clear_cache"]
 
     def product_cache_clear(self, request: HttpRequest):
+        """
+        функция очистки cache модели Product
+        """
         cache.delete("product")
         messages.add_message(request, messages.INFO, "Product cache cleared")
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
     def get_urls(self):
+        """
+        функция создания кнопки удаления cache в админке product
+        """
         urls = super().get_urls()
         my_urls = [
             path("clear_cache", self.admin_site.admin_view(self.product_cache_clear)),
@@ -142,11 +160,17 @@ class ProductInShopAdmin(admin.ModelAdmin):
     )
 
     def products_in_shop_cache_clear(self, request: HttpRequest):
+        """
+        функция очистки cache модели ProductInShop
+        """
         cache.delete("product_in_shop")
         messages.add_message(request, messages.INFO, "Product In Shop cache cleared")
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
     def import_csv(self, request: HttpRequest) -> HttpResponse:
+        """
+        функция создания импорта товаров в БД модели ProductInShop
+        """
         if request.method == "GET":
             form = ProductCSVImportForm()
             context = {
@@ -207,6 +231,9 @@ class ProductInShopAdmin(admin.ModelAdmin):
                 return redirect("..")
 
     def get_urls(self):
+        """
+        функция создания кнопок в админке product_in_shop для проведения импорта и очистки cache
+        """
         urls = super(ProductInShopAdmin, self).get_urls()
         new_urls = [
             path(

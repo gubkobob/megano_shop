@@ -71,11 +71,11 @@
                                         <a style="color:red;">{{ form.email.errors}}</a>
                                     </div>
                                 </div>
-                                <form action="" method="post">
                             </div>
                             <div class="Order-footer"><a class="btn btn_success Order-next" href="#step2">Дальше</a>
                             </div>
                         </div>
+<!--                    <form action="" method="post">-->
                         <div class="Order-block" id="step2">
                             <header class="Section-header Section-header_sm">
                                 <h2 class="Section-title">Шаг 2. Способ доставки
@@ -283,8 +283,8 @@
                                         <strong class="Cart-title">Итоговая сумма товаров со скидкой {{cart.coupon.discount}}% по купону "{{cart.coupon.code}}":
                                             <div>
                                                  <span class="Card-priceOld"><s>{{ cart.get_total_price()|round(2) }}</s></span>
-                                                 <span class="Cart-price">{{ cart.get_total_price_after_discount() }}</span></strong>
-                                            </div>
+                                                 <span class="Cart-price">{{ cart.get_total_price_after_discount() }}</span>
+                                            </div></strong>
                                     </div>
                                     {% else %}
                                     <div>
@@ -306,4 +306,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

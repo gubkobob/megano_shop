@@ -19,7 +19,6 @@ class PayView(ListView):
 
     def post(self, request, pk=0):
         if request.method == "POST":
-            numb = int("".join(request.POST.get("numero1").split(" ")))
             logika.delay(pk)
             messages.add_message(
                 request,

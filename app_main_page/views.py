@@ -7,7 +7,7 @@ from .services import Limit, get_product_banner, get_products_limited, get_top_p
 
 
 class OneProduct(View):
-    """Класс ограниченного предложения товара (1шт)"""
+    """Класс получения товара (1шт) из списка товаров ограниченного тиража  """
 
     products_limited_offers_all = ProductInShop.objects.filter(
         limited_product=True
@@ -24,7 +24,12 @@ class OneProduct(View):
 
 
 def main_page(request: HttpRequest):
-    """функция главной страницы"""
+    """функция главной страницы:
+     top_products: популярные товары (фильтр по самым продаваемым)
+     products_banners: баннеры с товарами (фильтр max кол-во на складе),
+     product_day: продукт из серии ограниченного тиража, зафиксированный на сутки
+     products_limited: продукты ограниченного тиража
+     """
     top_products = get_top_products()
     products_banners = get_product_banner()
     product_day = OneProduct().product_day()
