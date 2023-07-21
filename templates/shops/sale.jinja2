@@ -4,22 +4,10 @@
 {% endblock %}
 
 {% block body %}
-
-    {% for contex in context %}
-        <div>{{ contex }} </div>
-        {#        <div> {{ context }}</div>#}
-        {#        {% for contee in contex %}#}
-        {#            <div> {{ contex }} {{ contee }}</div>#}
-        {#        {% endfor %}#}
-
-    {% endfor %}
-
-
     <div class="Middle Middle_top">
         <div class="Middle-top">
             <div class="wrap">
                 <div class="Middle-header">
-
                     <ul class="breadcrumbs Middle-breadcrumbs">
                         <li class="breadcrumbs-item"><a href="index.html">Главная</a>
                         </li>
@@ -29,88 +17,94 @@
                 </div>
             </div>
         </div>
-
         <div class="Section">
-
             <div class="wrap">
-
                 <div class="Cards Cards_blog">
-                    {% for obj in context %}
-                        {#                        {% if obj.category_product != obj.category_product %}#}
-                        {##}
-                        {#                        {% endif %}#}
-
-
-                        <div class="Card"><a class="Card-picture" href="{{ url ('appcatalog:product_details', pk=obj.product_id) }}"><img
-                                src="{{ obj.product_image }}"
+                    {% for discount in discounts %}
+                        <div class="Card"><a class="Card-picture"
+                                             href="{{ url ('appcatalog:product_details', pk=discount.product.id) }}"><img
+                                src="{{ discount.product.product.image_main.url }}"
                                 alt="product.png"/></a>
                             <div class="Card-date">
                                 <strong class="Card-date-number">
-                                    {% if obj.datetime_start.day %}{{ obj.datetime_start.day }}{% endif %}
-                                </strong><span class="Card-date-month">{% if obj.datetime_start.month %}month
-                                {{ obj.datetime_start.month }}
+                                    {% if discount.start_discount.day %}{{ discount.start_discount.day }}{% endif %}
+                                </strong><span class="Card-date-month">{% if discount.start_discount.month %}month
+                                {{ discount.start_discount.month }}
                                 </span>{% endif %}
                             </div>
-                            {% if obj.datetime_start.day != obj.datetime_end.day %}
-                                {% if obj.datetime_start.month != obj.datetime_end.month %}
-                                    <div class="Card-date Card-date_to">
-                                        <strong class="Card-date-number">{% if obj.datetime_end.day %}
-                                            {{ obj.datetime_end.day }}
-                                        {% endif %}
-                                        </strong><span class="Card-date-month">{% if obj.datetime_end.month %} month
-                                        {{ obj.datetime_end.month }}</span>
-                                    {% endif %}
-                                    </div>
+
+                            <div class="Card-date Card-date_to">
+                                <strong class="Card-date-number">{% if discount.end_discount.day %}
+                                    {{ discount.end_discount.day }}
                                 {% endif %}
+                                </strong><span class="Card-date-month">{% if discount.end_discount.month %} month
+                                {{ discount.end_discount.month }}</span>
                             {% endif %}
+                            </div>
+
                             {#                            <div class="Card-pin">#}
                             {#                            </div>#}
                             <div class="Card-content">
                                 <strong class="Card-title"><a href="#">
-                                    {% if obj.category_product %}
-                                        {{ obj.category_product }}
+                                    {% if discount.product.product.category %}
+                                        {{ discount.product.product.category }}
                                     {% endif %}  </a>
                                 </strong>
-                                <div class="Card-description"><div>{% if obj.product_name %}{{ obj.product_name }} </div>
-                                    <div>{% if obj.product_type_discount %}Тип скидки: {{ obj.product_type_discount }}
-                                    {% endif %}</div>
-                                    <div>{% if obj.product_price %}цена без скидки: {{ obj.product_price }}</div>
-                                       <div>{% if obj.product_discount_price %}Цена со скидкой: {{ obj.product_discount_price }}</div>
+                                <div class="Card-description">
+                                    <strong>
+                                        <div>{% if discount.product.product.name %}{{ discount.product.product.name }}
+                                            </div>
+                                            <div>{% if discount.type_discount %}Тип скидки:
+                                                {{ discount.type_discount }}
+                                            {% endif %}</div>
+                                            <div style="color: #0063d1">{% if discount.product.price %}Цена: <s style="color: #999">{{ discount.product.price }}</s>
+                                                {% if discount.get_price_product() %}
+                                                <strong style="color: #0063d1">{{ discount.get_price_product() }} </strong>
+                                                {% endif %}
+                                                </div>
+
+
+
+                                            {% endif %}
                                         {% endif %}
-                                    {% endif %}
-                                {% endif %}
+                                    </strong>
                                 </div>
                             </div>
                         </div>
-
                     {% endfor %}
                 </div>
-
             </div>
-
         </div>
-
     </div>
     <div class="Pagination">
         <div class="Pagination-ins">
-            {% if catalog_page_obj.has_previous() %}
-                <a class="Pagination-element Pagination-element_prev"
-                   href="?page_catalog={{ catalog_page_obj.previous_page_number() }}"><img
-                        src="{{ static ('assets/img/icons/prevPagination.svg') }}"
-                        alt="prevPagination.svg"/></a>
-                <a class="Pagination-element"
-                   href="?page_catalog={{ catalog_page_obj.previous_page_number() }}">{{ catalog_page_obj.previous_page_number() }}<span
-                        class="Pagination-text"></span></a>
+            {% if is_paginated %}
+
+                {% if page_obj.has_previous() %}
+                    <a class="Pagination-element Pagination-element_prev"
+                       href="?page={{ page_obj.previous_page_number() }}"><img
+                            src="{{ static ('assets/img/icons/prevPagination.svg') }}"
+                            alt="prevPagination.svg"/></a>
+
+                {% endif %}
+
+                {% for pagin in paginator.page_range %}
+                    {% if page_obj.number == pagin %}
+                        <a class="Pagination-element Pagination-element_current"
+                           href="?page={{ pagin }}">
+                            <span class="Pagination-text">{{ pagin }}</span></a>
+                    {% else %}
+                        <a class="Pagination-element"
+                           href="?page={{ pagin }}">
+                            <span class="Pagination-text">{{ pagin }}</span></a>
+                    {% endif %}
+                {% endfor %}
+
             {% endif %}
-            <a class="Pagination-element Pagination-element_current"
-               href="?page_catalog={{ catalog_page_obj.number }}"><span
-                    class="Pagination-text">{{ catalog_page_obj.number }}</span></a>
-            {% if catalog_page_obj.has_next() %}
-                <a class="Pagination-element"
-                   href="?page_catalog={{ catalog_page_obj.next_page_number() }}"><span
-                        class="Pagination-text">{{ catalog_page_obj.next_page_number() }}</span></a>
+
+            {% if page_obj.has_next() %}
                 <a class="Pagination-element Pagination-element_prev"
-                   href="?page_catalog={{ catalog_page_obj.next_page_number() }}"><img
+                   href="?page={{ page_obj.next_page_number() }}"><img
                         src="{{ static ('assets/img/icons/nextPagination.svg') }}"
                         alt="nextPagination.svg"/></a>
             {% endif %}

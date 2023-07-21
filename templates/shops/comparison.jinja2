@@ -5,12 +5,11 @@
 
 {% block body %}
 
-    Количество продуктов в списке сравнения: {% if comparison and comparison.get_len_goods_to_in_comparison() != 0 %}({{ comparison.get_len_goods_to_in_comparison() }})
-                            {% endif %}
     <div class="Middle">
         <div class="wrap">
             <div class="Product">
                 <div class="ProductCard">
+                {% if content %}
                     {% for product in content %}
                         <div class="ProductCard-desc">
                             <div class="ProductCard-header">
@@ -89,6 +88,18 @@
                             </div>
                         </div>
                     {% endfor %}
+                {% else %}
+                <div class="Cart-zero">
+                    <img class="Cart-zero_img" src="{{ static ('assets/img/icons/comparison-zero.jpg') }}" alt="cart-zero">
+                    <div>
+                        <h3 class="Cart-zero_title">Упс!</h3>
+                        <p class="Cart-zero_descr">Перейдите в
+                            <a class="Cart-zero_link" href="{{ url('appcatalog:catalog') }}">каталог</a>
+                            и добавьте товары для сравнения.</a>
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
                 </div>
             </div>
         </div>

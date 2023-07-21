@@ -30,3 +30,35 @@
 .toggle .toggle-text_checked {
     display: inherit;
 }
+
+label .delivery_size {
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+.ProductCard-shop_logo {
+    width: 70px
+}
+
+.Cart-zero {
+    display: flex;
+}
+
+.Cart-zero_title {
+    font-size: 35px;
+    color: #0063d1;
+}
+
+.Cart-zero_descr {
+    font-size: 20px;
+    color: #1c4286;
+}
+
+.Cart-zero_link {
+    font-size: 25px;
+    color: #0000ff;
+}
+
+.Cart-zero_img {
+    width: 300px;
+}

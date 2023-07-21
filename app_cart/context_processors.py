@@ -3,6 +3,9 @@ from .services import ComparisonServicesMixin
 
 
 def cart(request):
+    """
+    Функция добавления обьекта корзины в сессии джанго
+    """
     if request.user.is_authenticated:
         cart_db = CartDB(request)
         cart = Cart(request)
@@ -11,7 +14,11 @@ def cart(request):
         cart = cart_db
     else:
         cart = Cart(request)
-    return {'cart': cart}
+    return {"cart": cart}
+
 
 def comparison(request):
-    return {'comparison': ComparisonServicesMixin(request)}
+    """
+    Функция добавления обьекта сравнения в сессии джанго
+    """
+    return {"comparison": ComparisonServicesMixin(request)}

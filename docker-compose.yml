@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  rabbitmq:
+    hostname: rabbit
+    image: 'rabbitmq:3-management'
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASSWORD=guest
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  app:
+    restart: always
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    volumes:
+      - db-data:/app
+      - ./db.sqlite3:/code
+    ports:
+      - "8000:8000"
+    command: bash -c "python manage.py makemigrations --noinput && python manage.py migrate --noinput && python manage.py loadscript no_clear && python manage.py runserver 0.0.0.0:8000"
+
+  celery:
+    container_name: worker
+    restart: always
+    build:
+      context: .
+    volumes:
+      - db-data:/app
+    command: [ "celery", "-A", "config", "worker", "-l", "info"]
+    depends_on:
+      - rabbitmq
+      - app
+
+  sqlite3:
+    container_name: sqlite3_container
+    image: nouchka/sqlite3:latest
+    stdin_open: true
+    tty: true
+    volumes:
+      - db-data:/app
+    ports:
+      - '9000:9000'
+    restart: unless-stopped
+
+volumes:
+  db-data:

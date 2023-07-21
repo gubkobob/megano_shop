@@ -31,15 +31,23 @@
                                 {% endif %}
                             </div>
                         </div>
-
                         <div class="ProductCard-desc">
                             <div class="ProductCard-header">
                                 <h2 class="ProductCard-title">{{ product_in_shop.product.name }}
                                 </h2>
                                 <div class="ProductCard-info">
+
                                     <div class="ProductCard-cost">
-                                        <div class="ProductCard-price">Цена: {{ product_in_shop.price }}
-                                        </div>
+                                        {% if product_in_shop.product_discount.all() %}
+                                            {% for discount in product_in_shop.product_discount.all() %}
+                                                {% if discount.get_price_product() %}
+                                                    <div class="Card-cost"><span class="Card-priceOld"><s>{{product_in_shop.price}}</s> </span></div>
+                                                    <div class="Card-cost"><span class="Card-price">{{discount.get_price_product()}} </span></div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                             <div class="Card-cost"><span class="Card-price">{{product_in_shop.price}} </span></div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -49,6 +57,20 @@
                                     </li>
                                 </ul>
                             </div>
+                            {% if product_in_shop.shop.image %}
+                            <div class="ProductCard-info">
+                                <div class="ProductCard-cost">
+                                    <img class="ProductCard-shop_logo" src="{{ product_in_shop.shop.image.url }}"
+                                         alt="{{ product_in_shop.shop.image }}" />
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="ProductCard-info">
+                                <div class="ProductCard-cost">
+                                    <div class="ProductCard-title">Продавец: {{ product_in_shop.shop }}</div>
+                                </div>
+                            </div>
+                            {% endif %}
                             {% if product_in_shop.available %}
                                     <form class="form" action="{{ url('app_cart:cart_add', product_in_shop_id=product_in_shop.id) }}"
                                           method="post">
@@ -66,9 +88,7 @@
                                     </div>
                                 </div>
                                 <div class="ProductCard-cartElement">
-                                    <a class="btn btn_primary" href="#modal_open">
-                                        <img class="btn-icon" src="{{ static ('assets/img/icons/card/cart_white.svg') }}" alt="cart_white.svg" />
-                                        <input type="submit" class="btn-content" value="Купить"></a>
+                                    <button class="btn btn_primary" href="#modal_open"><img class="btn-icon" src="{{ static ('assets/img/icons/card/cart_white.svg') }}" alt="cart_white.svg" />купить</button>
                                 </div>
                                 <div id="modal_open" class="my_modal">
                                     <div class="my_modal-dialog">
@@ -189,7 +209,7 @@
 
                                                     <div>
                                                         <strong class="Comment-title">{{comment.user.username}}
-                                                        </strong><span class="Comment-date">{{comment.updated }}</span>
+                                                        </strong><span class="Comment-date">{{comment.updated.strftime("%Y-%m-%d %H:%M:%S") }}</span>
                                                     </div>
                                                  </header>
                                                 <div class="Comment-content">{{comment.comment}}</div>

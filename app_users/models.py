@@ -23,7 +23,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(_("active"), default=True)
     is_staff = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to="avatars/", null=True, blank=True)
-    # orders = models.ManyToManyField('Order', verbose_name='Заказы')
 
     objects = UserManager()
 

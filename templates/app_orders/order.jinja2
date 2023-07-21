@@ -8,8 +8,6 @@
 <div class="Middle Middle_top">
         <div class="Section Section_column Section_columnRight Section_columnWide Order">
             <div class="wrap">
-
-
                 <div class="Section-column">
                     <div class="Section-columnSection">
                         <header class="Section-header">
@@ -19,13 +17,13 @@
                         <div class="Section-columnContent">
                             <div class="NavigateProfile">
                                 <ul class="menu menu_vt">
-                                    <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="#step1">Шаг 1. Параметры пользователя</a>
+                                    <li class="menu-item_ACTIVE menu-item "><a class="menu-link Order-next" href="#step1">Шаг 1. Параметры пользователя</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="#step2">Шаг 2. Способ доставки</a>
+                                    <li class="menu-item"><a class="menu-link Order-next" href="#step2">Шаг 2. Способ доставки</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="#step3">Шаг 3. Способ оплаты</a>
+                                    <li class="menu-item"><a class="menu-link Order-next" href="#step3">Шаг 3. Способ оплаты</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="#step4">Шаг 4. Подтверждение заказа</a>
+                                    <li class="menu-item"><a class="menu-link Order-next" href="#step4">Шаг 4. Подтверждение заказа</a>
                                     </li>
 
                                 </ul>
@@ -33,10 +31,9 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="Section-content">
-                    <form class="form" action="{{ url ('apporders:create_order') }}" method="POST" novalidate>
+                    <form class="form" action="{{ url ('apporders:create_order') }}" method="POST">
+                        {% csrf_token %}
                         {% if not request.user.is_authenticated %}
                         <div class="row-block">
                             <div class="form-group"><a class="btn btn_muted Order-btnReg" href="{{url ('app_users:register')}}">Я еще не зарегистрирован</a>
@@ -45,8 +42,7 @@
                             </div>
                         </div>
                         {% else %}
-                        {% csrf_token %}
-                        <div class="Order-block Order-block_OPEN" id="step1">
+                        <div class=" Order-block_OPEN Order-block" id="step1">
                             <header class="Section-header Section-header_sm">
                                 <h2 class="Section-title">Шаг 1. Параметры пользователя
                                 </h2>
@@ -54,23 +50,23 @@
                             <div class="row">
                                 <div class="row-block">
                                     <div class="form-group">
-                                        <label class="form-label" for="name">ФИО
+                                        <label class="form-label" for="id_full_name">ФИО
                                         </label>
-                                        <input class="form-input" id="name" name="full_name" type="text" data-validate="require" placeholder="Фамилия Имя Отчество"
+                                        <input class="form-input" id="id_full_name" name="full_name" type="text" data-validate="require" placeholder="Фамилия Имя Отчество"
                                         {% if form.is_bound %} value="{{ form.full_name.value() }}"{% endif %}/>
                                         <a style="color:red;">{{ form.full_name.errors}}</a>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="phone">Телефон
+                                        <label class="form-label" for="id_phone_number">Телефон
                                         </label>
-                                        <input class="form-input" id="phone" name="phone_number" type="tel" data-validate="require" placeholder="Телефон"
+                                        <input class="form-input" id="id_phone_number" name="phone_number" type="tel" data-validate="require" placeholder="Телефон"
                                         {% if form.is_bound %} value="{{ form.phone_number.value() }}"{% endif %}/>
                                         <a style="color:red;">{{ form.phone_number.errors}}</a>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="mail">E-mail
+                                        <label class="form-label" for="id_email">E-mail
                                         </label>
-                                        <input class="form-input" id="mail" name="mail" type="email" data-validate="require" placeholder="E-mail"
+                                        <input class="form-input" id="id_email" name="email" type="email" data-validate="require" placeholder="E-mail"
                                         {% if form.is_bound %} value="{{ form.email.value() }}"{% endif %}/>
                                         <a style="color:red;">{{ form.email.errors}}</a>
                                     </div>
@@ -79,32 +75,38 @@
                             <div class="Order-footer"><a class="btn btn_success Order-next" href="#step2">Дальше</a>
                             </div>
                         </div>
+<!--                    <form action="" method="post">-->
                         <div class="Order-block" id="step2">
                             <header class="Section-header Section-header_sm">
                                 <h2 class="Section-title">Шаг 2. Способ доставки
                                 </h2>
                             </header>
+                            {% for item_settings in settings_price %}
                             <div class="form-group">
-                            {% for type in form.buying_type %}
                                 <div>
-                                    <label class="toggle">
-                                        <input type="radio" name="delivery" value="ordinary" checked="checked" {% if type.is_bound %} value="{{ type }}"{% endif %}/>
-                                        <span class="toggle-box"></span><span class="toggle-text toggle-text_checked">{{type}}</span>
+                                    <label for="id_delivery" class="toggle">
+                                        {{form.delivery}}
+                                           <br>********************************************************
+                                           <p class="delivery_size">Стоимость ОБЫЧНОЙ доставки составляет 0 рублей*
+                                           <br>*В случае если стоимость заказа меньше {{item_settings.min_total_price_order}} рублей или в заказе присутствуют товары от разных продавцов, стоимость доставки составит {{item_settings.price_ordinary_delivery}} рублей*
+                                           <br>********************************************************
+                                           <br>Стоимость ЭКСПРЕСС доставки {{item_settings.price_express_delivery}} рублей.
+                                           <br>********************************************************</p>
                                     </label>
                                 </div>
-                            {% endfor %}
                             </div>
+                            {% endfor %}
                             <div class="form-group">
-                                <label class="form-label" for="city">Город
+                                <label class="form-label" for="id_city">Город
                                 </label>
-                                <input class="form-input" id="city" name="city" type="text" data-validate="require" placeholder="Город"
+                                <input class="form-input" id="id_city" name="city" type="text" data-validate="require" placeholder="Город"
                                         {% if form.is_bound %} value="{{ form.city.value() }}"{% endif %} />
                                 <a style="color:red;">{{ form.city.errors}}</a>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="address">Адрес
+                                <label class="form-label" for="id_address">Адрес
                                 </label>
-                                <input class="form-textarea" id="address" name="address" type="text" data-validate="require" placeholder="Адрес"
+                                <input class="form-textarea" id="id_address" name="address" type="text" data-validate="require" placeholder="Адрес"
                                         {% if form.is_bound %} value="{{ form.address.value() }}"{% endif %}/>
                                 <a style="color:red;">{{ form.address.errors}}</a>
                             </div>
@@ -116,26 +118,62 @@
                                 <h2 class="Section-title">Шаг 3. Способ оплаты
                                 </h2>
                             </header>
-                            {% for pay in form.payment %}
-                            <div class="form-group">
                                 <div>
-                                    <label class="toggle">
-                                        <input type="radio" name="pay" value="online" checked="checked" {% if pay.is_bound %} value="{{ pay }}"{% endif %}/>
-                                        <span class="toggle-box" ></span><span class="toggle-text toggle-text_checked">{{pay}}</span>
+                                    <label for="id_payment" class="toggle">
+                                        {{form.payment}}
                                     </label>
                                 </div>
-
-                            </div>
-                            {% endfor %}
+                                {% for item in form.status %}
+                                <div>
+                                    <label for="id_status" class="toggle">
+                                        <input type="radio" name="status" id="id_status" value="Не оплачен" checked="checked" {% if item.is_bound %} value="{{ item }}"{% endif %}/>
+                                    </label>
+                                </div>
+                                {% endfor %}
                             <div class="form-group">
-                                <label class="form-label" for="address">Комментарий к заказу
+                                <label class="form-label" for="id_comment">Комментарий к заказу
                                 </label>
-                                <textarea class="form-textarea" id="comment" name="comment" type="text" placeholder="Комментарий к заказу"
+                                <textarea class="form-textarea" id="id_comment" name="comment" placeholder="Комментарий к заказу"
                                         {% if form.is_bound %} value="{{ form.comment.value() }}"{% endif %}></textarea>
                                 <a style="color:red;">{{ form.comment.errors}}</a>
                             </div>
                             <div class="Order-footer">
-                                <a class="btn btn_success Order-next" type="submit" href="#step4">Дальше</a>
+                                <a class="btn btn_success Order-next" type="submit" href="#step4" onclick="getInputValue()">Дальше</a>
+
+                                <script>
+                                    function getInputValue(){
+                                        var inputVal = document.getElementById("id_full_name").value;
+                                        document.getElementById('fullname-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_phone_number").value;
+                                        document.getElementById('phone-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_email").value;
+                                        document.getElementById('email-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_delivery").value;
+                                        document.getElementById('delivery-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_city").value;
+                                        document.getElementById('city-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_address").value;
+                                        document.getElementById('address-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_payment").value;
+                                        document.getElementById('payment-user').innerHTML = inputVal
+
+
+                                        var inputVal = document.getElementById("id_comment").value;
+                                        document.getElementById('comment-user').innerHTML = inputVal
+                                    }
+                                </script>
                             </div>
                         </div>
                         <div class="Order-block" id="step4">
@@ -151,19 +189,25 @@
                                             <div class="Order-info">
                                                 <div class="Order-infoType">ФИО:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.full_name.value() }}
+                                                <div class="Order-infoContent" id="fullname-user">
                                                 </div>
                                             </div>
                                             <div class="Order-info">
                                                 <div class="Order-infoType">Телефон:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.phone_number.value() }}
+                                                <div class="Order-infoContent" id="phone-user">
                                                 </div>
                                             </div>
                                             <div class="Order-info">
                                                 <div class="Order-infoType">E-mail:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.email.value() }}
+                                                <div class="Order-infoContent" id="email-user">
+                                                </div>
+                                            </div>
+                                            <div class="Order-info Order-info_pay">
+                                                <div class="Order-infoType">Комментарий к заказу:
+                                                </div>
+                                                <div class="Order-infoContent" id="comment-user">
                                                 </div>
                                             </div>
                                         </div>
@@ -171,34 +215,27 @@
                                             <div class="Order-info Order-info_delivery">
                                                 <div class="Order-infoType">Тип доставки:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.buying_type.value() }}
+                                                <div class="Order-infoContent" id="delivery-user">
                                                 </div>
                                             </div>
                                             <div class="Order-info">
                                                 <div class="Order-infoType">Город:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.city.value() }}
+                                                <div class="Order-infoContent" id="city-user">
                                                 </div>
                                             </div>
                                             <div class="Order-info">
                                                 <div class="Order-infoType">Адрес:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.address.value() }}
+                                                <div class="Order-infoContent" id="address-user">
                                                 </div>
                                             </div>
                                             <div class="Order-info Order-info_pay">
                                                 <div class="Order-infoType">Оплата:
                                                 </div>
-                                                <div class="Order-infoContent">{{ form.payment.value() }}
+                                                <div class="Order-infoContent" id="payment-user">
                                                 </div>
                                             </div>
-                                            <div class="Order-info Order-info_pay">
-                                                <div class="Order-infoType">Комментарий к заказу:
-                                                </div>
-                                                <div class="Order-infoContent">{{ form.comment.value() }}
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -215,11 +252,21 @@
                                             <div class="Cart-block Cart-block_info">
                                                 <a class="Cart-title" href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
                                                     {{ item.product_in_shop.product.name }}</a>
-                                                <div class="Cart-desc">{{ item.product_in_shop.product.description }}</div>
+                                                <div class="Cart-desc">{{ item.product_in_shop.product.description }}
+                                                <div></div>
+                                        <img class="ProductCard-shop_logo" src="{{ item.product_in_shop.shop.image.url }}"
+                                                    alt="{{ item.product_in_shop.shop.image }}" /></div>
                                             </div>
                                             <div class="Cart-block Cart-block_price">
+                                            {% if item.price_discount %}
+                                                <div class="Card-priceOld">{{ item.price }}
+                                                </div>
+                                                <div class="Cart-price">{{ item.price_discount }}
+                                                </div>
+                                            {% else %}
                                                 <div class="Cart-price">{{ item.price }}
                                                 </div>
+                                            {% endif %}
                                             </div>
                                         </div>
                                         <div class="Cart-block Cart-block_row">
@@ -229,14 +276,27 @@
                                     </div>
                                     {% endfor %}
                                     <div class="Cart-total">
-                                        <div class="Cart-block Cart-block_total">
-                                            <strong class="Cart-title">Итого:
-                                            </strong><span class="Cart-price">{{ cart.get_total_price() }}</span>
-                                        </div>
-                                        <div class="Cart-block">
-                                            <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>
-                                        </div>
+                                    <div class="Cart-block Cart-block_total">
+
+                                    {% if cart.coupon.code %}
+                                    <div>
+                                        <strong class="Cart-title">Итоговая сумма товаров со скидкой {{cart.coupon.discount}}% по купону "{{cart.coupon.code}}":
+                                            <div>
+                                                 <span class="Card-priceOld"><s>{{ cart.get_total_price()|round(2) }}</s></span>
+                                                 <span class="Cart-price">{{ cart.get_total_price_after_discount() }}</span>
+                                            </div></strong>
                                     </div>
+                                    {% else %}
+                                    <div>
+                                        <strong class="Cart-title">Итоговая сумма товаров:
+                                             <span class="Cart-price">{{ cart.get_total_price_after_discount() }}</span></strong>
+                                    </div>
+                                    {% endif %}
+                                    </div>
+                                    <div class="Cart-block">
+                                        <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -246,4 +306,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

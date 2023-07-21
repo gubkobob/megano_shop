@@ -1,0 +1,156 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}
+    Заказ № {{ order.pk }}
+{% endblock %}
+
+{% block body %}
+    <div class="Middle Middle_top">
+        <div class="Middle-top">
+            <div class="wrap">
+                <div class="Middle-header">
+                    <h1 class="Middle-title">Заказ № {{ order.pk }}
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="Section">
+            <div class="wrap">
+                <div class="Section-content">
+                    <div class="Orders">
+                    </div>
+                    <div class="Order">
+                        <div class="Order-infoBlock">
+                            <div class="Order-personal">
+                                <div class="row">
+                                    <div class="row-block">
+                                        <div class="Order-info Order-info_date">
+                                            <div class="Order-infoType">Дата заказа:
+                                            </div>
+                                            <div class="Order-infoContent">{{ order.created_at.strftime("%Y-%m-%d
+                                                %H:%M:%S") }}
+                                            </div>
+                                        </div>
+                                        <div class="Order-info">
+                                            <div class="Order-infoType">Фамилия Имя Отчество:
+                                            </div>
+                                            <div class="Order-infoContent">{{ order.full_name }}
+                                            </div>
+                                        </div>
+                                        <div class="Order-info">
+                                            <div class="Order-infoType">Телефон:
+                                            </div>
+                                            <div class="Order-infoContent">+7{{ order.phone_number }}
+                                            </div>
+                                        </div>
+                                        <div class="Order-info">
+                                            <div class="Order-infoType">E-mail:
+                                            </div>
+                                            <div class="Order-infoContent">{{ order.email}}
+                                            </div>
+                                        </div>
+                                        <div class="Order-info">
+                                            <div class="Order-infoType">Комментарий:
+                                            </div>
+                                            <div class="Order-infoContent">{{ order.comment}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row-block">
+                                        <div class="Order-info Order-info_delivery">
+                                            <div class="Order-infoType">Тип доставки:
+                                            </div>
+                                            <div class="Order-infoContent">{{ order.delivery }}
+                                            </div>
+                                        </div>
+                                        <div class="Order-info">
+                                            <div class="Order-infoType">Город:
+                                            </div>
+                                            <div class="Order-infoContent">{{ order.city }}
+                                            </div>
+                                        </div>
+                                        <div class="Order-info">
+                                            <div class="Order-infoType">Адрес:
+                                            </div>
+                                            <div class="Order-infoContent">{{ order.address}}
+                                            </div>
+                                        </div>
+                                        <div class="Order-info Order-info_pay">
+                                            <div class="Order-infoType">Оплата:
+                                            </div>
+                                            <div class="Order-infoContent">{{order.payment}}
+                                            </div>
+                                        </div>
+                                        <div class="Order-info Order-info_status">
+                                            <div class="Order-infoType">Статус:
+                                            </div>
+                                            <div class="Order-infoContent">{{ order.status }}
+                                            </div>
+                                        </div>
+{#                                        <div class="Order-info Order-info_error">#}
+{#                                            <div class="Order-infoType">Оплата не прошла:#}
+{#                                            </div>#}
+{#                                            <div class="Order-infoContent">Оплата не выполнена#}
+{#                                            </div>#}
+{#                                        </div>#}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="Cart Cart_order">
+                            {% for item in order.items.all() %}
+                                <div class="Cart-product">
+                                <img class="ProductCard-shop_logo" src="{{ item.product_in_shop.shop.image.url }}"
+                                                    alt="{{ item.product_in_shop.shop.image }}" />
+                                    <div class="Cart-block Cart-block_row">
+                                        <div class="Cart-block Cart-block_pict"><a class="Cart-pict"
+                                            href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
+                                            <img class="Cart-img" src="{{ item.product_in_shop.product.image_main.url }}" alt="{{ item.product_in_shop.image_main }}" />
+                                                                                </a>
+                                        </div>
+                                        <div class="Cart-block Cart-block_info"><a class="Cart-title"
+                                                       href="{{ url('appcatalog:product_details', pk=item.product_in_shop.id) }}">
+                                            {{ item.product_in_shop.product.name }}</a>
+                                            <div class="Cart-desc">{{ item.product_in_shop.product.description }}
+
+                                            </div>
+                                        </div>
+                                        <div class="Cart-block Cart-block_price">
+                                             <span class="Card-priceOld"><s>{{ item.product_in_shop.price }}</s></span>
+                                             <span class="Cart-price">{{ item.price }}</span></strong>
+                                        </div>
+                                    </div>
+                                    <div class="Cart-block Cart-block_row">
+
+                                        <div class="Cart-block Cart-block_amount">{{ item.quantity }} шт.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% endfor %}
+                                <div class="Cart-total">
+                                    <div class="Cart-block Cart-block_total">
+                                        <strong class="Cart-title">Сумма заказа:<span class="Cart-price">{{ order.avg_price|round(2) }}</span>
+                                        </strong>
+                                        <div></div>
+                                        <strong class="Cart-title">Стоимость доставки:<span class="Cart-price">{{ order.delivery_cost }}</span>
+                                        </strong>
+                                        <div></div>
+                                        <strong class="Cart-title">Итоговая сумма заказа с доставкой:<span class="Cart-price">{{ (order.delivery_cost + order.avg_price)|round(2) }}</span>
+                                        </strong>
+                                    {% if order.status=="Не оплачен" %}
+                                    </div>
+                                    <div class="Cart-block"><a class="btn btn_primary btn_lg"  href='/payment/{{order.id}}'>Оплатить</a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

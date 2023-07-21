@@ -1,16 +1,11 @@
+from app_users.services import get_10_digits_from_phone_number
+from app_users.validators import email_exist_validator, file_size, phone_validator
+from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (
-    UserCreationForm,
     PasswordResetForm,
     SetPasswordForm,
-)
-from django.contrib.auth import get_user_model
-from django import forms
-
-from app_users.services import get_10_digits_from_phone_number
-from app_users.validators import (
-    phone_validator,
-    file_size,
-    email_exist_validator,
+    UserCreationForm,
 )
 
 User = get_user_model()

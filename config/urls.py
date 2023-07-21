@@ -16,16 +16,17 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('app_main_page.urls')),
-    path('app_users/', include('app_users.urls')),
-    path('cart/', include('app_cart.urls')),
+    path("admin/", admin.site.urls),
+    path("", include("app_main_page.urls")),
+    path("app_users/", include("app_users.urls")),
+    path("cart/", include("app_cart.urls")),
     path("catalog/", include("app_catalog.urls")),
+    path("payment/", include("app_payment.urls")),
     path("sale/", include("app_discounts.urls")),
-
+    path("order/", include("app_orders.urls")),
 ]
 
 

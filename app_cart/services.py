@@ -1,45 +1,12 @@
-from django.http import JsonResponse
+from app_catalog.models import ProductInShop
 from config import settings
-from app_catalog.models import Product, ProductInShop
-from django.core import serializers
-
-class CartServicesMixin:
-    """
-    Класс - примесь для использования сервисов для работы с корзиной товаров
-    """
-
-    def add_product_to_cart(self, pk:int):
-        """
-        функция добавления товара в корзину
-        """
-        product = Product.objects.get(id=pk)
-        print(f'{product.name} добавлен в корзину')
-
-    def remove_product_from_cart(self):
-        """
-        функция удаления товара из корзины
-        """
-
-    def change_num_of_product_in_cart(self):
-        """
-        функция изменения количества товара в корзине
-        """
-
-    def get_products_list_from_cart(self):
-        """
-        функция получения списка товаров в корзине
-        """
-
-    def get_num_of_products_in_cart(self):
-        """
-        функция получения количества товаров в корзине
-        """
 
 
 class ComparisonServicesMixin:
     """
     Класс - примесь для использования сервисов для работы с сравнение товаров
     """
+
     def __init__(self, request):
         """
         Инициализируем список сравнений.
@@ -55,22 +22,23 @@ class ComparisonServicesMixin:
         Добавить продукт в сравнение.
         """
 
-        product = Product.objects.get(products_in_shop=product_id)
-        price_product = ProductInShop.objects.filter(id=product_id).values('price')[0]
-        _price = 0
-        for price in price_product:
-            _price += int(price_product[price])
+        product = ProductInShop.objects.get(id=product_id)
 
         if product not in self.comparison:
             self.comparison[product_id] = {
-                'product_id': product_id,
-                'product_name': product.name,
-                'product_price': _price,
-                'product_image': str(product.image_main.url) if product.image_main else '',
-                'specification': list(product.specification.get().
-                                      subspecification.values('name_subspecification', 'text_subspecification'))
-                if product.specification else '',
-
+                "product_id": product_id,
+                "product_name": product.product.name,
+                "product_price": int(product.price),
+                "product_image": str(product.product.image_main.url)
+                if product.product.image_main
+                else "",
+                "specification": list(
+                    product.product.specification.get().subspecification.values(
+                        "name_subspecification", "text_subspecification"
+                    )
+                )
+                if product.product.specification
+                else "",
             }
         self.save_to_in_comparison()
 
@@ -95,7 +63,11 @@ class ComparisonServicesMixin:
         """
         Получения товаров в сравнении.
         """
-        return list(self.comparison[item[1]] for item in enumerate(self.comparison) if item[0] < quantity)
+        return list(
+            self.comparison[item[1]]
+            for item in enumerate(self.comparison)
+            if item[0] < quantity
+        )
 
     def get_len_goods_to_in_comparison(self):
 
@@ -103,6 +75,3 @@ class ComparisonServicesMixin:
         Получение количества товаров в сравнении.
         """
         return len(self.comparison.keys())
-
-
-

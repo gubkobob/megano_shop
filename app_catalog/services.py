@@ -1,70 +1,33 @@
 """
 Сервисы для работы с каталогом, товарами, магазинами
 """
+
 from django.core.paginator import Paginator
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.http.request import QueryDict
 
-from app_cart.services import CartServicesMixin
 from .models import ProductInShop
 
 
-
-class ProductServicesMixin:
-    """
-    Класс - примесь для использования сервисов для работы с товарами
-    """
-
-    def add_review_to_product(self):
-        """
-        функция добавления отзыва к товару
-        """
-
-    def get_viewed_products_history(self):
-        """
-        функция получения списка просмотренных товаров
-        """
-
-    def add_viewed_products_history(self):
-        """
-        функция добавления товара к списку просмотренных
-        """
-
-    def get_viewed_products_history(self):
-        """
-        функция получения списка просмотренных товаров
-        """
-
-    def get_list_comments_on_products(self) -> list[str]:
-        """
-        функция получения списка комментариев к продукту
-        """
-
-    def get_discount_on_products(self):
-        """
-        функция получения скидки к продукту
-        """
-
-    def get_quantity_comments_on_products(self) -> int:
-        """
-        функция получения количество комментариев к продукту
-        """
-
-
-class ShopServicesMixin:
-    """
-    Класс - примесь для использования сервисов для работы с магазинами
-    """
-
 def catalog_obj_order_by(parameter: str, flag: str = None) -> ProductInShop:
-    print(parameter)
-    if parameter == 'comments':
-        return ProductInShop.objects.annotate(num_parametr=Count('comments')).order_by('-num_parametr')
-    if parameter == 'subcategory':
+    if parameter == "popular":
+        return ProductInShop.objects.annotate(
+            num_parametr=Sum("order_items__quantity")
+        ).order_by("-num_parametr")
+    if parameter == "-popular":
+        return ProductInShop.objects.annotate(
+            num_parametr=Sum("order_items__quantity")
+        ).order_by("num_parametr")
+    if parameter == "comments":
+        return ProductInShop.objects.annotate(num_parametr=Count("comments")).order_by(
+            "-num_parametr"
+        )
+    if parameter == "subcategory":
         return ProductInShop.objects.filter(product__subcategory__name=flag)
-    if parameter == 'category':
+    if parameter == "category":
         return ProductInShop.objects.filter(product__category__name=flag)
-    return ProductInShop.objects.order_by(f'{parameter}')
+    return ProductInShop.objects.order_by(f"{parameter}")
+
 
 def sort_catalog(obj: QueryDict) -> dict:
     """
@@ -80,37 +43,56 @@ def sort_catalog(obj: QueryDict) -> dict:
         }
     :rtype: dict
     """
-    print(obj.get("parameter"))
+    # print(obj.get("parameter"))
     if obj.get("parameter"):
         parameter = obj.get("parameter")
         flag = obj.get("flag")
-        sort = 'base' if parameter != '-product__created' else 'price_high'
-        return {'productsinshops': catalog_obj_order_by(parameter, flag),
-                'sort': sort}
+        sort_price = "base" if parameter != "-product__created" else "price_high"
+        sort_popular = "base" if parameter != "-popular" else "popular_high"
+        return {
+            "productsinshops": catalog_obj_order_by(parameter, flag),
+            "sort_price": sort_price,
+            "sort_popular": sort_popular,
+        }
     # if obj.get('page_tag'):
     #     print(obj.get('page_tag'))
-    if obj.get('add_card'):
-        pk = int(obj.get('product'))
+    if obj.get("add_card"):
+        pk = int(obj.get("product"))
         cart = CartServicesMixin()
         cart.add_product_to_cart(pk)
-    return {'productsinshops': ProductInShop.objects.all(),
-            'sort': 'base'}
+    return {
+        "productsinshops": ProductInShop.objects.all(),
+        "sort_price": "base",
+        "sort_popular": "base",
+    }
+
 
 def filter_catalog(post) -> ProductInShop:
-    price_filter = post.get('price').split(';')
+    if post.get("query"):
+        return ProductInShop.objects.filter(product__name=post.get("query"))
+    price_filter = post.get("price").split(";")
     min_price_filter = int(price_filter[0])
     max_price_filter = int(price_filter[1])
-    if post.get('stock') == 'on':
-        print('good')
-    if post.get('free_delivery') == 'on':
-        print('free delivery')
-    pis = ProductInShop.objects.filter(price__gte=min_price_filter, price__lte=max_price_filter)
-    return pis
+    if post.get("stock") == "on":
+        return ProductInShop.objects.filter(quantity__gt=0)
+    if post.get("name_product"):
+        return ProductInShop.objects.filter(product__name=post.get("name_product"))
+    return ProductInShop.objects.filter(
+        price__gte=min_price_filter, price__lte=max_price_filter
+    )
+
+
+def get_maxprice(pid: list, maxprice=0) -> ProductInShop:
+
+    for product in pid:
+        if product.price > maxprice:
+            maxprice = product.price
+    return maxprice
 
 
 def paginator(obj, request):
     paginator_catalog = Paginator(obj, 4)
-    page_number = request.get('page_catalog')
+    page_number = request.get("page_catalog")
     if page_number is None:
         page_number = 1
     catalog_page_obj = paginator_catalog.get_page(page_number)

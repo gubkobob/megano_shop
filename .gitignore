@@ -146,3 +146,6 @@ data/
 /category_cache/
 /import_csv_files/
 
+import_log.txt
+erl_crash.dump
+

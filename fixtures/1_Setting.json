@@ -1,0 +1,1 @@
+[{"model": "app_administrator.settingsmodel", "pk": 1, "fields": {"limited_edition_products": 16, "hot_offers": 3, "popular_products": 8, "products_banner": 3, "count_viewed": 20, "selected_categories": 3, "cache_time": 86400, "price_express_delivery": 500, "price_ordinary_delivery": 200, "min_total_price_order": 2000}}]
