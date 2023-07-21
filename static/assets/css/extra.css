@@ -3983,6 +3983,7 @@ a.Cart-title {
 
 .ProductCard {
     display: flex;
+    flex-wrap: wrap;
     margin-bottom: 50px;
 }
 
@@ -4005,6 +4006,7 @@ a.Cart-title {
 
 .ProductCard-desc {
     width: 49%;
+    margin-bottom: 50px;
     padding: 0;
     padding-left: 46px;
 }
@@ -4068,6 +4070,9 @@ a.Cart-title {
 
 .ProductCard-cartElement {
     width: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .ProductCard-cartElement + .ProductCard-cartElement {
