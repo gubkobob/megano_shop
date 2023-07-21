@@ -218,3 +218,5 @@ LOGGING = {
 
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
+
+CELERY_BROKER_URL = 'amqp://localhost:5672'
