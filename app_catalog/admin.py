@@ -39,9 +39,9 @@ class CategoryAdmin(admin.ModelAdmin):
 
     def category_cache_clear(self, request: HttpRequest):
         """
-        функция создания кнопки удаления cache в админке category
+        функция удаления cache в админке category
         """
-        cache.delete("category")
+        cache.delete("category_cache")
         messages.add_message(request, messages.INFO, "Category cache cleared")
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
@@ -70,7 +70,7 @@ class SubCategoryAdmin(admin.ModelAdmin):
         """
         функция удаления cache в админке subcategory
         """
-        cache.delete("subcategory")
+        cache.delete("subcategory_cache")
         messages.add_message(request, messages.INFO, "Subcategory cache cleared")
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
@@ -102,7 +102,7 @@ class ProductAdmin(admin.ModelAdmin):
         """
         функция очистки cache модели Product
         """
-        cache.delete("product")
+        cache.delete("product_cache")
         messages.add_message(request, messages.INFO, "Product cache cleared")
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
@@ -163,7 +163,7 @@ class ProductInShopAdmin(admin.ModelAdmin):
         """
         функция очистки cache модели ProductInShop
         """
-        cache.delete("product_in_shop")
+        cache.delete("product_in_shop_cache")
         messages.add_message(request, messages.INFO, "Product In Shop cache cleared")
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 

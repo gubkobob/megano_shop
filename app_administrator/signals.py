@@ -19,7 +19,7 @@ def post_save_cache_categories(sender, **kwargs):
    функция создает cache при создании нового category
     """
     if kwargs.get("created"):
-        cache.set("category", "category_cache", get_time_cache())
+        cache.set("category_cache", get_time_cache())
 
 
 @receiver(signal=post_delete, sender=Category)
@@ -27,7 +27,7 @@ def post_delete_cache_categories(sender, **kwargs):
     """
     функция очищает cache при удалении category
     """
-    cache.delete("category")
+    cache.delete("category_cache")
 
 
 @receiver(signal=post_save, sender=SubCategory)
@@ -36,7 +36,7 @@ def post_save_cache_subcategories(sender, **kwargs):
      функция создает cache при создании нового subcategory
     """
     if kwargs.get("created"):
-        cache.set("subcategory", "subcategory_cache", get_time_cache())
+        cache.set("subcategory_cache", get_time_cache())
 
 
 @receiver(signal=post_delete, sender=SubCategory)
@@ -44,7 +44,7 @@ def post_delete_cache_subcategories(sender, **kwargs):
     """
     функция очищает cache при удалении subcategory
     """
-    cache.delete("subcategory")
+    cache.delete("subcategory_cache")
 
 
 @receiver(post_save, sender=Product)
@@ -53,7 +53,7 @@ def post_save_cache_products(sender, **kwargs):
     функция создает cache при создании нового product
     """
     if kwargs.get("created"):
-        cache.set("product", "product_cache", get_time_cache())
+        cache.set("product_cache", get_time_cache())
 
 
 @receiver(signal=post_delete, sender=Product)
@@ -61,7 +61,7 @@ def post_delete_cache_products(sender, **kwargs):
     """
     функция очищает cache при удалении product
     """
-    cache.delete("product")
+    cache.delete("product_cache")
 
 
 @receiver(post_save, sender=ProductInShop)
@@ -70,7 +70,7 @@ def post_save_cache_products_in_shop(sender, **kwargs):
     функция создает cache при создании нового product_in_shop
     """
     if kwargs.get("created"):
-        cache.set("product_in_shop", "product_in_shop_cache", get_time_cache())
+        cache.set("product_in_shop_cache", get_time_cache())
 
 
 @receiver(signal=post_delete, sender=ProductInShop)
@@ -78,4 +78,4 @@ def post_delete_cache_products_in_shop(sender, **kwargs):
     """
     функция очищает cache при удалении product_in_shop
     """
-    cache.delete("product_in_shop")
+    cache.delete("product_in_shop_cache")
