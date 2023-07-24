@@ -1,16 +1,7 @@
 ![main page](./static/assets/img/logo_footer.png) 
 
-<h1 align="center"> Командный дипломный проект по курсу Python Django </h1>
-<h2 align="center">Проект сайта интернет-магазина MEGANO</h2><h5 align="center">Период работы над проектом 29 апреля 2023 - 24 июля 2023</h5>
-<h3>Участники Проекта: </h3> 
-<h4>TeamLead: Максим Семенюк </h4>
-<h4> Татьяна Федутик </h4>
-<h4> Владимир Игнатушенко </h4>
-<h4> Александр Белов </h4>
-<h4> Александр Малафеевский </h4>
-
-![main page](./uploads/img_readmi/team.jpg) 
-
+<
+<h2 align="center">Проект сайта интернет-магазина MEGANO</h2>
 
 
 <h1>Добро пожаловать в MEGANO !</h1> 
