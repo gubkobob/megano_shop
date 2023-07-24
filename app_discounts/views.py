@@ -22,5 +22,5 @@ class DiscountView(ListView):
         return dict(context.items())
 
     def get_queryset(self):
-        """Функция получения списка объектов скидок с фильтрацией по активной скидке(рабочей)"""
-        return Discount.objects.filter(available=True)
+        """Функция получения списка объектов скидок с фильтрацией по активной скидке(рабочей) и группировкой по старту скидки"""
+        return Discount.objects.filter(available=True).order_by('start_discount')
