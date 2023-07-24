@@ -23,6 +23,7 @@ class DiscountsServicesMixin:
         функция получения скидок на товары
         """
         Discount.get_price_product(self=product_id)
+        return
 
     def get_total_discount(self):
         """
